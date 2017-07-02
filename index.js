@@ -1,31 +1,22 @@
 'use strict';
 
+const svgTagNames = require('svg-tag-names');
 const flatten = require('lodash.flattendeep');
 const omit = require('lodash.omit');
 
 // Copied from Preact
 const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|ows|mnc|ntw|ine[ch]|zoo|^ord/i;
 
-const svgTags = [
-	'animate',
-	'circle',
-	'defs',
-	'ellipse',
-	'g',
-	'line',
-	'linearGradient',
-	'mask',
-	'path',
-	'pattern',
-	'polygon',
-	'polyline',
-	'radialGradient',
-	'rect',
-	'stop',
-	'svg',
-	'text',
-	'tspan'
+const excludeSvgTags = [
+	'a',
+	'audio',
+	'canvas',
+	'iframe',
+	'script',
+	'video'
 ];
+
+const svgTags = svgTagNames.filter(name => excludeSvgTags.indexOf(name) === -1);
 
 const isSVG = tagName => svgTags.indexOf(tagName) >= 0;
 

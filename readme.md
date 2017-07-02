@@ -22,7 +22,7 @@ $ npm install --save dom-chef
 
 - No API, JSX gets auto transformed into actual DOM elements
 - Protection from XSS injections
-- SVG support
+- [Partial SVG support](#render-svg)
 - React-like props naming (including events)
 - Mix any DOM elements inside
 
@@ -95,6 +95,20 @@ const post = (
 const dangerousHTML = '<script>alert();</script>';
 
 const wannaCry = <div dangerouslySetInnerHTML={{__html: dangerousHTML}}/>;
+```
+
+### Render SVG
+
+**Note**: Due to the way `dom-chef` works, tags `<a>`, `<audio>`, `<canvas>`, `<iframe>`, `<script>` and `<video>` aren't supported inside `<svg>` tag.
+
+```jsx
+const el = (
+	<svg width={400} height={400}>
+		<text x={100} y={100}>
+			Wow
+		</text>
+	</svg>
+);
 ```
 
 
