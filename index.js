@@ -126,7 +126,7 @@ function h(tagName, attrs) {
 			child = '';
 		}
 
-		return document.createTextNode(String(child));
+		return document.createTextNode(child);
 	});
 
 	return build(tagName, attrs, children);
