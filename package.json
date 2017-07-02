@@ -23,7 +23,6 @@
     "dom"
   ],
   "dependencies": {
-    "lodash.omit": "^4.5.0",
     "svg-tag-names": "^1.1.1"
   },
   "devDependencies": {

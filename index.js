@@ -1,7 +1,11 @@
 'use strict';
 
 const svgTagNames = require('svg-tag-names');
-const flatten = require('lodash.flattendeep');
+
+// Source: https://gist.github.com/Integralist/749153aa53fea7168e7e#gistcomment-1457123
+const flatten = list => list.reduce(
+	(a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []
+);
 
 const omit = (obj, keys) => Object.keys(obj).reduce((newObj, key) => {
 	if (!keys.includes(key)) {
