@@ -23,6 +23,7 @@
     "dom"
   ],
   "dependencies": {
+    "arr-flatten": "^1.0.3",
     "svg-tag-names": "^1.1.1"
   },
   "devDependencies": {
