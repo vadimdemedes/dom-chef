@@ -2,13 +2,7 @@
 
 const svgTagNames = require('svg-tag-names');
 const flatten = require('arr-flatten');
-
-const omit = (obj, keys) => Object.keys(obj).reduce((newObj, key) => {
-	if (!keys.includes(key)) {
-		newObj[key] = obj[key];
-	}
-	return newObj;
-}, {});
+const omit = require('object.omit');
 
 // Copied from Preact
 const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|ows|mnc|ntw|ine[ch]|zoo|^ord/i;

@@ -24,6 +24,7 @@
   ],
   "dependencies": {
     "arr-flatten": "^1.0.3",
+    "object.omit": "^2.0.1",
     "svg-tag-names": "^1.1.1"
   },
   "devDependencies": {
