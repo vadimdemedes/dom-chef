@@ -23,8 +23,8 @@
     "dom"
   ],
   "dependencies": {
-    "lodash.flattendeep": "^4.4.0",
-    "lodash.omit": "^4.5.0",
+    "arr-flatten": "^1.0.3",
+    "object.omit": "^2.0.1",
     "svg-tag-names": "^1.1.1"
   },
   "devDependencies": {

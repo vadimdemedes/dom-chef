@@ -1,8 +1,8 @@
 'use strict';
 
 const svgTagNames = require('svg-tag-names');
-const flatten = require('lodash.flattendeep');
-const omit = require('lodash.omit');
+const flatten = require('arr-flatten');
+const omit = require('object.omit');
 
 // Copied from Preact
 const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|ows|mnc|ntw|ine[ch]|zoo|^ord/i;
