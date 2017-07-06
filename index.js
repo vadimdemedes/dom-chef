@@ -20,6 +20,18 @@ const svgTags = svgTagNames.filter(name => excludeSvgTags.indexOf(name) === -1);
 
 const isSVG = tagName => svgTags.indexOf(tagName) >= 0;
 
+const cloneNode = node => {
+	const clone = node.cloneNode(true);
+
+	for (const key in node) {
+		if (key.indexOf('on') === 0 && typeof node[key] === 'function') {
+			clone[key] = node[key];
+		}
+	}
+
+	return clone;
+};
+
 const getCSSProps = attrs => {
 	return Object
 		.keys(attrs.style || {})
@@ -51,7 +63,7 @@ const getEventListeners = attrs => {
 		.keys(attrs)
 		.filter(name => name.indexOf('on') === 0)
 		.map(name => ({
-			name: name.toLowerCase().replace('on', ''),
+			name: name.toLowerCase(),
 			listener: attrs[name]
 		}));
 };
@@ -89,7 +101,7 @@ const build = (tagName, attrs, children) => {
 	});
 
 	getEventListeners(attrs).forEach(event => {
-		el.addEventListener(event.name, event.listener);
+		el[event.name] = event.listener;
 	});
 
 	const setHTML = attrs.dangerouslySetInnerHTML;
@@ -110,7 +122,7 @@ function h(tagName, attrs) {
 	const childrenArgs = [].slice.call(arguments, 2);
 	const children = flatten(childrenArgs).map(child => {
 		if (child instanceof Element) {
-			return child.cloneNode(true);
+			return cloneNode(child);
 		}
 
 		if (typeof child === 'boolean' || child === null) {
