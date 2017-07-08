@@ -53,7 +53,7 @@ const getHTMLProps = attrs => {
 		.keys(allProps)
 		.filter(name => name.indexOf('on') !== 0)
 		.map(name => ({
-			name: name,
+			name,
 			value: attrs[name]
 		}));
 };
