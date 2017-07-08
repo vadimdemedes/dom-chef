@@ -204,7 +204,7 @@ test('assign styles', t => {
 });
 
 test('assign other props', t => {
-	const el = <a href="video.mp4" id="a" download referrerPolicy="no-referrer">Download</a>;
+	const el = <a href="video.mp4" id="a" download referrerpolicy="no-referrer">Download</a>;
 
 	t.is(el.outerHTML, '<a href="video.mp4" id="a" download="true" referrerpolicy="no-referrer">Download</a>');
 });
