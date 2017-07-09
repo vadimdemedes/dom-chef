@@ -1,6 +1,7 @@
 'use strict';
 
 const svgTagNames = require('svg-tag-names');
+const classnames = require('classnames');
 const flatten = require('arr-flatten');
 const omit = require('object.omit');
 
@@ -89,7 +90,7 @@ const build = (tagName, attrs, children) => {
 
 	const className = attrs.class || attrs.className;
 	if (className) {
-		setAttribute(tagName, el, 'class', className);
+		setAttribute(tagName, el, 'class', classnames(className));
 	}
 
 	getCSSProps(attrs).forEach(prop => {

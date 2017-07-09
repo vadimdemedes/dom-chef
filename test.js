@@ -191,6 +191,18 @@ test('assign className via class alias', t => {
 	t.is(el.outerHTML, '<span class="a b c"></span>');
 });
 
+test('assign multiple classes', t => {
+	const classes = {
+		a: true,
+		b: true,
+		c: false
+	};
+
+	const el = <span className={classes}/>;
+
+	t.is(el.outerHTML, '<span class="a b"></span>');
+});
+
 test('assign styles', t => {
 	const style = {
 		paddingTop: 10,

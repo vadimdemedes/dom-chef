@@ -25,6 +25,7 @@ $ npm install --save dom-chef
 - [Partial SVG support](#render-svg)
 - React-like props naming (including events)
 - Mix any DOM elements inside
+- Bundles [classnames](https://github.com/JedWatson/classnames) for conditionally applying classes
 
 
 ## Usage
@@ -57,6 +58,13 @@ const el = <span class="a b c">Text</span>;
 
 // or use `className` alias
 const el = <span className="a b c">Text</span>;
+```
+
+You can also pass an object to conditionally apply classes.
+
+```jsx
+const el = <span class={{a: true, b: true, c: false}}>Text</span>;
+//=> <span class="a b">Text</span>
 ```
 
 ### Set styles
