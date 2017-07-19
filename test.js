@@ -251,16 +251,3 @@ test('attach event listeners', t => {
 	t.is(el.outerHTML, '<a href="#">Download</a>');
 	t.true(handleClick.calledOnce);
 });
-
-test('trigger events for nested elements', t => {
-	const handleClick = spy();
-	const el = (
-		<div>
-			<a href="#" onClick={handleClick}>Download</a>
-		</div>
-	);
-
-	el.firstChild.onclick();
-
-	t.true(handleClick.calledOnce);
-});
