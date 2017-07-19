@@ -77,11 +77,13 @@ const createElement = tagName => {
 	return document.createElement(tagName);
 };
 
-const setAttribute = (tagName, el, name, value) => {
-	if (isSVG(tagName)) {
-		el.setAttribute(name, value);
+const setAttribute = (el, name, value) => {
+	// Naive support for xlink namespace
+	// Full list: https://github.com/facebook/react/blob/1843f87/src/renderers/dom/shared/SVGDOMPropertyConfig.js#L258-L264
+	if (/^xlink[AHRST]/.test(name)) {
+		el.setAttributeNS('http://www.w3.org/1999/xlink', name, value);
 	} else {
-		el.setAttributeNS(null, name, value);
+		el.setAttribute(name, value);
 	}
 };
 
@@ -90,7 +92,7 @@ const build = (tagName, attrs, children) => {
 
 	const className = attrs.class || attrs.className;
 	if (className) {
-		setAttribute(tagName, el, 'class', classnames(className));
+		setAttribute(el, 'class', classnames(className));
 	}
 
 	getCSSProps(attrs).forEach(prop => {
@@ -98,7 +100,7 @@ const build = (tagName, attrs, children) => {
 	});
 
 	getHTMLProps(attrs).forEach(prop => {
-		setAttribute(tagName, el, prop.name, prop.value);
+		setAttribute(el, prop.name, prop.value);
 	});
 
 	getEventListeners(attrs).forEach(event => {
