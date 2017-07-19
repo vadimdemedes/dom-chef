@@ -102,7 +102,7 @@ const build = (tagName, attrs, children) => {
 	});
 
 	getEventListeners(attrs).forEach(event => {
-		el[event.name] = event.listener;
+		el.addEventListener(event.name.replace('on', ''), event.listener);
 	});
 
 	const setHTML = attrs.dangerouslySetInnerHTML;
