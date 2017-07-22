@@ -179,6 +179,24 @@ test.serial('render mixed html and svg', t => {
 	t.deepEqual(document.createElementNS.secondCall.args, [xmlns, 'svg']);
 });
 
+test.serial('create svg links with xlink namespace', t => {
+	spy(Element.prototype, 'setAttributeNS');
+
+	const el = (
+		<svg>
+			<text id="text">Test</text>
+			<use xlinkHref="#text"/>
+			<use xlink-invalid-attribute="#text"/>
+		</svg>
+	);
+
+	t.truthy(el);
+	t.true(Element.prototype.setAttributeNS.calledOnce);
+
+	const xmlns = 'http://www.w3.org/1999/xlink';
+	t.deepEqual(Element.prototype.setAttributeNS.firstCall.args, [xmlns, 'xlinkHref', '#text']);
+});
+
 test('assign className', t => {
 	const el = <span className="a b c"/>;
 
