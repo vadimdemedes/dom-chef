@@ -262,23 +262,13 @@ test('set html', t => {
 });
 
 test('attach event listeners', t => {
-	const handleClick = spy();
+	spy(EventTarget.prototype, 'addEventListener');
+
+	const handleClick = function () {};
 	const el = <a href="#" onClick={handleClick}>Download</a>;
-	el.onclick();
 
 	t.is(el.outerHTML, '<a href="#">Download</a>');
-	t.true(handleClick.calledOnce);
-});
 
-test('trigger events for nested elements', t => {
-	const handleClick = spy();
-	const el = (
-		<div>
-			<a href="#" onClick={handleClick}>Download</a>
-		</div>
-	);
-
-	el.firstChild.onclick();
-
-	t.true(handleClick.calledOnce);
+	t.true(EventTarget.prototype.addEventListener.calledOnce);
+	t.deepEqual(EventTarget.prototype.addEventListener.firstCall.args, ['click', handleClick]);
 });
