@@ -9,6 +9,13 @@
     "email": "vdemedes@gmail.com",
     "url": "github.com/vadimdemedes"
   },
+  "maintainers": [
+    {
+      "name": "Federico Brigante",
+      "email": "github@bfred.it",
+      "url": "bfred.it"
+    }
+  ],
   "engines": {
     "node": ">= 4"
   },
