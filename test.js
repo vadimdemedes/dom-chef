@@ -125,15 +125,6 @@ test('render other elements inside', t => {
 	t.is(el.outerHTML, '<div><a href="#first">First</a><a href="#second">Second</a></div>');
 });
 
-test('render same element in two different places', t => {
-	const link = <a href="#">Link</a>;
-	const firstEl = <div>{link}</div>;
-	const secondEl = <span>{link}</span>;
-
-	t.is(firstEl.outerHTML, '<div><a href="#">Link</a></div>');
-	t.is(secondEl.outerHTML, '<span><a href="#">Link</a></span>');
-});
-
 test.serial('render svg', t => {
 	spy(document, 'createElementNS');
 
