@@ -80,7 +80,7 @@ const build = (tagName, attrs, children) => {
 
 	const className = attrs.class || attrs.className;
 	if (className) {
-		setAttribute(tagName, el, 'class', classnames(className));
+		setAttribute(el, 'class', classnames(className));
 	}
 
 	getCSSProps(attrs).forEach(prop => {
