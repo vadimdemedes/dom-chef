@@ -106,8 +106,6 @@ const build = (tagName, attrs, children) => {
 };
 
 function h(tagName, attrs) {
-	attrs = attrs || {};
-
 	const childrenArgs = [].slice.apply(arguments, [2]);
 	const children = document.createDocumentFragment();
 
@@ -119,7 +117,7 @@ function h(tagName, attrs) {
 		}
 	});
 
-	return build(tagName, attrs, children);
+	return build(tagName, attrs || {}, children);
 }
 
 exports.h = h;
