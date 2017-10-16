@@ -3,7 +3,6 @@
 const svgTagNames = require('svg-tag-names');
 const classnames = require('classnames');
 const flatten = require('arr-flatten');
-const omit = require('object.omit');
 
 // Copied from Preact
 const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|ows|mnc|ntw|ine[ch]|zoo|^ord/i;
@@ -21,40 +20,18 @@ const svgTags = svgTagNames.filter(name => excludeSvgTags.indexOf(name) === -1);
 
 const isSVG = tagName => svgTags.indexOf(tagName) >= 0;
 
-const getCSSProps = attrs => {
-	return Object
-		.keys(attrs.style || {})
-		.map(name => {
-			let value = attrs.style[name];
+const setCSSProps = (el, style) => {
+	Object
+		.keys(style)
+		.forEach(name => {
+			let value = style[name];
 
 			if (typeof value === 'number' && !IS_NON_DIMENSIONAL.test(name)) {
 				value += 'px';
 			}
 
-			return {name, value};
+			el.style.setProperty(name, value);
 		});
-};
-
-const getHTMLProps = attrs => {
-	const allProps = omit(attrs, ['class', 'className', 'style', 'key', 'dangerouslySetInnerHTML']);
-
-	return Object
-		.keys(allProps)
-		.filter(name => name.indexOf('on') !== 0)
-		.map(name => ({
-			name,
-			value: attrs[name]
-		}));
-};
-
-const getEventListeners = attrs => {
-	return Object
-		.keys(attrs)
-		.filter(name => name.indexOf('on') === 0)
-		.map(name => ({
-			name: name.toLowerCase().replace('on', ''),
-			listener: attrs[name]
-		}));
 };
 
 const createElement = tagName => {
@@ -78,27 +55,23 @@ const setAttribute = (el, name, value) => {
 const build = (tagName, attrs, children) => {
 	const el = createElement(tagName);
 
-	const className = attrs.class || attrs.className;
-	if (className) {
-		setAttribute(el, 'class', classnames(className));
-	}
-
-	getCSSProps(attrs).forEach(prop => {
-		el.style.setProperty(prop.name, prop.value);
+	Object.keys(attrs).forEach(name => {
+		const value = attrs[name];
+		if (name === 'class' || name === 'className') {
+			setAttribute(el, 'class', classnames(value));
+		} else if (name === 'style') {
+			setCSSProps(el, value);
+		} else if (name.indexOf('on') === 0) {
+			const eventName = name.substr(2).toLowerCase();
+			el.addEventListener(eventName, value);
+		} else if (name === 'dangerouslySetInnerHTML') {
+			el.innerHTML = value.__html;
+		} else if (name !== 'key') {
+			setAttribute(el, name, value);
+		}
 	});
 
-	getHTMLProps(attrs).forEach(prop => {
-		setAttribute(el, prop.name, prop.value);
-	});
-
-	getEventListeners(attrs).forEach(event => {
-		el.addEventListener(event.name, event.listener);
-	});
-
-	const setHTML = attrs.dangerouslySetInnerHTML;
-	if (setHTML && setHTML.__html) {
-		el.innerHTML = setHTML.__html;
-	} else {
+	if (!attrs.dangerouslySetInnerHTML) {
 		el.appendChild(children);
 	}
 
