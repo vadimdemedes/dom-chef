@@ -21,7 +21,7 @@ const svgTags = svgTagNames.filter(name => excludeSvgTags.indexOf(name) === -1);
 const isSVG = tagName => svgTags.indexOf(tagName) >= 0;
 
 const setCSSProps = (el, style) => {
-	return Object
+	Object
 		.keys(style)
 		.forEach(name => {
 			let value = style[name];
