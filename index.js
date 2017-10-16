@@ -99,11 +99,7 @@ const build = (tagName, attrs, children) => {
 	if (setHTML && setHTML.__html) {
 		el.innerHTML = setHTML.__html;
 	} else {
-		children.forEach(child => {
-			if (child) {
-				el.appendChild(child);
-			}
-		});
+		el.appendChild(children);
 	}
 
 	return el;
@@ -113,16 +109,14 @@ function h(tagName, attrs) {
 	attrs = attrs || {};
 
 	const childrenArgs = [].slice.apply(arguments, [2]);
-	const children = flatten(childrenArgs).map(child => {
+	const children = document.createDocumentFragment();
+
+	flatten(childrenArgs).forEach(child => {
 		if (child instanceof Element) {
-			return child;
+			children.appendChild(child);
+		} else if (typeof child !== 'boolean' && child !== null) {
+			children.appendChild(document.createTextNode(child));
 		}
-
-		if (typeof child === 'boolean' || child === null) {
-			return null;
-		}
-
-		return document.createTextNode(child);
 	});
 
 	return build(tagName, attrs, children);
