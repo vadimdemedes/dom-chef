@@ -35,10 +35,9 @@
     "svg-tag-names": "^1.1.1"
   },
   "devDependencies": {
-    "@ava/babel-preset-stage-4": "^1.1.0",
     "ava": "^0.20.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-plugin-transform-react-jsx": "^6.24.1",
-    "babel-register": "^6.24.1",
     "browser-env": "^2.0.31",
     "eslint-config-xo-react": "^0.12.0",
     "eslint-plugin-react": "^7.1.0",
@@ -46,14 +45,9 @@
     "xo": "^0.18.2"
   },
   "ava": {
-    "require": [
-      "babel-register"
-    ],
     "babel": {
-      "presets": [
-        "@ava/stage-4"
-      ],
       "plugins": [
+        "transform-es2015-modules-commonjs",
         [
           "transform-react-jsx",
           {
