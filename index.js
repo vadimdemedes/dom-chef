@@ -1,7 +1,6 @@
 'use strict';
 
 const svgTagNames = require('svg-tag-names');
-const classnames = require('classnames');
 const flatten = require('arr-flatten');
 
 // Copied from Preact
@@ -58,7 +57,7 @@ const build = (tagName, attrs, children) => {
 	Object.keys(attrs).forEach(name => {
 		const value = attrs[name];
 		if (name === 'class' || name === 'className') {
-			setAttribute(el, 'class', classnames(value));
+			setAttribute(el, 'class', value);
 		} else if (name === 'style') {
 			setCSSProps(el, value);
 		} else if (name.indexOf('on') === 0) {

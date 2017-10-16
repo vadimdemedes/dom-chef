@@ -31,7 +31,6 @@
   ],
   "dependencies": {
     "arr-flatten": "^1.0.3",
-    "classnames": "^2.2.5",
     "svg-tag-names": "^1.1.1"
   },
   "devDependencies": {

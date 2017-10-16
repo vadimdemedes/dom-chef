@@ -25,7 +25,6 @@ $ npm install --save dom-chef
 - [Partial SVG support](#render-svg)
 - React-like props naming (including events)
 - Mix any DOM elements inside
-- Bundles [classnames](https://github.com/JedWatson/classnames) for conditionally applying classes
 
 
 ## Usage
