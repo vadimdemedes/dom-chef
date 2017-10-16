@@ -100,7 +100,9 @@ const build = (tagName, attrs, children) => {
 		el.innerHTML = setHTML.__html;
 	} else {
 		children.forEach(child => {
-			el.appendChild(child);
+			if (child) {
+				el.appendChild(child);
+			}
 		});
 	}
 
@@ -117,7 +119,7 @@ function h(tagName, attrs) {
 		}
 
 		if (typeof child === 'boolean' || child === null) {
-			child = '';
+			return null;
 		}
 
 		return document.createTextNode(child);
