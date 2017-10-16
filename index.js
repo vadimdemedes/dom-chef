@@ -110,7 +110,7 @@ const build = (tagName, attrs, children) => {
 function h(tagName, attrs) {
 	attrs = attrs || {};
 
-	const childrenArgs = [].slice.call(arguments, 2);
+	const childrenArgs = [].slice.apply(arguments, [2]);
 	const children = flatten(childrenArgs).map(child => {
 		if (child instanceof Element) {
 			return child;
