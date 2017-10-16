@@ -55,19 +55,19 @@ const setAttribute = (el, name, value) => {
 const build = (tagName, attrs, children) => {
 	const el = createElement(tagName);
 
-	Object.keys(attrs).forEach(attrName => {
-		const attrVal = attrs[attrName];
-		if (attrName === 'class' || attrName === 'className') {
-			setAttribute(el, 'class', classnames(attrVal));
-		} else if (attrName === 'style') {
-			setCSSProps(el, attrVal);
-		} else if (attrName.indexOf('on') === 0) {
-			const eventName = attrName.substr(2).toLowerCase();
-			el.addEventListener(eventName, attrVal);
-		} else if (attrName === 'dangerouslySetInnerHTML') {
-			el.innerHTML = attrVal.__html;
-		} else if (attrName !== 'key') {
-			setAttribute(el, attrName, attrVal);
+	Object.keys(attrs).forEach(name => {
+		const value = attrs[name];
+		if (name === 'class' || name === 'className') {
+			setAttribute(el, 'class', classnames(value));
+		} else if (name === 'style') {
+			setCSSProps(el, value);
+		} else if (name.indexOf('on') === 0) {
+			const eventName = name.substr(2).toLowerCase();
+			el.addEventListener(eventName, value);
+		} else if (name === 'dangerouslySetInnerHTML') {
+			el.innerHTML = value.__html;
+		} else if (name !== 'key') {
+			setAttribute(el, name, value);
 		}
 	});
 
