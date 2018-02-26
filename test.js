@@ -256,7 +256,7 @@ test('attach event listeners', t => {
 	spy(EventTarget.prototype, 'addEventListener');
 
 	const handleClick = function () {};
-	const el = <a href="#" onClick={handleClick}>Download</a>;
+	const el = <a href="#" onClick={handleClick}>Download</a>; // eslint-disable-line react/jsx-no-bind
 
 	t.is(el.outerHTML, '<a href="#">Download</a>');
 
