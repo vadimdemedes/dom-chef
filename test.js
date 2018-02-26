@@ -124,6 +124,18 @@ test('render other elements inside', t => {
 
 	t.is(el.outerHTML, '<div><a href="#first">First</a><a href="#second">Second</a></div>');
 });
+test('render document fragments inside', t => {
+	const template = document.createElement('template');
+	template.innerHTML = 'Hello, <strong>World!</strong> ';
+	const fragment = template.content;
+	const el = (
+		<div>
+			{fragment}
+		</div>
+	);
+
+	t.is(el.outerHTML, '<div>Hello, <strong>World!</strong> </div>');
+});
 
 test.serial('render svg', t => {
 	spy(document, 'createElementNS');
