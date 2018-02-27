@@ -185,7 +185,7 @@ test.serial('create svg links with xlink namespace', t => {
 	t.true(Element.prototype.setAttributeNS.calledOnce);
 
 	const xmlns = 'http://www.w3.org/1999/xlink';
-	t.deepEqual(Element.prototype.setAttributeNS.firstCall.args, [xmlns, 'xlinkHref', '#text']);
+	t.deepEqual(Element.prototype.setAttributeNS.firstCall.args, [xmlns, 'xlink:href', '#text']);
 });
 
 test('assign className', t => {
