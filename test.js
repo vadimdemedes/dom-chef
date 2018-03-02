@@ -124,6 +124,18 @@ test('render other elements inside', t => {
 
 	t.is(el.outerHTML, '<div><a href="#first">First</a><a href="#second">Second</a></div>');
 });
+test('render document fragments inside', t => {
+	const template = document.createElement('template');
+	template.innerHTML = 'Hello, <strong>World!</strong> ';
+	const fragment = template.content;
+	const el = (
+		<div>
+			{fragment}
+		</div>
+	);
+
+	t.is(el.outerHTML, '<div>Hello, <strong>World!</strong> </div>');
+});
 
 test.serial('render svg', t => {
 	spy(document, 'createElementNS');
@@ -244,7 +256,7 @@ test('attach event listeners', t => {
 	spy(EventTarget.prototype, 'addEventListener');
 
 	const handleClick = function () {};
-	const el = <a href="#" onClick={handleClick}>Download</a>;
+	const el = <a href="#" onClick={handleClick}>Download</a>; // eslint-disable-line react/jsx-no-bind
 
 	t.is(el.outerHTML, '<a href="#">Download</a>');
 

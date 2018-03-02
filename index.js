@@ -82,7 +82,7 @@ function h(tagName, attrs) {
 	const children = document.createDocumentFragment();
 
 	flatten(childrenArgs).forEach(child => {
-		if (child instanceof Element) {
+		if (child instanceof Element || child instanceof DocumentFragment) {
 			children.appendChild(child);
 		} else if (typeof child !== 'boolean' && child !== null) {
 			children.appendChild(document.createTextNode(child));
