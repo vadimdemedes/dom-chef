@@ -29,7 +29,7 @@ const setCSSProps = (el, style) => {
 				value += 'px';
 			}
 
-			el.style.setProperty(name, value);
+			el.style[name] = value;
 		});
 };
 

@@ -216,12 +216,13 @@ test('assign styles', t => {
 	const style = {
 		paddingTop: 10,
 		width: 200,
-		height: '200px'
+		height: '200px',
+		fontSize: 12
 	};
 
 	const el = <span style={style}/>;
 
-	t.is(el.outerHTML, '<span style="padding-top: 10px; width: 200px; height: 200px;"></span>');
+	t.is(el.outerHTML, '<span style="padding-top: 10px; width: 200px; height: 200px; font-size: 12px;"></span>');
 });
 
 test('assign other props', t => {
