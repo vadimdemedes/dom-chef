@@ -225,6 +225,17 @@ test('assign styles', t => {
 	t.is(el.outerHTML, '<span style="padding-top: 10px; width: 200px; height: 200px; font-size: 12px;"></span>');
 });
 
+test('assign styles with dashed property names', t => {
+	const style = {
+		'padding-top': 10,
+		'font-size': 12
+	};
+
+	const el = <span style={style}/>;
+
+	t.is(el.outerHTML, '<span style="padding-top: 10px; font-size: 12px;"></span>');
+});
+
 test('assign other props', t => {
 	const el = <a href="video.mp4" id="a" download referrerpolicy="no-referrer">Download</a>;
 
