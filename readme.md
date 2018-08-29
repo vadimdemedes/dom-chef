@@ -29,7 +29,24 @@ $ npm install --save dom-chef
 
 ## Usage
 
-Make sure to use a JSX transpiler and set JSX pragma to `h`.
+Make sure to use a JSX transpiler, set JSX pragma to `h` and optinally the 
+pragmaFrag to `DocumentFragment` [if you need fragment support](https://reactjs.org/blog/2017/11/28/react-v16.2.0-fragment-support.html).
+
+```js
+// babel.config.js
+
+const plugins = [
+  [
+    "@babel/plugin-transform-react-jsx",
+    {
+      pragma: "h", 
+      pragmaFrag: "DocumentFragment", 
+    }
+  ]
+];
+
+// ...
+```
 
 ```jsx
 const {h} = require('dom-chef');
