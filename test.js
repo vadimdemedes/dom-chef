@@ -197,7 +197,7 @@ test.serial('create svg links with xlink namespace', t => {
 	t.true(Element.prototype.setAttributeNS.calledOnce);
 
 	const xmlns = 'http://www.w3.org/1999/xlink';
-	t.deepEqual(Element.prototype.setAttributeNS.firstCall.args, [xmlns, 'xlinkHref', '#text']);
+	t.deepEqual(Element.prototype.setAttributeNS.firstCall.args, [xmlns, 'xlink:href', '#text']);
 });
 
 test('assign className', t => {
@@ -237,10 +237,9 @@ test('assign styles with dashed property names', t => {
 });
 
 test('assign other props', t => {
-	// eslint-disable-next-line react/jsx-sort-props
-	const el = <a href="video.mp4" id="a" download referrerpolicy="no-referrer">Download</a>;
+	const el = <a download href="video.mp4" id="a" referrerpolicy="no-referrer">Download</a>;
 
-	t.is(el.outerHTML, '<a href="video.mp4" id="a" download="true" referrerpolicy="no-referrer">Download</a>');
+	t.is(el.outerHTML, '<a download="true" href="video.mp4" id="a" referrerpolicy="no-referrer">Download</a>');
 });
 
 test('escape props', t => {
