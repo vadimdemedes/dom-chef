@@ -326,7 +326,7 @@ test('div with inner fragment', t => {
 	t.is(el.outerHTML, '<div><h1>heading</h1> text<span>outside fragment</span></div>');
 });
 
-function getFragmentHTML(fragment /* : DocumentFragment */) /* : void */ {
+function getFragmentHTML(fragment /* : DocumentFragment */) /* : string */ {
 	return [...fragment.childNodes]
 		.map(n => n.outerHTML || n.textContent)
 		.join('');
