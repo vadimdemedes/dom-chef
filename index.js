@@ -45,7 +45,7 @@ const setAttribute = (el, name, value) => {
 	// Naive support for xlink namespace
 	// Full list: https://github.com/facebook/react/blob/1843f87/src/renderers/dom/shared/SVGDOMPropertyConfig.js#L258-L264
 	if (/^xlink[AHRST]/.test(name)) {
-		el.setAttributeNS('http://www.w3.org/1999/xlink', name, value);
+		el.setAttributeNS('http://www.w3.org/1999/xlink', name.replace('xlink', 'xlink:').toLowerCase(), value);
 	} else {
 		el.setAttribute(name, value);
 	}
