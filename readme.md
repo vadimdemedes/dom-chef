@@ -59,13 +59,6 @@ const el = <span class="a b c">Text</span>;
 const el = <span className="a b c">Text</span>;
 ```
 
-You can also pass an object to conditionally apply classes.
-
-```jsx
-const el = <span class={{a: true, b: true, c: false}}>Text</span>;
-//=> <span class="a b">Text</span>
-```
-
 ### Set styles
 
 ```jsx
