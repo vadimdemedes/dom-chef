@@ -37,6 +37,7 @@ const createElement = tagName => {
 	if (isSVG(tagName)) {
 		return document.createElementNS('http://www.w3.org/2000/svg', tagName);
 	}
+
 	if (tagName === DocumentFragment) {
 		return document.createDocumentFragment();
 	}
