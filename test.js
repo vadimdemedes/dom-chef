@@ -275,3 +275,59 @@ test('attach event listeners', t => {
 	t.true(EventTarget.prototype.addEventListener.calledOnce);
 	t.deepEqual(EventTarget.prototype.addEventListener.firstCall.args, ['click', handleClick]);
 });
+
+test('fragment', t => {
+	spy(document, 'createDocumentFragment');
+
+	const fragment = <>test</>;
+
+	const fragmentHTML = getFragmentHTML(fragment);
+
+	t.is(fragmentHTML, 'test');
+	t.true(document.createDocumentFragment.calledTwice);
+	t.deepEqual(document.createDocumentFragment.firstCall.args, []);
+	t.deepEqual(document.createDocumentFragment.secondCall.args, []);
+});
+
+test('fragment 2', t => {
+	const fragment = (
+		<>
+			<h1>test</h1>
+		</>
+	);
+
+	const fragmentHTML = getFragmentHTML(fragment);
+
+	t.is(fragmentHTML, '<h1>test</h1>');
+});
+
+test('fragment 3', t => {
+	const fragment = (
+		<>
+			<h1>heading</h1> text
+		</>
+	);
+
+	const fragmentHTML = getFragmentHTML(fragment);
+
+	t.is(fragmentHTML, '<h1>heading</h1> text');
+});
+
+test('div with inner fragment', t => {
+	const el = (
+		<div>
+			<>
+				<h1>heading</h1> text
+			</>
+			<span>outside fragment</span>
+		</div>
+	);
+
+	t.is(el.outerHTML, '<div><h1>heading</h1> text<span>outside fragment</span></div>');
+});
+
+function getFragmentHTML(fragment /* : DocumentFragment */) /* : string */ {
+	return [...fragment.childNodes]
+		.map(n => n.outerHTML || n.textContent)
+		.join('');
+}

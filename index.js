@@ -38,6 +38,10 @@ const createElement = tagName => {
 		return document.createElementNS('http://www.w3.org/2000/svg', tagName);
 	}
 
+	if (tagName === DocumentFragment) {
+		return document.createDocumentFragment();
+	}
+
 	return document.createElement(tagName);
 };
 
@@ -78,6 +82,7 @@ const build = (tagName, attrs, children) => {
 };
 
 function h(tagName, attrs) {
+	// eslint-disable-next-line prefer-rest-params
 	const childrenArgs = [].slice.apply(arguments, [2]);
 	const children = document.createDocumentFragment();
 
