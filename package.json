@@ -1,6 +1,6 @@
 {
   "name": "dom-chef",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "description": "Build DOM elements using JSX automatically",
   "license": "MIT",
   "repository": "vadimdemedes/dom-chef",
