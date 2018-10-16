@@ -236,6 +236,19 @@ test('assign styles with dashed property names', t => {
 	t.is(el.outerHTML, '<span style="padding-top: 10px; font-size: 12px;"></span>');
 });
 
+test('get element via ref attribute', t => {
+	let refNode;
+	const el = (
+		<span
+			ref={node => {
+				refNode = node;
+			}}
+			class="a b c"/>
+	);
+
+	t.is(el.outerHTML, refNode.outerHTML);
+});
+
 test('assign other props', t => {
 	const el = <a download href="video.mp4" id="a" referrerpolicy="no-referrer">Download</a>;
 
