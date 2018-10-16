@@ -64,6 +64,8 @@ const build = (tagName, attrs, children) => {
 			setAttribute(el, 'class', value);
 		} else if (name === 'style') {
 			setCSSProps(el, value);
+		} else if (name === 'ref' && typeof value === 'function') {
+			value(el);
 		} else if (name.indexOf('on') === 0) {
 			const eventName = name.substr(2).toLowerCase();
 			el.addEventListener(eventName, value);
@@ -71,10 +73,6 @@ const build = (tagName, attrs, children) => {
 			el.innerHTML = value.__html;
 		} else if (name !== 'key') {
 			setAttribute(el, name, value);
-		}
-
-		if (name === "ref" && typeof value === "function") {
-			value(el);
 		}
 	});
 
