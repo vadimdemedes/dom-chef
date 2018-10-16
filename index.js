@@ -72,6 +72,10 @@ const build = (tagName, attrs, children) => {
 		} else if (name !== 'key') {
 			setAttribute(el, name, value);
 		}
+
+		if (name === "ref" && typeof value === "function") {
+			value(el);
+		}
 	});
 
 	if (!attrs.dangerouslySetInnerHTML) {
