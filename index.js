@@ -99,8 +99,9 @@ function h(tagName, attrs) {
 
 exports.h = h;
 
+// Improve TypeScript support for DocumentFragment
+// https://github.com/Microsoft/TypeScript/issues/20469
 exports.React = {
 	createElement: h,
 	Fragment: DocumentFragment
 };
-
