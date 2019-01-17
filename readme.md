@@ -30,7 +30,7 @@ $ npm install --save dom-chef
 ## Usage
 
 Make sure to use a JSX transpiler, set JSX [`pragma`](https://babeljs.io/docs/en/next/babel-plugin-transform-react-jsx.html#pragma)
-to `h` and optinally the [`pragmaFrag`](https://babeljs.io/docs/en/next/babel-plugin-transform-react-jsx.html#pragmafrag)
+to `h` and optionally the [`pragmaFrag`](https://babeljs.io/docs/en/next/babel-plugin-transform-react-jsx.html#pragmafrag)
 to `DocumentFragment` [if you need fragment support](https://reactjs.org/blog/2017/11/28/react-v16.2.0-fragment-support.html).
 
 ```js
@@ -40,8 +40,8 @@ const plugins = [
   [
     '@babel/plugin-transform-react-jsx',
     {
-      pragma: 'h', 
-      pragmaFrag: 'DocumentFragment', 
+      pragma: 'h',
+      pragmaFrag: 'DocumentFragment',
     }
   ]
 ];
@@ -65,6 +65,19 @@ const el = (
 document.body.appendChild(el);
 ```
 
+### Alternative usage
+
+You can avoid configuring your JSX compiler by just letting it default to `React` and exporting the `React` object:
+
+```js
+const {React} = require('dom-chef');
+```
+
+This has the advantage of enabling `Fragment` support with the TypeScript compiler, if you're using it compile JSX without Babel. Related issue: https://github.com/Microsoft/TypeScript/issues/20469
+
+```
+TS17016: JSX fragment is not supported when using --jsxFactory
+```
 
 ## Recipes
 

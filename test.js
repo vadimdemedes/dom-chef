@@ -1,9 +1,11 @@
 import browserEnv from 'browser-env';
 import {spy} from 'sinon';
 import test from 'ava';
-import {h} from '.';
 
+// This order and `require` are necessary because the
+// `DocumentFragment` global is used/exported right away
 browserEnv();
+const {h} = require('.');
 
 test('render childless element', t => {
 	const el = <br/>;

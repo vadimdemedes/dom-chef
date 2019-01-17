@@ -71,7 +71,8 @@
     "rules": {
       "react/prop-types": 0,
       "react/no-unknown-property": 0,
-      "react/no-danger": 0
+      "react/no-danger": 0,
+      "import/first": 0
     },
     "settings": {
       "react": {
