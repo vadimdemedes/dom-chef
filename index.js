@@ -98,3 +98,9 @@ function h(tagName, attrs) {
 }
 
 exports.h = h;
+
+exports.React = {
+  createElement: h,
+  Fragment: DocumentFragment,
+};
+
