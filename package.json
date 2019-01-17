@@ -31,6 +31,7 @@
   ],
   "dependencies": {
     "arr-flatten": "^1.0.3",
+    "jsdom": "^13.1.0",
     "svg-tag-names": "^1.1.1"
   },
   "devDependencies": {
@@ -38,11 +39,10 @@
     "@babel/plugin-transform-modules-commonjs": "^7.2.0",
     "@babel/plugin-transform-react-jsx": "^7.2.0",
     "ava": "^1.1.0",
-    "browser-env": "^3.2.5",
     "eslint-config-xo-react": "^0.18.0",
     "eslint-plugin-react": "^7.12.4",
     "sinon": "^7.2.2",
-    "xo": "0.22.0"
+    "xo": "*"
   },
   "ava": {
     "babel": {
@@ -72,7 +72,7 @@
       "react/prop-types": 0,
       "react/no-unknown-property": 0,
       "react/no-danger": 0,
-      "import/first": 0
+      "unicorn/prefer-node-append": 0
     },
     "settings": {
       "react": {

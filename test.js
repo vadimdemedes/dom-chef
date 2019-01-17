@@ -1,10 +1,15 @@
-import browserEnv from 'browser-env';
-import {spy} from 'sinon';
-import test from 'ava';
+const {JSDOM} = require('jsdom');
+const {spy} = require('sinon');
+const test = require('ava');
 
 // This order and `require` are necessary because the
 // `DocumentFragment` global is used/exported right away
-browserEnv();
+const {window} = new JSDOM('...');
+global.document = window.document;
+global.Element = window.Element;
+global.DocumentFragment = window.DocumentFragment;
+global.EventTarget = window.EventTarget;
+
 const {h} = require('.');
 
 test('render childless element', t => {
@@ -160,7 +165,7 @@ test.serial('render svg', t => {
 
 test.serial('render mixed html and svg', t => {
 	spy(document, 'createElement');
-	document.createElementNS.reset();
+	document.createElementNS.resetHistory();
 
 	const el = (
 		<div>
