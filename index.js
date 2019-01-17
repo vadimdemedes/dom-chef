@@ -100,7 +100,7 @@ function h(tagName, attrs) {
 exports.h = h;
 
 exports.React = {
-  createElement: h,
-  Fragment: DocumentFragment,
+	createElement: h,
+	Fragment: DocumentFragment
 };
 
