@@ -114,9 +114,5 @@ module.exports = React;
 module.exports.h = h;
 
 // Enable support for
-// const {React} = require('dom-chef')
-module.exports.React = React;
-
-// Enable support for
 // import React from 'dom-chef'
 module.exports.default = React;
