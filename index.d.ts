@@ -1,9 +1,7 @@
 // Adapted from https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/react/index.d.ts
 
-type Key = string | number;
-
 interface Attributes {
-	key?: Key;
+	key?: string | number;
 }
 
 declare namespace React {
@@ -13,6 +11,6 @@ declare namespace React {
 		...children: (Element | DocumentFragment)[]
 	): Element | DocumentFragment;
 
-	export type Fragment = DocumentFragment | Function
-	export type h = typeof createElement
+	export type Fragment = DocumentFragment | Function;
+	export type h = typeof createElement;
 }
