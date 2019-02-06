@@ -97,4 +97,22 @@ function h(tagName, attrs) {
 	return build(tagName, attrs || {}, children);
 }
 
-exports.h = h;
+// Improve TypeScript support for DocumentFragment
+// https://github.com/Microsoft/TypeScript/issues/20469
+const React = {
+	createElement: h,
+	Fragment: typeof DocumentFragment === 'function' ? DocumentFragment : () => {}
+};
+
+// Enable support for
+// const React = require('dom-chef')
+module.exports = React;
+
+// Enable support for
+// const {h} = require('dom-chef')
+// import {h} from 'dom-chef'
+module.exports.h = h;
+
+// Enable support for
+// import React from 'dom-chef'
+module.exports.default = React;

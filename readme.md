@@ -70,7 +70,7 @@ document.body.appendChild(el);
 You can avoid configuring your JSX compiler by just letting it default to `React` and exporting the `React` object:
 
 ```js
-const {React} = require('dom-chef/react'); // Notice the `/react` path
+const React = require('dom-chef');
 ```
 
 This has the advantage of enabling `Fragment` support with the TypeScript compiler, if you're using it compile JSX without Babel. Related issue: https://github.com/Microsoft/TypeScript/issues/20469
