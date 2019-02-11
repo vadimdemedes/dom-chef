@@ -90,6 +90,16 @@ test('render multiple string children', t => {
 	t.is(el.outerHTML, '<span>hello world</span>');
 });
 
+test('render div with TextNode child', t => {
+	const el = (
+		<div>
+			{document.createTextNode('Hello')}
+		</div>
+	);
+
+	t.is(el.outerHTML, '<div>Hello/div>');
+});
+
 test('skip boolean children', t => {
 	const el = (
 		<span>
