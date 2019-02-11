@@ -4,7 +4,7 @@ interface Attributes {
 	key?: string | number;
 }
 
-declare namespace React {
+declare namespace DomChef {
 	export function createElement<P extends {}>(
 		type: DocumentFragment | string,
 		props?: Attributes & P | null,
@@ -14,3 +14,6 @@ declare namespace React {
 	export type Fragment = DocumentFragment | Function;
 	export type h = typeof createElement;
 }
+
+declare const domChef: DomChef;
+export default domChef;
