@@ -24,6 +24,7 @@
   },
   "files": [
     "index.js",
+    "index.d.ts",
     "react.js"
   ],
   "keywords": [
