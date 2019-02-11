@@ -8,7 +8,7 @@ declare namespace React {
 	export function createElement<P extends {}>(
 		type: DocumentFragment | string,
 		props?: Attributes & P | null,
-		...children: (Node)[]
+		...children: Node[]
 	): Element | DocumentFragment;
 
 	export type Fragment = DocumentFragment | Function;
