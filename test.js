@@ -98,7 +98,7 @@ test('render div with TextNode child', t => {
 		</div>
 	);
 
-	t.is(el.outerHTML, '<div>Hello/div>');
+	t.is(el.outerHTML, '<div>Hello</div>');
 });
 
 test('skip boolean children', t => {
