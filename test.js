@@ -261,6 +261,7 @@ test('assign other props', t => {
 });
 
 test('assign or skip boolean props', t => {
+	// eslint-disable-next-line react/jsx-boolean-value
 	const el = <a download disabled={false} contenteditable={true}>Download</a>;
 
 	t.is(el.outerHTML, '<a download="" contenteditable="">Download</a>');
