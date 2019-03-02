@@ -69,8 +69,8 @@ const build = (tagName, attrs, children) => {
 			el.addEventListener(eventName, value);
 		} else if (name === 'dangerouslySetInnerHTML') {
 			el.innerHTML = value.__html;
-		} else if (name !== 'key') {
-			setAttribute(el, name, value);
+		} else if (name !== 'key' && value !== false) {
+			setAttribute(el, name, value === true ? '' : value);
 		}
 	});
 

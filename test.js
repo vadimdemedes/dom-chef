@@ -255,9 +255,16 @@ test('assign styles with dashed property names', t => {
 });
 
 test('assign other props', t => {
-	const el = <a download href="video.mp4" id="a" referrerpolicy="no-referrer">Download</a>;
+	const el = <a href="video.mp4" id="a" referrerpolicy="no-referrer">Download</a>;
 
-	t.is(el.outerHTML, '<a download="true" href="video.mp4" id="a" referrerpolicy="no-referrer">Download</a>');
+	t.is(el.outerHTML, '<a href="video.mp4" id="a" referrerpolicy="no-referrer">Download</a>');
+});
+
+test('assign or skip boolean props', t => {
+	// eslint-disable-next-line react/jsx-boolean-value
+	const el = <a download disabled={false} contenteditable={true}>Download</a>;
+
+	t.is(el.outerHTML, '<a download="" contenteditable="">Download</a>');
 });
 
 test('escape props', t => {
