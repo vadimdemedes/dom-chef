@@ -46,6 +46,10 @@ const createElement = tagName => {
 };
 
 const setAttribute = (el, name, value) => {
+	if (value === undefined) {
+		return;
+	}
+
 	// Naive support for xlink namespace
 	// Full list: https://github.com/facebook/react/blob/1843f87/src/renderers/dom/shared/SVGDOMPropertyConfig.js#L258-L264
 	if (/^xlink[AHRST]/.test(name)) {
