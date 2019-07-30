@@ -267,6 +267,12 @@ test('assign or skip boolean props', t => {
 	t.is(el.outerHTML, '<a download="" contenteditable="">Download</a>');
 });
 
+test('skip undefined props', t => {
+	const el = <a href={undefined}>Download</a>;
+
+	t.is(el.outerHTML, '<a>Download</a>');
+});
+
 test('escape props', t => {
 	const el = <a id={'"test"'}>Download</a>;
 
