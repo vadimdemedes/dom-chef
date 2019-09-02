@@ -33,7 +33,6 @@
   ],
   "dependencies": {
     "arr-flatten": "^1.0.3",
-    "jsdom": "^13.1.0",
     "svg-tag-names": "^1.1.1"
   },
   "devDependencies": {
@@ -43,6 +42,7 @@
     "ava": "^1.1.0",
     "eslint-config-xo-react": "^0.18.0",
     "eslint-plugin-react": "^7.12.4",
+    "jsdom": "^13.2.0",
     "sinon": "^7.2.2",
     "xo": "*"
   },
