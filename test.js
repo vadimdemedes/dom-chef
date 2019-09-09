@@ -268,7 +268,7 @@ test('assign or skip boolean props', t => {
 });
 
 test('skip undefined and null props', t => {
-	const el = <a href={undefined} title={null} target={false}>Download</a>;
+	const el = <a href={undefined} title={null}>Download</a>;
 
 	t.is(el.outerHTML, '<a>Download</a>');
 });
