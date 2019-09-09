@@ -46,7 +46,7 @@ const createElement = tagName => {
 };
 
 const setAttribute = (el, name, value) => {
-	if (value === undefined) {
+	if (value === undefined || value === null) {
 		return;
 	}
 
