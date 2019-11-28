@@ -267,7 +267,7 @@ test('assign or skip boolean props', t => {
 	t.is(el.outerHTML, '<a download="" contenteditable="">Download</a>');
 });
 
-test.todo('assign booleanish false props', t => {
+test.failing('assign booleanish false props', t => {
 	const el = <span contentEditable><a contentEditable={false}>Download</a></span>;
 	const input = <textarea spellCheck={false}/>;
 
