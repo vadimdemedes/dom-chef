@@ -269,10 +269,10 @@ test('assign or skip boolean props', t => {
 
 test.todo('assign booleanish false props', t => {
 	const el = <span contentEditable><a contentEditable={false}>Download</a></span>;
-	const input = <textarea spellCheck={false}></textarea>;
+	const input = <textarea spellCheck={false}/>;
 
 	t.is(el.outerHTML, '<span contenteditable="">a contenteditable="false">Download</a></span>');
-	t.is(el.outerHTML, '<textarea spellcheck="false"></textarea>');
+	t.is(input.outerHTML, '<textarea spellcheck="false"></textarea>');
 });
 
 test('skip undefined and null props', t => {
