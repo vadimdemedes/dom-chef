@@ -267,6 +267,14 @@ test('assign or skip boolean props', t => {
 	t.is(el.outerHTML, '<a download="" contenteditable="">Download</a>');
 });
 
+test.failing('assign booleanish false props', t => {
+	const el = <span contentEditable><a contentEditable={false}>Download</a></span>;
+	const input = <textarea spellCheck={false}/>;
+
+	t.is(el.outerHTML, '<span contenteditable="">a contenteditable="false">Download</a></span>');
+	t.is(input.outerHTML, '<textarea spellcheck="false"></textarea>');
+});
+
 test('skip undefined and null props', t => {
 	const el = <a href={undefined} title={null}>Download</a>;
 
