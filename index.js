@@ -93,7 +93,7 @@ function h(tagName, attrs) {
 	flatten(childrenArgs).forEach(child => {
 		if (child instanceof Node) {
 			children.appendChild(child);
-		} else if (typeof child !== 'boolean' && child !== null) {
+		} else if (typeof child !== 'boolean' && typeof child !== 'undefined' && child !== null) {
 			children.appendChild(document.createTextNode(child));
 		}
 	});
