@@ -80,6 +80,7 @@ test('render string child', t => {
 });
 
 test('render multiple string children', t => {
+	/* eslint-disable react/jsx-curly-brace-presence */
 	const el = (
 		<span>
 			{'hello'}
@@ -87,6 +88,7 @@ test('render multiple string children', t => {
 			{'world'}
 		</span>
 	);
+	/* eslint-enable react/jsx-curly-brace-presence */
 
 	t.is(el.outerHTML, '<span>hello world</span>');
 });
