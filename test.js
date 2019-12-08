@@ -80,6 +80,7 @@ test('render string child', t => {
 });
 
 test('render multiple string children', t => {
+	/* eslint-disable react/jsx-curly-brace-presence */
 	const el = (
 		<span>
 			{'hello'}
@@ -87,6 +88,7 @@ test('render multiple string children', t => {
 			{'world'}
 		</span>
 	);
+	/* eslint-enable react/jsx-curly-brace-presence */
 
 	t.is(el.outerHTML, '<span>hello world</span>');
 });
@@ -118,16 +120,21 @@ test('skip null children', t => {
 	t.is(el.outerHTML, '<span></span>');
 });
 
+test('skip undefined children', t => {
+	const el = <span>{undefined}</span>;
+
+	t.is(el.outerHTML, '<span></span>');
+});
+
 test('render falsey children', t => {
 	const el = (
 		<span>
-			{undefined}
 			{0}
 			{NaN}
 		</span>
 	);
 
-	t.is(el.outerHTML, '<span>undefined0NaN</span>');
+	t.is(el.outerHTML, '<span>0NaN</span>');
 });
 
 test('render other elements inside', t => {

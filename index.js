@@ -15,9 +15,9 @@ const excludeSvgTags = [
 	'video'
 ];
 
-const svgTags = svgTagNames.filter(name => excludeSvgTags.indexOf(name) === -1);
+const svgTags = svgTagNames.filter(name => !excludeSvgTags.includes(name));
 
-const isSVG = tagName => svgTags.indexOf(tagName) >= 0;
+const isSVG = tagName => svgTags.includes(tagName);
 
 const setCSSProps = (el, style) => {
 	Object
@@ -69,7 +69,7 @@ const build = (tagName, attrs, children) => {
 		} else if (name === 'style') {
 			setCSSProps(el, value);
 		} else if (name.indexOf('on') === 0) {
-			const eventName = name.substr(2).toLowerCase();
+			const eventName = name.slice(2).toLowerCase();
 			el.addEventListener(eventName, value);
 		} else if (name === 'dangerouslySetInnerHTML') {
 			el.innerHTML = value.__html;
@@ -93,7 +93,7 @@ function h(tagName, attrs) {
 	flatten(childrenArgs).forEach(child => {
 		if (child instanceof Node) {
 			children.appendChild(child);
-		} else if (typeof child !== 'boolean' && child !== null) {
+		} else if (typeof child !== 'boolean' && typeof child !== 'undefined' && child !== null) {
 			children.appendChild(document.createTextNode(child));
 		}
 	});
