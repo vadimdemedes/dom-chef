@@ -1,7 +1,18 @@
-'use strict';
+import svgTagNames from 'svg-tag-names';
+import flatten from 'arr-flatten';
 
-const svgTagNames = require('svg-tag-names');
-const flatten = require('arr-flatten');
+type InnerHTMLSetter = {__html: string};
+type AttributeValue =
+	| string
+	| number
+	| boolean
+	| undefined
+	| null
+	| CSSStyleDeclaration
+	| InnerHTMLSetter
+	| EventListenerOrEventListenerObject;
+type Attributes = Record<string, AttributeValue>;
+type DocumentFragmentConstructor = typeof DocumentFragment;
 
 // Copied from Preact
 const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|ows|mnc|ntw|ine[ch]|zoo|^ord/i;
@@ -17,35 +28,34 @@ const excludeSvgTags = [
 
 const svgTags = svgTagNames.filter(name => !excludeSvgTags.includes(name));
 
-const isSVG = tagName => svgTags.includes(tagName);
+const isSVG = (tagName: string): boolean => svgTags.includes(tagName);
 
-const setCSSProps = (el, style) => {
-	Object
-		.keys(style)
+const isDangerouslySetInnerHTML = (name: string, value: AttributeValue): value is InnerHTMLSetter => {
+	return Boolean(value) && typeof value === 'object' && name === 'dangerouslySetInnerHTML';
+};
+
+const setCSSProps = (el: HTMLElement | SVGElement, style: CSSStyleDeclaration): void => {
+	(Object.keys(style) as Array<keyof CSSStyleDeclaration>)
 		.forEach(name => {
 			let value = style[name];
 
-			if (typeof value === 'number' && !IS_NON_DIMENSIONAL.test(name)) {
-				value += 'px';
+			if (typeof value === 'number' && !IS_NON_DIMENSIONAL.test(name as string)) {
+				value = `${value}px`;
 			}
 
-			el.style[name] = value;
+			el.style.setProperty(name as string, value);
 		});
 };
 
-const createElement = tagName => {
+const createElement = (tagName: string): HTMLElement | SVGElement => {
 	if (isSVG(tagName)) {
 		return document.createElementNS('http://www.w3.org/2000/svg', tagName);
-	}
-
-	if (tagName === DocumentFragment) {
-		return document.createDocumentFragment();
 	}
 
 	return document.createElement(tagName);
 };
 
-const setAttribute = (el, name, value) => {
+const setAttribute = (el: HTMLElement | SVGElement, name: string, value: string): void => {
 	if (value === undefined || value === null) {
 		return;
 	}
@@ -59,22 +69,26 @@ const setAttribute = (el, name, value) => {
 	}
 };
 
-const build = (tagName, attrs, children) => {
+const build = <TProps extends Record<string, unknown>>(
+	tagName: string,
+	attrs: Attributes & TProps,
+	children: DocumentFragment
+): HTMLElement | SVGElement => {
 	const el = createElement(tagName);
 
 	Object.keys(attrs).forEach(name => {
 		const value = attrs[name];
 		if (name === 'class' || name === 'className') {
-			setAttribute(el, 'class', value);
+			setAttribute(el, 'class', value as string);
 		} else if (name === 'style') {
-			setCSSProps(el, value);
+			setCSSProps(el, value as CSSStyleDeclaration);
 		} else if (name.indexOf('on') === 0) {
 			const eventName = name.slice(2).toLowerCase();
-			el.addEventListener(eventName, value);
-		} else if (name === 'dangerouslySetInnerHTML') {
+			el.addEventListener(eventName, value as EventListenerOrEventListenerObject);
+		} else if (isDangerouslySetInnerHTML(name, value)) {
 			el.innerHTML = value.__html;
 		} else if (name !== 'key' && value !== false) {
-			setAttribute(el, name, value === true ? '' : value);
+			setAttribute(el, name, value === true ? '' : value as string);
 		}
 	});
 
@@ -85,38 +99,31 @@ const build = (tagName, attrs, children) => {
 	return el;
 };
 
-function h(tagName, attrs) {
-	// eslint-disable-next-line prefer-rest-params
-	const childrenArgs = [].slice.apply(arguments, [2]);
-	const children = document.createDocumentFragment();
+export const h = <TProps extends Record<string, unknown>>(
+	type: DocumentFragmentConstructor | string,
+	props?: Attributes & TProps | null,
+	...children: Node[]
+): Element | DocumentFragment => {
+	const childrenFragment = document.createDocumentFragment();
 
-	flatten(childrenArgs).forEach(child => {
+	flatten(children).forEach(child => {
 		if (child instanceof Node) {
-			children.appendChild(child);
+			childrenFragment.appendChild(child);
 		} else if (typeof child !== 'boolean' && typeof child !== 'undefined' && child !== null) {
-			children.appendChild(document.createTextNode(child));
+			childrenFragment.appendChild(document.createTextNode(child));
 		}
 	});
 
-	return build(tagName, attrs || {}, children);
-}
+	if (typeof type !== 'string') {
+		return childrenFragment;
+	}
+
+	return build(type, props ?? {}, childrenFragment);
+};
 
 // Improve TypeScript support for DocumentFragment
 // https://github.com/Microsoft/TypeScript/issues/20469
-const React = {
+export default {
 	createElement: h,
 	Fragment: typeof DocumentFragment === 'function' ? DocumentFragment : () => {}
 };
-
-// Enable support for
-// const React = require('dom-chef')
-module.exports = React;
-
-// Enable support for
-// const {h} = require('dom-chef')
-// import {h} from 'dom-chef'
-module.exports.h = h;
-
-// Enable support for
-// import React from 'dom-chef'
-module.exports.default = React;
