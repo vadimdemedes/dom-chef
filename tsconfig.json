@@ -1,0 +1,17 @@
+{
+	"extends": "@sindresorhus/tsconfig",
+	"compilerOptions": {
+		"outDir": ".",
+		"target": "es2015",
+		"module": "es2015",
+		"allowSyntheticDefaultImports": true,
+		"lib": [
+			"dom",
+			"dom.iterable"
+		]
+	},
+	"files": [
+		"globals.d.ts",
+		"index.ts"
+	]
+}

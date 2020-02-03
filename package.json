@@ -16,31 +16,36 @@
       "url": "bfred.it"
     }
   ],
-  "engines": {
-    "node": ">= 4"
-  },
   "scripts": {
-    "test": "xo && ava"
+    "build": "tsc",
+    "prepublishOnly": "tsc",
+    "test": "tsc && xo && ava",
+    "watch": "tsc --watch"
   },
   "files": [
     "index.js",
-    "index.d.ts",
-    "react.js"
+    "index.d.ts"
   ],
   "keywords": [
     "jsx",
     "dom"
   ],
   "dependencies": {
+    "@sindresorhus/tsconfig": "^0.7.0",
     "arr-flatten": "^1.0.3",
-    "svg-tag-names": "^1.1.1"
+    "svg-tag-names": "^1.1.1",
+    "typescript": "^3.7.5"
   },
   "devDependencies": {
     "@babel/plugin-syntax-jsx": "^7.2.0",
     "@babel/plugin-transform-modules-commonjs": "^7.2.0",
     "@babel/plugin-transform-react-jsx": "^7.2.0",
+    "@typescript-eslint/eslint-plugin": "^2.18.0",
+    "@typescript-eslint/parser": "^2.18.0",
     "ava": "^1.1.0",
+    "eslint-config-xo": "^0.27.2",
     "eslint-config-xo-react": "^0.18.0",
+    "eslint-config-xo-typescript": "^0.24.1",
     "eslint-plugin-react": "^7.12.4",
     "jsdom": "^13.2.0",
     "sinon": "^7.2.2",
@@ -64,7 +69,11 @@
   },
   "xo": {
     "env": "browser",
+    "extensions": [
+      "ts"
+    ],
     "extends": [
+      "xo-typescript",
       "xo-react"
     ],
     "plugins": [
@@ -74,7 +83,9 @@
       "react/prop-types": 0,
       "react/no-unknown-property": 0,
       "react/no-danger": 0,
-      "unicorn/prefer-node-append": 0
+      "unicorn/prefer-node-append": 0,
+      "@typescript-eslint/no-empty-function": 0,
+      "@typescript-eslint/prefer-string-starts-ends-with": 0
     },
     "settings": {
       "react": {
