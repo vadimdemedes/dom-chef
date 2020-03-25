@@ -10,6 +10,9 @@
 			"dom.iterable"
 		]
 	},
+	"include": [
+		"test.js"
+	],
 	"files": [
 		"globals.d.ts",
 		"index.ts"

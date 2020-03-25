@@ -43,14 +43,14 @@
     "@typescript-eslint/parser": "^2.18.0",
     "ava": "^1.1.0",
     "esm": "^3.2.25",
-    "eslint-config-xo": "^0.27.2",
+    "eslint-config-xo": "^0.24.0",
     "eslint-config-xo-react": "^0.18.0",
     "eslint-config-xo-typescript": "^0.24.1",
     "eslint-plugin-react": "^7.12.4",
     "jsdom": "^13.2.0",
     "sinon": "^7.2.2",
     "typescript": "^3.7.5",
-    "xo": "*"
+    "xo": "0.24.0"
   },
   "ava": {
     "require": [
@@ -60,40 +60,39 @@
       "testOptions": {
         "plugins": [
           "@babel/plugin-transform-modules-commonjs",
-          [
-            "@babel/plugin-transform-react-jsx",
-            {
-              "pragma": "h",
-              "pragmaFrag": "DocumentFragment"
-            }
-          ]
+          "@babel/plugin-transform-react-jsx"
         ]
       }
     }
   },
   "xo": {
     "env": "browser",
-    "extensions": [
-      "ts"
-    ],
-    "extends": [
-      "xo-typescript",
-      "xo-react"
-    ],
-    "plugins": [
-      "react"
-    ],
     "rules": {
-      "react/prop-types": 0,
-      "react/no-unknown-property": 0,
-      "react/no-danger": 0,
-      "unicorn/prefer-node-append": 0,
-      "@typescript-eslint/no-empty-function": 0,
-      "@typescript-eslint/prefer-string-starts-ends-with": 0
+      "no-unused-vars": [
+        "error",
+        {
+          "varsIgnorePattern": "React"
+        }
+      ]
     },
-    "settings": {
-      "react": {
-        "pragma": "h"
+    "overrides": {
+      "extensions": [
+        "ts"
+      ],
+      "extends": [
+        "xo-typescript",
+        "xo-react"
+      ],
+      "plugins": [
+        "react"
+      ],
+      "rules": {
+        "react/prop-types": 0,
+        "react/no-unknown-property": 0,
+        "react/no-danger": 0,
+        "unicorn/prefer-node-append": 0,
+        "@typescript-eslint/no-empty-function": 0,
+        "@typescript-eslint/prefer-string-starts-ends-with": 0
       }
     }
   }
