@@ -33,8 +33,7 @@
   "dependencies": {
     "@sindresorhus/tsconfig": "^0.7.0",
     "arr-flatten": "^1.0.3",
-    "svg-tag-names": "^1.1.1",
-    "typescript": "^3.7.5"
+    "svg-tag-names": "^1.1.1"
   },
   "devDependencies": {
     "@babel/plugin-syntax-jsx": "^7.2.0",
@@ -43,15 +42,20 @@
     "@typescript-eslint/eslint-plugin": "^2.18.0",
     "@typescript-eslint/parser": "^2.18.0",
     "ava": "^1.1.0",
+    "esm": "^3.2.25",
     "eslint-config-xo": "^0.27.2",
     "eslint-config-xo-react": "^0.18.0",
     "eslint-config-xo-typescript": "^0.24.1",
     "eslint-plugin-react": "^7.12.4",
     "jsdom": "^13.2.0",
     "sinon": "^7.2.2",
+    "typescript": "^3.7.5",
     "xo": "*"
   },
   "ava": {
+    "require": [
+      "esm"
+    ],
     "babel": {
       "testOptions": {
         "plugins": [

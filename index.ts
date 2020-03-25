@@ -38,12 +38,11 @@ const setCSSProps = (el: HTMLElement | SVGElement, style: CSSStyleDeclaration): 
 	(Object.keys(style) as Array<keyof CSSStyleDeclaration>)
 		.forEach(name => {
 			let value = style[name];
-
 			if (typeof value === 'number' && !IS_NON_DIMENSIONAL.test(name as string)) {
 				value = `${value}px`;
 			}
 
-			el.style.setProperty(name as string, value);
+			el.style[name as any] = value;
 		});
 };
 
