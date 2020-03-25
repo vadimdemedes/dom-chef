@@ -32,7 +32,7 @@
   ],
   "dependencies": {
     "@sindresorhus/tsconfig": "^0.7.0",
-    "arr-flatten": "^1.0.3",
+    "array-flatten": "^3.0.0",
     "svg-tag-names": "^1.1.1"
   },
   "devDependencies": {

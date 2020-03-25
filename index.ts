@@ -1,5 +1,5 @@
 import svgTagNames from 'svg-tag-names';
-import flatten from 'arr-flatten';
+import {flatten} from 'array-flatten';
 
 type InnerHTMLSetter = {__html: string};
 type AttributeValue =
