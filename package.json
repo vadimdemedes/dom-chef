@@ -64,9 +64,6 @@
   },
   "xo": {
     "env": "browser",
-    "extends": [
-      "xo-typescript"
-    ],
     "rules": {
       "unicorn/prefer-node-append": "off",
       "@typescript-eslint/prefer-readonly-parameter-types": "off",
@@ -77,6 +74,11 @@
         {
           "varsIgnorePattern": "React"
         }
+      ]
+    },
+    "overrides": {
+      "extends": [
+        "xo-typescript"
       ]
     }
   }
