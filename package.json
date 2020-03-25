@@ -31,7 +31,6 @@
     "dom"
   ],
   "dependencies": {
-    "@sindresorhus/tsconfig": "^0.7.0",
     "array-flatten": "^3.0.0",
     "svg-tag-names": "^2.0.1"
   },
@@ -39,6 +38,7 @@
     "@ava/babel": "^1.0.1",
     "@babel/plugin-syntax-jsx": "^7.8.3",
     "@babel/plugin-transform-react-jsx": "^7.9.4",
+    "@sindresorhus/tsconfig": "^0.7.0",
     "@typescript-eslint/eslint-plugin": "^2.25.0",
     "@typescript-eslint/parser": "^2.25.0",
     "ava": "^3.5.1",
