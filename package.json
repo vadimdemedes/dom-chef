@@ -1,19 +1,19 @@
 {
   "name": "dom-chef",
   "version": "4.0.0-0",
-  "description": "Build DOM elements using JSX automatically",
+  "description": "Build regular DOM elements using JSX",
   "license": "MIT",
   "repository": "vadimdemedes/dom-chef",
   "author": {
     "name": "Vadim Demedes",
     "email": "vdemedes@gmail.com",
-    "url": "github.com/vadimdemedes"
+    "url": "https://github.com/vadimdemedes"
   },
   "maintainers": [
     {
       "name": "Federico Brigante",
-      "email": "github@bfred.it",
-      "url": "bfred.it"
+      "email": "opensource@bfred.it",
+      "url": "https://bfred.it"
     }
   ],
   "scripts": {
@@ -28,7 +28,15 @@
   ],
   "keywords": [
     "jsx",
-    "dom"
+    "dom",
+    "native",
+    "innerHTML",
+    "document",
+    "createElement",
+    "create",
+    "element",
+    "documentFragment",
+    "typescript"
   ],
   "dependencies": {
     "array-flatten": "^3.0.0",

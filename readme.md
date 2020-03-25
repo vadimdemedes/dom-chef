@@ -6,26 +6,24 @@
 	<br>
 </h1>
 
-> Build DOM elements using JSX automatically
+> Build regular DOM elements using JSX
 
-[![Build Status](https://travis-ci.org/vadimdemedes/dom-chef.svg?branch=master)](https://travis-ci.org/vadimdemedes/dom-chef)
+With `dom-chef`, you can use Babel or TypeScript to transform [JSX](https://reactjs.org/docs/introducing-jsx.html) into plain old DOM elements, without using the unsafe `innerHTML` or clumsy `document.createElement` calls.
 
+It supports everything you expect from JSX, including:
+
+- [SVG elements](#render-svg)
+- [Event listeners](#inline-event-listeners)
+- [Inline CSS](#inline-styles)
+- [Nested elements](#nested-elements)
+
+If something isn't supported (or doesn't work as well as it does in React) please open an issue!
 
 ## Install
 
 ```
-$ npm install --save dom-chef
+$ npm install dom-chef
 ```
-
-
-## Features
-
-- No API, JSX gets auto transformed into actual DOM elements
-- Protection from XSS injections
-- [Partial SVG support](#render-svg)
-- React-like props naming (including events)
-- Mix any DOM elements inside
-
 
 ## Usage
 
@@ -90,13 +88,13 @@ const el = <span class="a b c">Text</span>;
 const el = <span className="a b c">Text</span>;
 ```
 
-### Set styles
+### Inline styles
 
 ```jsx
 const el = <div style={{padding: 10, background: '#000'}}/>;
 ```
 
-### Attach event listeners
+### Inline event listeners
 
 ```jsx
 const handleClick = e => {
@@ -106,7 +104,9 @@ const handleClick = e => {
 const el = <span onClick={handleClick}>Text</span>;
 ```
 
-### Mix other elements inside
+This is equivalent to: `span.addEventListener('click', handleClick)`
+
+### Nested elements
 
 ```jsx
 const title = <h1>Hello World</h1>;
