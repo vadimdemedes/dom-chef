@@ -33,21 +33,22 @@
   "dependencies": {
     "@sindresorhus/tsconfig": "^0.7.0",
     "array-flatten": "^3.0.0",
-    "svg-tag-names": "^1.1.1"
+    "svg-tag-names": "^2.0.1"
   },
   "devDependencies": {
-    "@babel/plugin-syntax-jsx": "^7.2.0",
-    "@babel/plugin-transform-react-jsx": "^7.2.0",
-    "@typescript-eslint/eslint-plugin": "^2.18.0",
-    "@typescript-eslint/parser": "^2.18.0",
-    "ava": "^1.1.0",
+    "@ava/babel": "^1.0.1",
+    "@babel/plugin-syntax-jsx": "^7.8.3",
+    "@babel/plugin-transform-react-jsx": "^7.9.4",
+    "@typescript-eslint/eslint-plugin": "^2.25.0",
+    "@typescript-eslint/parser": "^2.25.0",
+    "ava": "^3.5.1",
+    "eslint-config-xo": "^0.29.1",
+    "eslint-config-xo-typescript": "^0.27.0",
     "esm": "^3.2.25",
-    "eslint-config-xo": "^0.24.0",
-    "eslint-config-xo-typescript": "^0.24.1",
-    "jsdom": "^13.2.0",
-    "sinon": "^7.2.2",
-    "typescript": "^3.7.5",
-    "xo": "0.24.0"
+    "jsdom": "^16.2.1",
+    "sinon": "^9.0.1",
+    "typescript": "^3.8.3",
+    "xo": "0.28.0"
   },
   "ava": {
     "require": [
@@ -64,6 +65,10 @@
   "xo": {
     "env": "browser",
     "rules": {
+      "unicorn/prefer-node-append": "off",
+      "@typescript-eslint/prefer-readonly-parameter-types": "off",
+      "@typescript-eslint/no-empty-function": "off",
+      "@typescript-eslint/no-unsafe-member-access": "off",
       "no-unused-vars": [
         "error",
         {
@@ -72,17 +77,9 @@
       ]
     },
     "overrides": {
-      "extensions": [
-        "ts"
-      ],
       "extends": [
         "xo-typescript"
-      ],
-      "rules": {
-        "unicorn/prefer-node-append": 0,
-        "@typescript-eslint/no-empty-function": 0,
-        "@typescript-eslint/prefer-string-starts-ends-with": 0
-      }
+      ]
     }
   }
 }

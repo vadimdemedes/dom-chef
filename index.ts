@@ -34,16 +34,14 @@ const isDangerouslySetInnerHTML = (name: string, value: AttributeValue): value i
 	return Boolean(value) && typeof value === 'object' && name === 'dangerouslySetInnerHTML';
 };
 
-const setCSSProps = (el: HTMLElement | SVGElement, style: CSSStyleDeclaration): void => {
-	(Object.keys(style) as Array<keyof CSSStyleDeclaration>)
-		.forEach(name => {
-			let value = style[name];
-			if (typeof value === 'number' && !IS_NON_DIMENSIONAL.test(name as string)) {
-				value = `${value}px`;
-			}
+const setCSSProps = (element: HTMLElement | SVGElement, style: CSSStyleDeclaration): void => {
+	for (let [name, value] of Object.entries(style)) {
+		if (typeof value === 'number' && !IS_NON_DIMENSIONAL.test(name)) {
+			value = `${value as string}px`;
+		}
 
-			el.style[name as any] = value;
-		});
+		element.style[name as any] = value;
+	}
 };
 
 const createElement = (tagName: string): HTMLElement | SVGElement => {
@@ -54,7 +52,7 @@ const createElement = (tagName: string): HTMLElement | SVGElement => {
 	return document.createElement(tagName);
 };
 
-const setAttribute = (el: HTMLElement | SVGElement, name: string, value: string): void => {
+const setAttribute = (element: HTMLElement | SVGElement, name: string, value: string): void => {
 	if (value === undefined || value === null) {
 		return;
 	}
@@ -62,56 +60,55 @@ const setAttribute = (el: HTMLElement | SVGElement, name: string, value: string)
 	// Naive support for xlink namespace
 	// Full list: https://github.com/facebook/react/blob/1843f87/src/renderers/dom/shared/SVGDOMPropertyConfig.js#L258-L264
 	if (/^xlink[AHRST]/.test(name)) {
-		el.setAttributeNS('http://www.w3.org/1999/xlink', name.replace('xlink', 'xlink:').toLowerCase(), value);
+		element.setAttributeNS('http://www.w3.org/1999/xlink', name.replace('xlink', 'xlink:').toLowerCase(), value);
 	} else {
-		el.setAttribute(name, value);
+		element.setAttribute(name, value);
 	}
 };
 
-const build = <TProps extends Record<string, unknown>>(
+const build = (
 	tagName: string,
-	attrs: Attributes & TProps,
+	attrs: Attributes,
 	children: DocumentFragment
 ): HTMLElement | SVGElement => {
-	const el = createElement(tagName);
+	const element = createElement(tagName);
 
-	Object.keys(attrs).forEach(name => {
-		const value = attrs[name];
+	for (const [name, value] of Object.entries(attrs)) {
 		if (name === 'class' || name === 'className') {
-			setAttribute(el, 'class', value as string);
+			setAttribute(element, 'class', value as string);
 		} else if (name === 'style') {
-			setCSSProps(el, value as CSSStyleDeclaration);
-		} else if (name.indexOf('on') === 0) {
+			setCSSProps(element, value as CSSStyleDeclaration);
+		} else if (name.startsWith('on')) {
 			const eventName = name.slice(2).toLowerCase();
-			el.addEventListener(eventName, value as EventListenerOrEventListenerObject);
+			element.addEventListener(eventName, value as EventListenerOrEventListenerObject);
 		} else if (isDangerouslySetInnerHTML(name, value)) {
-			el.innerHTML = value.__html;
+			element.innerHTML = value.__html;
 		} else if (name !== 'key' && value !== false) {
-			setAttribute(el, name, value === true ? '' : value as string);
+			setAttribute(element, name, value === true ? '' : value as string);
 		}
-	});
-
-	if (!attrs.dangerouslySetInnerHTML) {
-		el.appendChild(children);
 	}
 
-	return el;
+	if (!attrs.dangerouslySetInnerHTML) {
+		element.appendChild(children);
+	}
+
+	return element;
 };
 
-export const h = <TProps extends Record<string, unknown>>(
+export const h = (
 	type: DocumentFragmentConstructor | string,
-	props?: Attributes & TProps | null,
+	props?: Attributes,
 	...children: Node[]
 ): Element | DocumentFragment => {
 	const childrenFragment = document.createDocumentFragment();
 
-	flatten(children).forEach(child => {
+	for (const child of flatten(children)) {
 		if (child instanceof Node) {
 			childrenFragment.appendChild(child);
 		} else if (typeof child !== 'boolean' && typeof child !== 'undefined' && child !== null) {
 			childrenFragment.appendChild(document.createTextNode(child));
 		}
-	});
+	}
 
 	if (typeof type !== 'string') {
 		return childrenFragment;
