@@ -44,11 +44,8 @@
   },
   "devDependencies": {
     "@ava/babel": "^1.0.1",
-    "@babel/plugin-syntax-jsx": "^7.8.3",
     "@babel/plugin-transform-react-jsx": "^7.9.4",
     "@sindresorhus/tsconfig": "^0.7.0",
-    "@typescript-eslint/eslint-plugin": "^2.25.0",
-    "@typescript-eslint/parser": "^2.25.0",
     "ava": "^3.5.1",
     "esm": "^3.2.25",
     "jsdom": "^16.2.1",
