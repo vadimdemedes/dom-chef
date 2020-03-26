@@ -50,8 +50,6 @@
     "@typescript-eslint/eslint-plugin": "^2.25.0",
     "@typescript-eslint/parser": "^2.25.0",
     "ava": "^3.5.1",
-    "eslint-config-xo": "^0.29.1",
-    "eslint-config-xo-typescript": "^0.27.0",
     "esm": "^3.2.25",
     "jsdom": "^16.2.1",
     "sinon": "^9.0.1",
@@ -82,11 +80,6 @@
         {
           "varsIgnorePattern": "React"
         }
-      ]
-    },
-    "overrides": {
-      "extends": [
-        "xo-typescript"
       ]
     }
   }
