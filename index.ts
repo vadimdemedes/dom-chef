@@ -68,9 +68,9 @@ const setAttribute = (el: HTMLElement | SVGElement, name: string, value: string)
 	}
 };
 
-const build = <TProps extends Record<string, unknown>>(
+const build = (
 	tagName: string,
-	attrs: Attributes & TProps,
+	attrs: Attributes,
 	children: DocumentFragment
 ): HTMLElement | SVGElement => {
 	const el = createElement(tagName);
@@ -98,9 +98,9 @@ const build = <TProps extends Record<string, unknown>>(
 	return el;
 };
 
-export const h = <TProps extends Record<string, unknown>>(
+export const h = (
 	type: DocumentFragmentConstructor | string,
-	props?: Attributes & TProps | null,
+	props?: Attributes,
 	...children: Node[]
 ): Element | DocumentFragment => {
 	const childrenFragment = document.createDocumentFragment();

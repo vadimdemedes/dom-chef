@@ -4,18 +4,13 @@
 		"outDir": ".",
 		"target": "es2015",
 		"module": "es2015",
-
-		// JSON files are declared as CJS modules in TS
-		"allowSyntheticDefaultImports": true,
-		"lib": [
-			"dom",
-			"dom.iterable"
-		]
+		"resolveJsonModule": true
 	},
 	"include": [
 		"test.js"
 	],
 	"files": [
-		"index.ts"
+		"index.ts",
+		"global.d.ts"
 	]
 }
