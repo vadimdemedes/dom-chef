@@ -1,0 +1,16 @@
+{
+	"extends": "@sindresorhus/tsconfig",
+	"compilerOptions": {
+		"outDir": ".",
+		"target": "es2015",
+		"module": "es2015",
+		"resolveJsonModule": true
+	},
+	"include": [
+		"test.js"
+	],
+	"files": [
+		"index.ts",
+		"global.d.ts"
+	]
+}

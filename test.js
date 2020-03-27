@@ -11,7 +11,7 @@ global.Element = window.Element;
 global.DocumentFragment = window.DocumentFragment;
 global.EventTarget = window.EventTarget;
 
-const {h} = require('.');
+const React = require('.').default;
 
 test('render childless element', t => {
 	const el = <br/>;
@@ -80,7 +80,6 @@ test('render string child', t => {
 });
 
 test('render multiple string children', t => {
-	/* eslint-disable react/jsx-curly-brace-presence */
 	const el = (
 		<span>
 			{'hello'}
@@ -88,7 +87,6 @@ test('render multiple string children', t => {
 			{'world'}
 		</span>
 	);
-	/* eslint-enable react/jsx-curly-brace-presence */
 
 	t.is(el.outerHTML, '<span>hello world</span>');
 });
@@ -245,7 +243,7 @@ test('assign styles', t => {
 		fontSize: 12
 	};
 
-	const el = <span style={style}/>;
+	const el = <span {...{style}}/>;
 
 	t.is(el.outerHTML, '<span style="padding-top: 10px; width: 200px; height: 200px; font-size: 12px;"></span>');
 });
@@ -268,7 +266,6 @@ test('assign other props', t => {
 });
 
 test('assign or skip boolean props', t => {
-	// eslint-disable-next-line react/jsx-boolean-value
 	const el = <a download disabled={false} contenteditable={true}>Download</a>;
 
 	t.is(el.outerHTML, '<a download="" contenteditable="">Download</a>');
@@ -314,7 +311,7 @@ test('attach event listeners', t => {
 	spy(EventTarget.prototype, 'addEventListener');
 
 	const handleClick = function () {};
-	const el = <a href="#" onClick={handleClick}>Download</a>; // eslint-disable-line react/jsx-no-bind
+	const el = <a href="#" onClick={handleClick}>Download</a>;
 
 	t.is(el.outerHTML, '<a href="#">Download</a>');
 
@@ -330,9 +327,8 @@ test('fragment', t => {
 	const fragmentHTML = getFragmentHTML(fragment);
 
 	t.is(fragmentHTML, 'test');
-	t.true(document.createDocumentFragment.calledTwice);
+	t.true(document.createDocumentFragment.calledOnce);
 	t.deepEqual(document.createDocumentFragment.firstCall.args, []);
-	t.deepEqual(document.createDocumentFragment.secondCall.args, []);
 });
 
 test('fragment 2', t => {

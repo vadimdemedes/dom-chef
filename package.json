@@ -1,6 +1,6 @@
 {
   "name": "dom-chef",
-  "version": "3.6.3",
+  "version": "4.0.0-0",
   "description": "Build DOM elements using JSX automatically",
   "license": "MIT",
   "repository": "vadimdemedes/dom-chef",
@@ -16,69 +16,75 @@
       "url": "bfred.it"
     }
   ],
-  "engines": {
-    "node": ">= 4"
-  },
   "scripts": {
-    "test": "xo && ava"
+    "build": "tsc",
+    "prepublishOnly": "tsc",
+    "test": "tsc && xo && ava",
+    "watch": "tsc --watch"
   },
+  "main": "index.js",
+  "module": "index.js",
+  "type": "module",
   "files": [
     "index.js",
-    "index.d.ts",
-    "react.js"
+    "index.d.ts"
   ],
   "keywords": [
     "jsx",
     "dom"
   ],
   "dependencies": {
-    "arr-flatten": "^1.0.3",
+    "array-flatten": "^3.0.0",
     "svg-tag-names": "^1.1.1"
   },
   "devDependencies": {
     "@babel/plugin-syntax-jsx": "^7.2.0",
-    "@babel/plugin-transform-modules-commonjs": "^7.2.0",
     "@babel/plugin-transform-react-jsx": "^7.2.0",
+    "@typescript-eslint/eslint-plugin": "^2.18.0",
+    "@typescript-eslint/parser": "^2.18.0",
     "ava": "^1.1.0",
-    "eslint-config-xo-react": "^0.18.0",
-    "eslint-plugin-react": "^7.12.4",
+    "@sindresorhus/tsconfig": "^0.7.0",
+    "esm": "^3.2.25",
+    "eslint-config-xo": "^0.24.0",
+    "eslint-config-xo-typescript": "^0.24.1",
     "jsdom": "^13.2.0",
     "sinon": "^7.2.2",
-    "xo": "*"
+    "typescript": "^3.7.5",
+    "xo": "0.24.0"
   },
   "ava": {
+    "require": [
+      "esm"
+    ],
     "babel": {
       "testOptions": {
         "plugins": [
-          "@babel/plugin-transform-modules-commonjs",
-          [
-            "@babel/plugin-transform-react-jsx",
-            {
-              "pragma": "h",
-              "pragmaFrag": "DocumentFragment"
-            }
-          ]
+          "@babel/plugin-transform-react-jsx"
         ]
       }
     }
   },
   "xo": {
     "env": "browser",
-    "extends": [
-      "xo-react"
-    ],
-    "plugins": [
-      "react"
-    ],
     "rules": {
-      "react/prop-types": 0,
-      "react/no-unknown-property": 0,
-      "react/no-danger": 0,
-      "unicorn/prefer-node-append": 0
+      "no-unused-vars": [
+        "error",
+        {
+          "varsIgnorePattern": "React"
+        }
+      ]
     },
-    "settings": {
-      "react": {
-        "pragma": "h"
+    "overrides": {
+      "extensions": [
+        "ts"
+      ],
+      "extends": [
+        "xo-typescript"
+      ],
+      "rules": {
+        "unicorn/prefer-node-append": 0,
+        "@typescript-eslint/no-empty-function": 0,
+        "@typescript-eslint/prefer-string-starts-ends-with": 0
       }
     }
   }
