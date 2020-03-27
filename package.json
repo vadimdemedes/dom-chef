@@ -24,7 +24,6 @@
   },
   "main": "index.js",
   "module": "index.js",
-  "type": "module",
   "files": [
     "index.js",
     "index.d.ts"
