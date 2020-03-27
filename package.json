@@ -22,6 +22,9 @@
     "test": "tsc && xo && ava",
     "watch": "tsc --watch"
   },
+  "main": "index.js",
+  "module": "index.js",
+  "type": "module",
   "files": [
     "index.js",
     "index.d.ts"
