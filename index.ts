@@ -101,7 +101,7 @@ export const h = (
 ): Element | DocumentFragment => {
 	const childrenFragment = document.createDocumentFragment();
 
-	for (const child of children.flat(Infinity)) {
+	for (const child of Array.prototype.flat.call(children, Infinity)) {
 		if (child instanceof Node) {
 			childrenFragment.appendChild(child);
 		} else if (typeof child !== 'boolean' && typeof child !== 'undefined' && child !== null) {
