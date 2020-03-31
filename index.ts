@@ -1,5 +1,4 @@
 import svgTagNames from 'svg-tag-names';
-import {flatten} from 'array-flatten';
 
 type InnerHTMLSetter = {__html: string};
 type AttributeValue =
@@ -102,7 +101,7 @@ export const h = (
 ): Element | DocumentFragment => {
 	const childrenFragment = document.createDocumentFragment();
 
-	for (const child of flatten(children)) {
+	for (const child of children.flat(Infinity)) {
 		if (child instanceof Node) {
 			childrenFragment.appendChild(child);
 		} else if (typeof child !== 'boolean' && typeof child !== 'undefined' && child !== null) {
