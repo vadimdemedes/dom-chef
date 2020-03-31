@@ -42,7 +42,6 @@
     "typescript"
   ],
   "dependencies": {
-    "array-flatten": "^3.0.0",
     "svg-tag-names": "^2.0.1"
   },
   "devDependencies": {
