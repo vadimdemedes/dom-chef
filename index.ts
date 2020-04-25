@@ -76,7 +76,8 @@ const build = (
 
 	for (const [name, value] of Object.entries(attrs)) {
 		if (name === 'class' || name === 'className') {
-			setAttribute(element, 'class', (element.getAttribute('class')! + (value as string)).trim());
+			const existingClassname = element.getAttribute('class') ?? '';
+			setAttribute(element, 'class', (existingClassname + ' ' + String(value)).trim());
 		} else if (name === 'style') {
 			setCSSProps(element, value as CSSStyleDeclaration);
 		} else if (name.startsWith('on')) {
