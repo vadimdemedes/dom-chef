@@ -382,7 +382,7 @@ test('element created by function with existing children and attributes', t => {
 		icon.innerHTML = 'Gummy <span>bears</span>';
 		icon.classList.add('sweet');
 		return icon;
-	}
+	};
 
 	const element = <Icon/>;
 
@@ -395,7 +395,7 @@ test('element created by function with combined children and attributes', t => {
 		icon.innerHTML = 'Gummy <span>bears</span>';
 		icon.classList.add('sweet');
 		return icon;
-	}
+	};
 
 	const element = <Icon className="yellow"> and <b>lollipops</b></Icon>;
 

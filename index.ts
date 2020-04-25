@@ -74,13 +74,9 @@ const build = (
 ): HTMLElement | SVGElement => {
 	const element = typeof tagName === 'string' ? createElement(tagName) : tagName();
 
-	for (let [name, value] of Object.entries(attrs)) {
+	for (const [name, value] of Object.entries(attrs)) {
 		if (name === 'class' || name === 'className') {
-			if (element.className) {
-				value = element.className + ' ' + value;
-			};
-
-			setAttribute(element, 'class', value as string);
+			setAttribute(element, 'class', (element.getAttribute('class')! + (value as string)).trim());
 		} else if (name === 'style') {
 			setCSSProps(element, value as CSSStyleDeclaration);
 		} else if (name.startsWith('on')) {
@@ -102,7 +98,7 @@ const build = (
 
 const isFragment = (type: DocumentFragmentConstructor | ElementFunction | string): type is DocumentFragmentConstructor => {
 	return type === DocumentFragment;
-}
+};
 
 export const h = (
 	type: DocumentFragmentConstructor | ElementFunction | string,
