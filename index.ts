@@ -10,7 +10,7 @@ svgTags.delete('video');
 
 type Attributes = JSX.IntrinsicElements['div'];
 type DocumentFragmentConstructor = typeof DocumentFragment;
-type ElementFunction = () => HTMLElement | SVGElement;
+type ElementFunction = () => Element;
 
 // Copied from Preact
 const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|ows|mnc|ntw|ine[ch]|zoo|^ord/i;
@@ -19,7 +19,7 @@ const isFragment = (type: DocumentFragmentConstructor | ElementFunction): type i
 	return type === DocumentFragment;
 };
 
-const setCSSProps = (element: HTMLElement | SVGElement, style: CSSStyleDeclaration): void => {
+const setCSSProps = (element: Element, style: CSSStyleDeclaration): void => {
 	for (let [name, value] of Object.entries(style)) {
 		if (typeof value === 'number' && !IS_NON_DIMENSIONAL.test(name)) {
 			value = `${value as string}px`;
@@ -29,13 +29,10 @@ const setCSSProps = (element: HTMLElement | SVGElement, style: CSSStyleDeclarati
 	}
 };
 
-const create = (type: DocumentFragmentConstructor | ElementFunction | string): HTMLElement | SVGElement | DocumentFragment => {
+const create = (type: DocumentFragmentConstructor | ElementFunction | string): Element | DocumentFragment => {
 	if (typeof type === 'string') {
-		if (svgTags.has(type)) {
-			return document.createElementNS('http://www.w3.org/2000/svg', type);
-		}
-
-		return document.createElement(type);
+		const ns = svgTags.has(type) ? 'http://www.w3.org/2000/svg' : document.documentElement.namespaceURI;
+		return document.createElementNS(ns, type);;
 	}
 
 	if (isFragment(type)) {
@@ -45,7 +42,7 @@ const create = (type: DocumentFragmentConstructor | ElementFunction | string): H
 	return type();
 };
 
-const setAttribute = (element: HTMLElement | SVGElement, name: string, value: string): void => {
+const setAttribute = (element: Element, name: string, value: string): void => {
 	if (value === undefined || value === null) {
 		return;
 	}
