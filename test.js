@@ -128,7 +128,7 @@ test('render falsey children', t => {
 	const element = (
 		<span>
 			{0}
-			{NaN}
+			{Number.NaN}
 		</span>
 	);
 

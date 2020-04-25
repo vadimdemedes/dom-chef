@@ -1,24 +1,19 @@
 import svgTagNames from 'svg-tag-names';
 
+const svgTags = new Set(svgTagNames);
+svgTags.delete('a');
+svgTags.delete('audio');
+svgTags.delete('canvas');
+svgTags.delete('iframe');
+svgTags.delete('script');
+svgTags.delete('video');
+
 type Attributes = JSX.IntrinsicElements['div'];
 type DocumentFragmentConstructor = typeof DocumentFragment;
 type ElementFunction = () => HTMLElement | SVGElement;
 
 // Copied from Preact
 const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|ows|mnc|ntw|ine[ch]|zoo|^ord/i;
-
-const excludeSvgTags = [
-	'a',
-	'audio',
-	'canvas',
-	'iframe',
-	'script',
-	'video'
-];
-
-const svgTags = svgTagNames.filter(name => !excludeSvgTags.includes(name));
-
-const isSVG = (tagName: string): boolean => svgTags.includes(tagName);
 
 const isFragment = (type: DocumentFragmentConstructor | ElementFunction): type is DocumentFragmentConstructor => {
 	return type === DocumentFragment;
@@ -36,7 +31,7 @@ const setCSSProps = (element: HTMLElement | SVGElement, style: CSSStyleDeclarati
 
 const create = (type: DocumentFragmentConstructor | ElementFunction | string): HTMLElement | SVGElement | DocumentFragment => {
 	if (typeof type === 'string') {
-		if (isSVG(type)) {
+		if (svgTags.has(type)) {
 			return document.createElementNS('http://www.w3.org/2000/svg', type);
 		}
 
