@@ -31,6 +31,10 @@ const svgTags = svgTagNames.filter(name => !excludeSvgTags.includes(name));
 
 const isSVG = (tagName: string): boolean => svgTags.includes(tagName);
 
+const isFragment = (type: DocumentFragmentConstructor | ElementFunction): type is DocumentFragmentConstructor => {
+	return type === DocumentFragment;
+};
+
 const isDangerouslySetInnerHTML = (name: string, value: AttributeValue): value is InnerHTMLSetter => {
 	return Boolean(value) && typeof value === 'object' && name === 'dangerouslySetInnerHTML';
 };
@@ -45,12 +49,20 @@ const setCSSProps = (element: HTMLElement | SVGElement, style: CSSStyleDeclarati
 	}
 };
 
-const createElement = (tagName: string): HTMLElement | SVGElement => {
-	if (isSVG(tagName)) {
-		return document.createElementNS('http://www.w3.org/2000/svg', tagName);
+const create = (type: DocumentFragmentConstructor | ElementFunction | string): HTMLElement | SVGElement | DocumentFragment => {
+	if (typeof type === 'string') {
+		if (isSVG(type)) {
+			return document.createElementNS('http://www.w3.org/2000/svg', type);
+		}
+
+		return document.createElement(type);
 	}
 
-	return document.createElement(tagName);
+	if (isFragment(type)) {
+		return document.createDocumentFragment();
+	}
+
+	return type();
 };
 
 const setAttribute = (element: HTMLElement | SVGElement, name: string, value: string): void => {
@@ -67,14 +79,32 @@ const setAttribute = (element: HTMLElement | SVGElement, name: string, value: st
 	}
 };
 
-const build = (
-	tagName: ElementFunction | string,
-	attrs: Attributes,
-	children: DocumentFragment
-): HTMLElement | SVGElement => {
-	const element = typeof tagName === 'string' ? createElement(tagName) : tagName();
+export const h = (
+	type: DocumentFragmentConstructor | ElementFunction | string,
+	attributes?: Attributes,
+	...children: Node[]
+): Element | DocumentFragment => {
+	const element = create(type);
 
-	for (const [name, value] of Object.entries(attrs)) {
+	attributes = attributes ?? {}; // This cannot be a default parameter because <a/> sets `attributes` to `null`
+
+	// Add children
+	if (!('dangerouslySetInnerHTML' in attributes) && children.length > 0) {
+		for (const child of flatten(children)) {
+			if (child instanceof Node) {
+				element.appendChild(child);
+			} else if (typeof child !== 'boolean' && typeof child !== 'undefined' && child !== null) {
+				element.appendChild(document.createTextNode(child));
+			}
+		}
+	}
+
+	if (element instanceof DocumentFragment) {
+		return element;
+	}
+
+	// Set attributes
+	for (const [name, value] of Object.entries(attributes)) {
 		if (name === 'class' || name === 'className') {
 			const existingClassname = element.getAttribute('class') ?? '';
 			setAttribute(element, 'class', (existingClassname + ' ' + String(value)).trim());
@@ -90,37 +120,7 @@ const build = (
 		}
 	}
 
-	if (!attrs.dangerouslySetInnerHTML) {
-		element.appendChild(children);
-	}
-
 	return element;
-};
-
-const isFragment = (type: DocumentFragmentConstructor | ElementFunction | string): type is DocumentFragmentConstructor => {
-	return type === DocumentFragment;
-};
-
-export const h = (
-	type: DocumentFragmentConstructor | ElementFunction | string,
-	props?: Attributes,
-	...children: Node[]
-): Element | DocumentFragment => {
-	const childrenFragment = document.createDocumentFragment();
-
-	for (const child of flatten(children)) {
-		if (child instanceof Node) {
-			childrenFragment.appendChild(child);
-		} else if (typeof child !== 'boolean' && typeof child !== 'undefined' && child !== null) {
-			childrenFragment.appendChild(document.createTextNode(child));
-		}
-	}
-
-	if (isFragment(type)) {
-		return childrenFragment;
-	}
-
-	return build(type, props ?? {}, childrenFragment);
 };
 
 // Improve TypeScript support for DocumentFragment
