@@ -1,16 +1,6 @@
 import svgTagNames from 'svg-tag-names';
 
-type InnerHTMLSetter = {__html: string};
-type AttributeValue =
-	| string
-	| number
-	| boolean
-	| undefined
-	| null
-	| CSSStyleDeclaration
-	| InnerHTMLSetter
-	| EventListenerOrEventListenerObject;
-type Attributes = Record<string, AttributeValue>;
+type Attributes = JSX.IntrinsicElements['div'];
 type DocumentFragmentConstructor = typeof DocumentFragment;
 type ElementFunction = () => HTMLElement | SVGElement;
 
@@ -32,10 +22,6 @@ const isSVG = (tagName: string): boolean => svgTags.includes(tagName);
 
 const isFragment = (type: DocumentFragmentConstructor | ElementFunction): type is DocumentFragmentConstructor => {
 	return type === DocumentFragment;
-};
-
-const isDangerouslySetInnerHTML = (name: string, value: AttributeValue): value is InnerHTMLSetter => {
-	return Boolean(value) && typeof value === 'object' && name === 'dangerouslySetInnerHTML';
 };
 
 const setCSSProps = (element: HTMLElement | SVGElement, style: CSSStyleDeclaration): void => {
@@ -109,14 +95,14 @@ export const h = (
 			const existingClassname = element.getAttribute('class') ?? '';
 			setAttribute(element, 'class', (existingClassname + ' ' + String(value)).trim());
 		} else if (name === 'style') {
-			setCSSProps(element, value as CSSStyleDeclaration);
+			setCSSProps(element, value);
 		} else if (name.startsWith('on')) {
 			const eventName = name.slice(2).toLowerCase();
-			element.addEventListener(eventName, value as EventListenerOrEventListenerObject);
-		} else if (isDangerouslySetInnerHTML(name, value)) {
+			element.addEventListener(eventName, value);
+		} else if (name === 'dangerouslySetInnerHTML' && '__html' in value) {
 			element.innerHTML = value.__html;
 		} else if (name !== 'key' && value !== false) {
-			setAttribute(element, name, value === true ? '' : value as string);
+			setAttribute(element, name, value === true ? '' : value);
 		}
 	}
 
