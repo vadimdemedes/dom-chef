@@ -1,5 +1,4 @@
 import svgTagNames from 'svg-tag-names';
-import {flatten} from 'array-flatten';
 
 type InnerHTMLSetter = {__html: string};
 type AttributeValue =
@@ -79,6 +78,18 @@ const setAttribute = (element: HTMLElement | SVGElement, name: string, value: st
 	}
 };
 
+const addChildren = (parent: Element | DocumentFragment, children: Node[]): void => {
+	for (const child of children) {
+		if (child instanceof Node) {
+			parent.appendChild(child);
+		} else if (Array.isArray(child)) {
+			addChildren(parent, child);
+		} else if (typeof child !== 'boolean' && typeof child !== 'undefined' && child !== null) {
+			parent.appendChild(document.createTextNode(child));
+		}
+	}
+};
+
 export const h = (
 	type: DocumentFragmentConstructor | ElementFunction | string,
 	attributes?: Attributes,
@@ -86,20 +97,9 @@ export const h = (
 ): Element | DocumentFragment => {
 	const element = create(type);
 
-	attributes = attributes ?? {}; // This cannot be a default parameter because <a/> sets `attributes` to `null`
+	addChildren(element, children);
 
-	// Add children
-	if (!('dangerouslySetInnerHTML' in attributes) && children.length > 0) {
-		for (const child of flatten(children)) {
-			if (child instanceof Node) {
-				element.appendChild(child);
-			} else if (typeof child !== 'boolean' && typeof child !== 'undefined' && child !== null) {
-				element.appendChild(document.createTextNode(child));
-			}
-		}
-	}
-
-	if (element instanceof DocumentFragment) {
+	if (element instanceof DocumentFragment || !attributes) {
 		return element;
 	}
 
