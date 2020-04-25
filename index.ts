@@ -13,6 +13,7 @@ type AttributeValue =
 	| EventListenerOrEventListenerObject;
 type Attributes = Record<string, AttributeValue>;
 type DocumentFragmentConstructor = typeof DocumentFragment;
+type ElementFunction = () => HTMLElement | SVGElement;
 
 // Copied from Preact
 const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|ows|mnc|ntw|ine[ch]|zoo|^ord/i;
@@ -67,14 +68,18 @@ const setAttribute = (element: HTMLElement | SVGElement, name: string, value: st
 };
 
 const build = (
-	tagName: string,
+	tagName: ElementFunction | string,
 	attrs: Attributes,
 	children: DocumentFragment
 ): HTMLElement | SVGElement => {
-	const element = createElement(tagName);
+	const element = typeof tagName === 'string' ? createElement(tagName) : tagName();
 
-	for (const [name, value] of Object.entries(attrs)) {
+	for (let [name, value] of Object.entries(attrs)) {
 		if (name === 'class' || name === 'className') {
+			if (element.className) {
+				value = element.className + ' ' + value;
+			};
+
 			setAttribute(element, 'class', value as string);
 		} else if (name === 'style') {
 			setCSSProps(element, value as CSSStyleDeclaration);
@@ -95,8 +100,12 @@ const build = (
 	return element;
 };
 
+const isFragment = (type: DocumentFragmentConstructor | ElementFunction | string): type is DocumentFragmentConstructor => {
+	return type === DocumentFragment;
+}
+
 export const h = (
-	type: DocumentFragmentConstructor | string,
+	type: DocumentFragmentConstructor | ElementFunction | string,
 	props?: Attributes,
 	...children: Node[]
 ): Element | DocumentFragment => {
@@ -110,7 +119,7 @@ export const h = (
 		}
 	}
 
-	if (typeof type !== 'string') {
+	if (isFragment(type)) {
 		return childrenFragment;
 	}
 

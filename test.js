@@ -368,6 +368,40 @@ test('div with inner fragment', t => {
 	t.is(element.outerHTML, '<div><h1>heading</h1> text<span>outside fragment</span></div>');
 });
 
+test('element created by function', t => {
+	const Icon = () => document.createElement('i');
+
+	const element = <Icon/>;
+
+	t.is(element.outerHTML, '<i></i>');
+});
+
+test('element created by function with existing children and attributes', t => {
+	const Icon = () => {
+		const icon = document.createElement('i');
+		icon.innerHTML = 'Gummy <span>bears</span>';
+		icon.classList.add('sweet');
+		return icon;
+	}
+
+	const element = <Icon/>;
+
+	t.is(element.outerHTML, '<i class="sweet">Gummy <span>bears</span></i>');
+});
+
+test('element created by function with combined children and attributes', t => {
+	const Icon = () => {
+		const icon = document.createElement('i');
+		icon.innerHTML = 'Gummy <span>bears</span>';
+		icon.classList.add('sweet');
+		return icon;
+	}
+
+	const element = <Icon className="yellow"> and <b>lollipops</b></Icon>;
+
+	t.is(element.outerHTML, '<i class="sweet yellow">Gummy <span>bears</span> and <b>lollipops</b></i>');
+});
+
 function getFragmentHTML(fragment /* : DocumentFragment */) /* : string */ {
 	return [...fragment.childNodes]
 		.map(n => n.outerHTML || n.textContent)
