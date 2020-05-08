@@ -1,6 +1,6 @@
 {
   "name": "dom-chef",
-  "version": "4.0.0",
+  "version": "4.1.0-0",
   "description": "Build regular DOM elements using JSX",
   "license": "MIT",
   "repository": "vadimdemedes/dom-chef",
@@ -50,6 +50,7 @@
     "@babel/plugin-transform-react-jsx": "^7.9.4",
     "@sindresorhus/tsconfig": "^0.7.0",
     "ava": "^2.4.0",
+    "eslint-plugin-react": "^7.19.0",
     "esm": "^3.2.25",
     "jsdom": "^16.2.1",
     "sinon": "^9.0.1",
@@ -70,17 +71,16 @@
   },
   "xo": {
     "env": "browser",
+    "plugins": [
+      "react"
+    ],
     "rules": {
       "unicorn/prefer-node-append": "off",
       "@typescript-eslint/prefer-readonly-parameter-types": "off",
       "@typescript-eslint/no-empty-function": "off",
       "@typescript-eslint/no-unsafe-member-access": "off",
-      "no-unused-vars": [
-        "error",
-        {
-          "varsIgnorePattern": "React"
-        }
-      ]
+      "react/jsx-uses-vars": "error",
+      "react/jsx-uses-react": "error"
     }
   }
 }

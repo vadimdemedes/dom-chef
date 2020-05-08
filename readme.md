@@ -16,6 +16,7 @@ It supports everything you expect from JSX, including:
 - [Event listeners](#inline-event-listeners)
 - [Inline CSS](#inline-styles)
 - [Nested elements](#nested-elements)
+- [Function elements](#use-functions)
 
 If something isn't supported (or doesn't work as well as it does in React) please open an issue!
 
@@ -141,6 +142,32 @@ const el = (
 	</svg>
 );
 ```
+
+### Use functions
+
+If element names start with an uppercase letter, `dom-chef` will consider them as element-returning functions:
+
+```jsx
+function Title() {
+	const title = document.createElement('h1');
+	title.classList.add('Heading');
+	return title;
+}
+
+const el = <Title className="red">La Divina Commedia</Title>;
+// <h1 class="Heading red">La Divina Commedia</h1>
+```
+
+This makes JSX also a great way to apply multiple attributes and content at once:
+
+```jsx
+const BaseIcon = () => document.querySelector('svg.icon').cloneNode(true);
+
+document.body.append(
+	<BaseIcon width="16" title="Starry Day" className="margin-0" />
+);
+```
+
 
 
 ## License
