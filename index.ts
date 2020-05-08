@@ -1,38 +1,22 @@
 import svgTagNames from 'svg-tag-names';
-import {flatten} from 'array-flatten';
 
-type InnerHTMLSetter = {__html: string};
-type AttributeValue =
-	| string
-	| number
-	| boolean
-	| undefined
-	| null
-	| CSSStyleDeclaration
-	| InnerHTMLSetter
-	| EventListenerOrEventListenerObject;
-type Attributes = Record<string, AttributeValue>;
+const svgTags = new Set(svgTagNames);
+svgTags.delete('a');
+svgTags.delete('audio');
+svgTags.delete('canvas');
+svgTags.delete('iframe');
+svgTags.delete('script');
+svgTags.delete('video');
+
+type Attributes = JSX.IntrinsicElements['div'];
 type DocumentFragmentConstructor = typeof DocumentFragment;
 type ElementFunction = () => HTMLElement | SVGElement;
 
 // Copied from Preact
 const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|ows|mnc|ntw|ine[ch]|zoo|^ord/i;
 
-const excludeSvgTags = [
-	'a',
-	'audio',
-	'canvas',
-	'iframe',
-	'script',
-	'video'
-];
-
-const svgTags = svgTagNames.filter(name => !excludeSvgTags.includes(name));
-
-const isSVG = (tagName: string): boolean => svgTags.includes(tagName);
-
-const isDangerouslySetInnerHTML = (name: string, value: AttributeValue): value is InnerHTMLSetter => {
-	return Boolean(value) && typeof value === 'object' && name === 'dangerouslySetInnerHTML';
+const isFragment = (type: DocumentFragmentConstructor | ElementFunction): type is DocumentFragmentConstructor => {
+	return type === DocumentFragment;
 };
 
 const setCSSProps = (element: HTMLElement | SVGElement, style: CSSStyleDeclaration): void => {
@@ -45,12 +29,20 @@ const setCSSProps = (element: HTMLElement | SVGElement, style: CSSStyleDeclarati
 	}
 };
 
-const createElement = (tagName: string): HTMLElement | SVGElement => {
-	if (isSVG(tagName)) {
-		return document.createElementNS('http://www.w3.org/2000/svg', tagName);
+const create = (type: DocumentFragmentConstructor | ElementFunction | string): HTMLElement | SVGElement | DocumentFragment => {
+	if (typeof type === 'string') {
+		if (svgTags.has(type)) {
+			return document.createElementNS('http://www.w3.org/2000/svg', type);
+		}
+
+		return document.createElement(type);
 	}
 
-	return document.createElement(tagName);
+	if (isFragment(type)) {
+		return document.createDocumentFragment();
+	}
+
+	return type();
 };
 
 const setAttribute = (element: HTMLElement | SVGElement, name: string, value: string): void => {
@@ -67,60 +59,49 @@ const setAttribute = (element: HTMLElement | SVGElement, name: string, value: st
 	}
 };
 
-const build = (
-	tagName: ElementFunction | string,
-	attrs: Attributes,
-	children: DocumentFragment
-): HTMLElement | SVGElement => {
-	const element = typeof tagName === 'string' ? createElement(tagName) : tagName();
-
-	for (const [name, value] of Object.entries(attrs)) {
-		if (name === 'class' || name === 'className') {
-			const existingClassname = element.getAttribute('class') ?? '';
-			setAttribute(element, 'class', (existingClassname + ' ' + String(value)).trim());
-		} else if (name === 'style') {
-			setCSSProps(element, value as CSSStyleDeclaration);
-		} else if (name.startsWith('on')) {
-			const eventName = name.slice(2).toLowerCase();
-			element.addEventListener(eventName, value as EventListenerOrEventListenerObject);
-		} else if (isDangerouslySetInnerHTML(name, value)) {
-			element.innerHTML = value.__html;
-		} else if (name !== 'key' && value !== false) {
-			setAttribute(element, name, value === true ? '' : value as string);
+const addChildren = (parent: Element | DocumentFragment, children: Node[]): void => {
+	for (const child of children) {
+		if (child instanceof Node) {
+			parent.appendChild(child);
+		} else if (Array.isArray(child)) {
+			addChildren(parent, child);
+		} else if (typeof child !== 'boolean' && typeof child !== 'undefined' && child !== null) {
+			parent.appendChild(document.createTextNode(child));
 		}
 	}
-
-	if (!attrs.dangerouslySetInnerHTML) {
-		element.appendChild(children);
-	}
-
-	return element;
-};
-
-const isFragment = (type: DocumentFragmentConstructor | ElementFunction | string): type is DocumentFragmentConstructor => {
-	return type === DocumentFragment;
 };
 
 export const h = (
 	type: DocumentFragmentConstructor | ElementFunction | string,
-	props?: Attributes,
+	attributes?: Attributes,
 	...children: Node[]
 ): Element | DocumentFragment => {
-	const childrenFragment = document.createDocumentFragment();
+	const element = create(type);
 
-	for (const child of flatten(children)) {
-		if (child instanceof Node) {
-			childrenFragment.appendChild(child);
-		} else if (typeof child !== 'boolean' && typeof child !== 'undefined' && child !== null) {
-			childrenFragment.appendChild(document.createTextNode(child));
+	addChildren(element, children);
+
+	if (element instanceof DocumentFragment || !attributes) {
+		return element;
+	}
+
+	// Set attributes
+	for (const [name, value] of Object.entries(attributes)) {
+		if (name === 'class' || name === 'className') {
+			const existingClassname = element.getAttribute('class') ?? '';
+			setAttribute(element, 'class', (existingClassname + ' ' + String(value)).trim());
+		} else if (name === 'style') {
+			setCSSProps(element, value);
+		} else if (name.startsWith('on')) {
+			const eventName = name.slice(2).toLowerCase();
+			element.addEventListener(eventName, value);
+		} else if (name === 'dangerouslySetInnerHTML' && '__html' in value) {
+			element.innerHTML = value.__html;
+		} else if (name !== 'key' && value !== false) {
+			setAttribute(element, name, value === true ? '' : value);
 		}
 	}
 
-	if (isFragment(type)) {
-		return childrenFragment;
-	}
-
-	return build(type, props ?? {}, childrenFragment);
+	return element;
 };
 
 // Improve TypeScript support for DocumentFragment
