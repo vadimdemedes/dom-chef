@@ -85,7 +85,11 @@ export const h = (
 	}
 
 	// Set attributes
-	for (const [name, value] of Object.entries(attributes)) {
+	for (let [name, value] of Object.entries(attributes)) {
+		if (name === 'htmlFor') {
+			name = 'for';
+		}
+
 		if (name === 'class' || name === 'className') {
 			const existingClassname = element.getAttribute('class') ?? '';
 			setAttribute(element, 'class', (existingClassname + ' ' + String(value)).trim());

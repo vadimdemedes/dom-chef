@@ -265,6 +265,12 @@ test('assign other props', t => {
 	t.is(element.outerHTML, '<a href="video.mp4" id="a" referrerpolicy="no-referrer">Download</a>');
 });
 
+test('assign htmlFor prop', t => {
+	const element = <label htmlFor="name-input">Full name</label>;
+
+	t.is(element.outerHTML, '<label for="name-input">Full name</label>');
+});
+
 test('assign or skip boolean props', t => {
 	const element = <a download disabled={false} contenteditable={true}>Download</a>;
 
