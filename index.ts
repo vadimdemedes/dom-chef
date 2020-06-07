@@ -12,6 +12,12 @@ type Attributes = JSX.IntrinsicElements['div'];
 type DocumentFragmentConstructor = typeof DocumentFragment;
 type ElementFunction = () => HTMLElement | SVGElement;
 
+declare global {
+	namespace JSX {
+		interface Element extends HTMLElement {}
+	}
+}
+
 // Copied from Preact
 const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|ows|mnc|ntw|ine[ch]|zoo|^ord/i;
 
