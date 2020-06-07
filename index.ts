@@ -122,6 +122,8 @@ export const h = (
 
 export const Fragment = (typeof DocumentFragment === 'function' ? DocumentFragment : () => {}) as Fragment;
 
+// Improve TypeScript support for DocumentFragment
+// https://github.com/Microsoft/TypeScript/issues/20469
 export default {
 	createElement: h,
 	Fragment
