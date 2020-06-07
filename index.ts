@@ -18,6 +18,12 @@ declare global {
 	}
 }
 
+interface JSXElementClassDocumentFragment extends DocumentFragment, JSX.ElementClass {}
+interface Fragment {
+	prototype: JSXElementClassDocumentFragment;
+	new (): JSXElementClassDocumentFragment;
+}
+
 // Copied from Preact
 const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|ows|mnc|ntw|ine[ch]|zoo|^ord/i;
 
@@ -114,9 +120,9 @@ export const h = (
 	return element;
 };
 
-// Improve TypeScript support for DocumentFragment
-// https://github.com/Microsoft/TypeScript/issues/20469
+export const Fragment = (typeof DocumentFragment === 'function' ? DocumentFragment : () => {}) as Fragment;
+
 export default {
 	createElement: h,
-	Fragment: typeof DocumentFragment === 'function' ? DocumentFragment : () => {}
+	Fragment
 };
