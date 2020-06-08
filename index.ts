@@ -14,7 +14,11 @@ type ElementFunction = () => HTMLElement | SVGElement;
 
 declare global {
 	namespace JSX {
-		interface Element extends HTMLElement {}
+		interface Element extends HTMLElement, SVGElement, DocumentFragment {
+			addEventListener: HTMLElement['addEventListener'];
+			removeEventListener: HTMLElement['removeEventListener'];
+			className: HTMLElement['className'];
+		}
 	}
 }
 
