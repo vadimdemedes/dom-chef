@@ -10,7 +10,7 @@ svgTags.delete('video');
 
 type Attributes = JSX.IntrinsicElements['div'];
 type DocumentFragmentConstructor = typeof DocumentFragment;
-type ElementFunction = () => HTMLElement | SVGElement;
+type ElementFunction = ((props?: any) => HTMLElement | SVGElement) & { defaultProps?: any };
 
 // Copied from Preact
 const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|ows|mnc|ntw|ine[ch]|zoo|^ord/i;
@@ -42,7 +42,7 @@ const create = (type: DocumentFragmentConstructor | ElementFunction | string): H
 		return document.createDocumentFragment();
 	}
 
-	return type();
+	return type(type.defaultProps);
 };
 
 const setAttribute = (element: HTMLElement | SVGElement, name: string, value: string): void => {
