@@ -59,8 +59,7 @@ jobs:
       - run: echo $importer > index.js
       - run: npm install ./artifact
       - run: npx snowpack@2 build
-      - run: ls -R
-      - run: cat web_modules/dom-chef.js
+      - run: cat build/web_modules/dom-chef.js
 
   Node:
     runs-on: ubuntu-latest
