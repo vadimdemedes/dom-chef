@@ -8,7 +8,7 @@ import './_fixtures';
 import React from '.';
 
 test('render childless element', t => {
-	const element = <br/>;
+	const element = <br />;
 
 	t.is(element.outerHTML, '<br>');
 });
@@ -16,7 +16,7 @@ test('render childless element', t => {
 test('render div with children', t => {
 	const element = (
 		<div>
-			<span/>
+			<span />
 		</div>
 	);
 
@@ -26,8 +26,8 @@ test('render div with children', t => {
 test('render div with multiple children', t => {
 	const element = (
 		<div>
-			<span/>
-			<br/>
+			<span />
+			<br />
 		</div>
 	);
 
@@ -46,7 +46,10 @@ test('render array of children', t => {
 		</div>
 	);
 
-	t.is(element.outerHTML, '<div><span>0</span><span>1</span><span>2</span></div>');
+	t.is(
+		element.outerHTML,
+		'<div><span>0</span><span>1</span><span>2</span></div>'
+	);
 });
 
 test('render number child', t => {
@@ -76,9 +79,7 @@ test('render string child', t => {
 test('render multiple string children', t => {
 	const element = (
 		<span>
-			{'hello'}
-			{' '}
-			{'world'}
+			{'hello'} {'world'}
 		</span>
 	);
 
@@ -86,11 +87,7 @@ test('render multiple string children', t => {
 });
 
 test('render div with TextNode child', t => {
-	const element = (
-		<div>
-			{document.createTextNode('Hello')}
-		</div>
-	);
+	const element = <div>{document.createTextNode('Hello')}</div>;
 
 	t.is(element.outerHTML, '<div>Hello</div>');
 });
@@ -139,17 +136,16 @@ test('render other elements inside', t => {
 		</div>
 	);
 
-	t.is(element.outerHTML, '<div><a href="#first">First</a><a href="#second">Second</a></div>');
+	t.is(
+		element.outerHTML,
+		'<div><a href="#first">First</a><a href="#second">Second</a></div>'
+	);
 });
 test('render document fragments inside', t => {
 	const template = document.createElement('template');
 	template.innerHTML = 'Hello, <strong>World!</strong> ';
 	const fragment = template.content;
-	const element = (
-		<div>
-			{fragment}
-		</div>
-	);
+	const element = <div>{fragment}</div>;
 
 	t.is(element.outerHTML, '<div>Hello, <strong>World!</strong> </div>');
 });
@@ -205,8 +201,8 @@ test.serial('create svg links with xlink namespace', t => {
 	const element = (
 		<svg>
 			<text id="text">Test</text>
-			<use xlinkHref="#text"/>
-			<use xlink-invalid-attribute="#text"/>
+			<use xlinkHref="#text" />
+			<use xlink-invalid-attribute="#text" />
 		</svg>
 	);
 
@@ -214,17 +210,21 @@ test.serial('create svg links with xlink namespace', t => {
 	t.true(Element.prototype.setAttributeNS.calledOnce);
 
 	const xmlns = 'http://www.w3.org/1999/xlink';
-	t.deepEqual(Element.prototype.setAttributeNS.firstCall.args, [xmlns, 'xlink:href', '#text']);
+	t.deepEqual(Element.prototype.setAttributeNS.firstCall.args, [
+		xmlns,
+		'xlink:href',
+		'#text'
+	]);
 });
 
 test('assign className', t => {
-	const element = <span className="a b c"/>;
+	const element = <span className="a b c" />;
 
 	t.is(element.outerHTML, '<span class="a b c"></span>');
 });
 
 test('assign className via class alias', t => {
-	const element = <span class="a b c"/>;
+	const element = <span class="a b c" />;
 
 	t.is(element.outerHTML, '<span class="a b c"></span>');
 });
@@ -237,9 +237,12 @@ test('assign styles', t => {
 		fontSize: 12
 	};
 
-	const element = <span {...{style}}/>;
+	const element = <span {...{style}} />;
 
-	t.is(element.outerHTML, '<span style="padding-top: 10px; width: 200px; height: 200px; font-size: 12px;"></span>');
+	t.is(
+		element.outerHTML,
+		'<span style="padding-top: 10px; width: 200px; height: 200px; font-size: 12px;"></span>'
+	);
 });
 
 test('assign styles with dashed property names', t => {
@@ -248,15 +251,25 @@ test('assign styles with dashed property names', t => {
 		'font-size': 12
 	};
 
-	const element = <span style={style}/>;
+	const element = <span style={style} />;
 
-	t.is(element.outerHTML, '<span style="padding-top: 10px; font-size: 12px;"></span>');
+	t.is(
+		element.outerHTML,
+		'<span style="padding-top: 10px; font-size: 12px;"></span>'
+	);
 });
 
 test('assign other props', t => {
-	const element = <a href="video.mp4" id="a" referrerpolicy="no-referrer">Download</a>;
+	const element = (
+		<a href="video.mp4" id="a" referrerpolicy="no-referrer">
+			Download
+		</a>
+	);
 
-	t.is(element.outerHTML, '<a href="video.mp4" id="a" referrerpolicy="no-referrer">Download</a>');
+	t.is(
+		element.outerHTML,
+		'<a href="video.mp4" id="a" referrerpolicy="no-referrer">Download</a>'
+	);
 });
 
 test('assign htmlFor prop', t => {
@@ -266,21 +279,36 @@ test('assign htmlFor prop', t => {
 });
 
 test('assign or skip boolean props', t => {
-	const element = <a download disabled={false} contenteditable={true}>Download</a>;
+	const element = (
+		<a download disabled={false} contenteditable={true}>
+			Download
+		</a>
+	);
 
 	t.is(element.outerHTML, '<a download="" contenteditable="">Download</a>');
 });
 
 test.failing('assign booleanish false props', t => {
-	const element = <span contentEditable><a contentEditable={false}>Download</a></span>;
-	const input = <textarea spellCheck={false}/>;
+	const element = (
+		<span contentEditable>
+			<a contentEditable={false}>Download</a>
+		</span>
+	);
+	const input = <textarea spellCheck={false} />;
 
-	t.is(element.outerHTML, '<span contenteditable="">a contenteditable="false">Download</a></span>');
+	t.is(
+		element.outerHTML,
+		'<span contenteditable="">a contenteditable="false">Download</a></span>'
+	);
 	t.is(input.outerHTML, '<textarea spellcheck="false"></textarea>');
 });
 
 test('skip undefined and null props', t => {
-	const element = <a href={undefined} title={null}>Download</a>;
+	const element = (
+		<a href={undefined} title={null}>
+			Download
+		</a>
+	);
 
 	t.is(element.outerHTML, '<a>Download</a>');
 });
@@ -292,17 +320,15 @@ test('escape props', t => {
 });
 
 test('escape children', t => {
-	const element = (
-		<div>
-			{'<script>alert();</script>'}
-		</div>
-	);
+	const element = <div>{'<script>alert();</script>'}</div>;
 
 	t.is(element.outerHTML, '<div>&lt;script&gt;alert();&lt;/script&gt;</div>');
 });
 
 test('set html', t => {
-	const element = <div dangerouslySetInnerHTML={{__html: '<script>alert();</script>'}}/>;
+	const element = (
+		<div dangerouslySetInnerHTML={{__html: '<script>alert();</script>'}} />
+	);
 
 	t.is(element.outerHTML, '<div><script>alert();</script></div>');
 });
@@ -311,12 +337,19 @@ test('attach event listeners', t => {
 	spy(EventTarget.prototype, 'addEventListener');
 
 	const handleClick = function () {};
-	const element = <a href="#" onClick={handleClick}>Download</a>;
+	const element = (
+		<a href="#" onClick={handleClick}>
+			Download
+		</a>
+	);
 
 	t.is(element.outerHTML, '<a href="#">Download</a>');
 
 	t.true(EventTarget.prototype.addEventListener.calledOnce);
-	t.deepEqual(EventTarget.prototype.addEventListener.firstCall.args, ['click', handleClick]);
+	t.deepEqual(EventTarget.prototype.addEventListener.firstCall.args, [
+		'click',
+		handleClick
+	]);
 });
 
 test('fragment', t => {
@@ -365,13 +398,16 @@ test('div with inner fragment', t => {
 		</div>
 	);
 
-	t.is(element.outerHTML, '<div><h1>heading</h1> text<span>outside fragment</span></div>');
+	t.is(
+		element.outerHTML,
+		'<div><h1>heading</h1> text<span>outside fragment</span></div>'
+	);
 });
 
 test('element created by function', t => {
 	const Icon = () => document.createElement('i');
 
-	const element = <Icon/>;
+	const element = <Icon />;
 
 	t.is(element.outerHTML, '<i></i>');
 });
@@ -384,7 +420,7 @@ test('element created by function with existing children and attributes', t => {
 		return icon;
 	};
 
-	const element = <Icon/>;
+	const element = <Icon />;
 
 	t.is(element.outerHTML, '<i class="sweet">Gummy <span>bears</span></i>');
 });
@@ -399,7 +435,10 @@ test('element created by function with combined children and attributes', t => {
 
 	const element = <Icon className="yellow"> and <b>lollipops</b></Icon>;
 
-	t.is(element.outerHTML, '<i class="sweet yellow">Gummy <span>bears</span> and <b>lollipops</b></i>');
+	t.is(
+		element.outerHTML,
+		'<i class="sweet yellow">Gummy <span>bears</span> and <b>lollipops</b></i>'
+	);
 });
 
 function getFragmentHTML(fragment /* : DocumentFragment */) /* : string */ {
