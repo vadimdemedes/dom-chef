@@ -370,6 +370,33 @@ test('attach event listeners', t => {
 		'click',
 		handleClick
 	]);
+
+	EventTarget.prototype.addEventListener.restore();
+});
+
+test('attach event listeners but drop the dash after on', t => {
+	spy(EventTarget.prototype, 'addEventListener');
+
+	const handler = function () {};
+	const element = (
+		<a href="#" onremote-input={handler} on-remote-input={handler}>
+			Download
+		</a>
+	);
+
+	t.is(element.outerHTML, '<a href="#">Download</a>');
+
+	t.true(EventTarget.prototype.addEventListener.calledTwice);
+	t.deepEqual(EventTarget.prototype.addEventListener.firstCall.args, [
+		'remote-input',
+		handler
+	]);
+	t.deepEqual(EventTarget.prototype.addEventListener.secondCall.args, [
+		'remote-input',
+		handler
+	]);
+
+	EventTarget.prototype.addEventListener.restore();
 });
 
 test('fragment', t => {
