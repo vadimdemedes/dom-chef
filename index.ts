@@ -138,7 +138,9 @@ export const h = (
 
 // Improve TypeScript support for DocumentFragment
 // https://github.com/Microsoft/TypeScript/issues/20469
-export default {
+const React = {
 	createElement: h,
 	Fragment: typeof DocumentFragment === 'function' ? DocumentFragment : () => {}
 };
+
+export default React;
