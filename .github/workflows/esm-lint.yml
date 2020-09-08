@@ -31,7 +31,7 @@ jobs:
           name: package
       - run: npm install ./package
       - run: echo $importer > index.js
-      - run: webpack@4 index.js
+      - run: webpack index.js
       - run: cat dist/main.js
 
   Parcel:
@@ -53,9 +53,9 @@ jobs:
       - uses: actions/download-artifact@v1
         with:
           name: package
-      - run: npm install ./package rollup @rollup/plugin-node-resolve
+      - run: npm install ./package rollup@2 @rollup/plugin-node-resolve
       - run: echo $importer > index.js
-      - run: npx rollup@2 -p node-resolve index.js
+      - run: npx rollup -p node-resolve index.js
 
   Snowpack:
     runs-on: ubuntu-latest
@@ -69,18 +69,6 @@ jobs:
       - run: npm install ./package
       - run: npx snowpack@2 build index.js
       - run: cat web_modules/webext-options-sync.js
-
-  TypeScript:
-    runs-on: ubuntu-latest
-    needs: Pack
-    steps:
-      - uses: actions/download-artifact@v1
-        with:
-          name: package
-      - run: npm install ./package @types/react
-      - run: echo $importer > index.ts
-      - run: tsc index.ts
-      - run: cat index.js
 
   Node:
     runs-on: ubuntu-latest
