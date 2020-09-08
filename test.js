@@ -265,6 +265,20 @@ test('assign styles with dashed property names', t => {
 	);
 });
 
+test('assign styles with css variables', t => {
+	const style = {
+		'--padding-top': 10,
+		'--myCamelCaseVar': 'red'
+	};
+
+	const element = <span style={style} />;
+
+	t.is(
+		element.outerHTML,
+		'<span style="--padding-top: 10; --myCamelCaseVar: red;"></span>'
+	);
+});
+
 test('assign other props', t => {
 	const element = (
 		<a href="video.mp4" id="a" referrerpolicy="no-referrer">

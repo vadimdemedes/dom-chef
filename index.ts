@@ -27,12 +27,14 @@ const setCSSProps = (
 	element: HTMLElement | SVGElement,
 	style: CSSStyleDeclaration
 ): void => {
-	for (let [name, value] of Object.entries(style)) {
-		if (typeof value === 'number' && !IS_NON_DIMENSIONAL.test(name)) {
-			value = `${value as string}px`;
+	for (const [name, value] of Object.entries(style)) {
+		if (name.startsWith('-')) {
+			element.style.setProperty(name, value);
+		} else if (typeof value === 'number' && !IS_NON_DIMENSIONAL.test(name)) {
+			element.style[name as any] = `${value as string}px`;
+		} else {
+			element.style[name as any] = value;
 		}
-
-		element.style[name as any] = value;
 	}
 };
 
