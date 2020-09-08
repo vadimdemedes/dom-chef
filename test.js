@@ -277,7 +277,7 @@ test('assign styles with css variables', t => {
 		element.outerHTML,
 		'<span style="--padding-top: 10; --myCamelCaseVar: red;"></span>'
 	);
-})
+});
 
 test('assign other props', t => {
 	const element = (
