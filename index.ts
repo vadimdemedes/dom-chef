@@ -126,7 +126,7 @@ export const h = (
 		} else if (name === 'style') {
 			setCSSProps(element, value);
 		} else if (name.startsWith('on')) {
-			const eventName = name.slice(2).toLowerCase();
+			const eventName = name.slice(2).toLowerCase().replace(/^-/, '');
 			element.addEventListener(eventName, value);
 		} else if (name === 'dangerouslySetInnerHTML' && '__html' in value) {
 			element.innerHTML = value.__html;
