@@ -10,16 +10,23 @@ svgTags.delete('video');
 
 type Attributes = JSX.IntrinsicElements['div'];
 type DocumentFragmentConstructor = typeof DocumentFragment;
-type ElementFunction = ((props?: any) => HTMLElement | SVGElement) & { defaultProps?: any };
+type ElementFunction = ((props?: any) => HTMLElement | SVGElement) & {
+	defaultProps?: any;
+};
 
 // Copied from Preact
 const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|ows|mnc|ntw|ine[ch]|zoo|^ord/i;
 
-const isFragment = (type: DocumentFragmentConstructor | ElementFunction): type is DocumentFragmentConstructor => {
+const isFragment = (
+	type: DocumentFragmentConstructor | ElementFunction
+): type is DocumentFragmentConstructor => {
 	return type === DocumentFragment;
 };
 
-const setCSSProps = (element: HTMLElement | SVGElement, style: CSSStyleDeclaration): void => {
+const setCSSProps = (
+	element: HTMLElement | SVGElement,
+	style: CSSStyleDeclaration
+): void => {
 	for (let [name, value] of Object.entries(style)) {
 		if (typeof value === 'number' && !IS_NON_DIMENSIONAL.test(name)) {
 			value = `${value as string}px`;
@@ -29,7 +36,9 @@ const setCSSProps = (element: HTMLElement | SVGElement, style: CSSStyleDeclarati
 	}
 };
 
-const create = (type: DocumentFragmentConstructor | ElementFunction | string): HTMLElement | SVGElement | DocumentFragment => {
+const create = (
+	type: DocumentFragmentConstructor | ElementFunction | string
+): HTMLElement | SVGElement | DocumentFragment => {
 	if (typeof type === 'string') {
 		if (svgTags.has(type)) {
 			return document.createElementNS('http://www.w3.org/2000/svg', type);
@@ -45,7 +54,11 @@ const create = (type: DocumentFragmentConstructor | ElementFunction | string): H
 	return type(type.defaultProps);
 };
 
-const setAttribute = (element: HTMLElement | SVGElement, name: string, value: string): void => {
+const setAttribute = (
+	element: HTMLElement | SVGElement,
+	name: string,
+	value: string
+): void => {
 	if (value === undefined || value === null) {
 		return;
 	}
@@ -53,19 +66,30 @@ const setAttribute = (element: HTMLElement | SVGElement, name: string, value: st
 	// Naive support for xlink namespace
 	// Full list: https://github.com/facebook/react/blob/1843f87/src/renderers/dom/shared/SVGDOMPropertyConfig.js#L258-L264
 	if (/^xlink[AHRST]/.test(name)) {
-		element.setAttributeNS('http://www.w3.org/1999/xlink', name.replace('xlink', 'xlink:').toLowerCase(), value);
+		element.setAttributeNS(
+			'http://www.w3.org/1999/xlink',
+			name.replace('xlink', 'xlink:').toLowerCase(),
+			value
+		);
 	} else {
 		element.setAttribute(name, value);
 	}
 };
 
-const addChildren = (parent: Element | DocumentFragment, children: Node[]): void => {
+const addChildren = (
+	parent: Element | DocumentFragment,
+	children: Node[]
+): void => {
 	for (const child of children) {
 		if (child instanceof Node) {
 			parent.appendChild(child);
 		} else if (Array.isArray(child)) {
 			addChildren(parent, child);
-		} else if (typeof child !== 'boolean' && typeof child !== 'undefined' && child !== null) {
+		} else if (
+			typeof child !== 'boolean' &&
+			typeof child !== 'undefined' &&
+			child !== null
+		) {
 			parent.appendChild(document.createTextNode(child));
 		}
 	}
@@ -92,7 +116,11 @@ export const h = (
 
 		if (name === 'class' || name === 'className') {
 			const existingClassname = element.getAttribute('class') ?? '';
-			setAttribute(element, 'class', (existingClassname + ' ' + String(value)).trim());
+			setAttribute(
+				element,
+				'class',
+				(existingClassname + ' ' + String(value)).trim()
+			);
 		} else if (name === 'style') {
 			setCSSProps(element, value);
 		} else if (name.startsWith('on')) {

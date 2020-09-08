@@ -1,87 +1,87 @@
 {
-  "name": "dom-chef",
-  "version": "4.2.0",
-  "description": "Build regular DOM elements using JSX",
-  "license": "MIT",
-  "repository": "vadimdemedes/dom-chef",
-  "author": {
-    "name": "Vadim Demedes",
-    "email": "vdemedes@gmail.com",
-    "url": "https://github.com/vadimdemedes"
-  },
-  "maintainers": [
-    {
-      "name": "Federico Brigante",
-      "email": "opensource@bfred.it",
-      "url": "https://bfred.it"
-    }
-  ],
-  "scripts": {
-    "build": "rollup -p json -p 'typescript={outDir: \".\"}' --format esm --dir . index.ts",
-    "prepack": "npm run build",
-    "test": "npm run build && ava && xo",
-    "watch": "npm run build -- --watch"
-  },
-  "main": "index.js",
-  "module": "index.js",
-  "type": "module",
-  "files": [
-    "index.js",
-    "index.d.ts"
-  ],
-  "keywords": [
-    "jsx",
-    "dom",
-    "native",
-    "innerHTML",
-    "document",
-    "createElement",
-    "create",
-    "element",
-    "documentFragment",
-    "typescript"
-  ],
-  "devDependencies": {
-    "@ava/babel": "^1.0.1",
-    "@babel/plugin-transform-react-jsx": "^7.9.4",
-    "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-typescript": "^5.0.2",
-    "@sindresorhus/tsconfig": "^0.7.0",
-    "@types/react": "^16.9.34",
-    "ava": "^2.4.0",
-    "eslint-plugin-react": "^7.19.0",
-    "esm": "^3.2.25",
-    "jsdom": "^16.2.2",
-    "rollup": "^2.26.10",
-    "sinon": "^9.0.2",
-    "svg-tag-names": "^2.0.1",
-    "typescript": "^3.8.3",
-    "xo": "^0.30.0"
-  },
-  "ava": {
-    "require": [
-      "esm"
-    ],
-    "babel": {
-      "testOptions": {
-        "plugins": [
-          "@babel/plugin-transform-react-jsx"
-        ]
-      }
-    }
-  },
-  "xo": {
-    "env": "browser",
-    "plugins": [
-      "react"
-    ],
-    "rules": {
-      "unicorn/prefer-node-append": "off",
-      "@typescript-eslint/prefer-readonly-parameter-types": "off",
-      "@typescript-eslint/no-empty-function": "off",
-      "@typescript-eslint/no-unsafe-member-access": "off",
-      "react/jsx-uses-vars": "error",
-      "react/jsx-uses-react": "error"
-    }
-  }
+	"name": "dom-chef",
+	"version": "4.2.0",
+	"description": "Build regular DOM elements using JSX",
+	"keywords": [
+		"jsx",
+		"dom",
+		"native",
+		"innerHTML",
+		"document",
+		"createElement",
+		"create",
+		"element",
+		"documentFragment",
+		"typescript"
+	],
+	"repository": "vadimdemedes/dom-chef",
+	"license": "MIT",
+	"author": {
+		"name": "Vadim Demedes",
+		"email": "vdemedes@gmail.com",
+		"url": "https://github.com/vadimdemedes"
+	},
+	"maintainers": [
+		{
+			"name": "Federico Brigante",
+			"email": "opensource@bfred.it",
+			"url": "https://bfred.it"
+		}
+	],
+	"type": "module",
+	"main": "index.js",
+	"module": "index.js",
+	"files": [
+		"index.js",
+		"index.d.ts"
+	],
+	"scripts": {
+		"build": "rollup -p json -p 'typescript={outDir: \".\"}' --format esm --dir . index.ts",
+		"prepack": "npm run build",
+		"test": "npm run build && ava && xo",
+		"watch": "npm run build -- --watch"
+	},
+	"xo": {
+		"env": "browser",
+		"plugins": [
+			"react"
+		],
+		"rules": {
+			"unicorn/prefer-node-append": "off",
+			"@typescript-eslint/prefer-readonly-parameter-types": "off",
+			"@typescript-eslint/no-empty-function": "off",
+			"@typescript-eslint/no-unsafe-member-access": "off",
+			"react/jsx-uses-vars": "error",
+			"react/jsx-uses-react": "error"
+		}
+	},
+	"ava": {
+		"babel": {
+			"testOptions": {
+				"plugins": [
+					"@babel/plugin-transform-react-jsx"
+				]
+			}
+		},
+		"require": [
+			"esm"
+		]
+	},
+	"devDependencies": {
+		"@ava/babel": "^1.0.1",
+		"@babel/plugin-transform-react-jsx": "^7.9.4",
+		"@rollup/plugin-json": "^4.1.0",
+		"@rollup/plugin-typescript": "^5.0.2",
+		"@sindresorhus/tsconfig": "^0.7.0",
+		"@types/react": "^16.9.34",
+		"ava": "^2.4.0",
+		"eslint-plugin-react": "^7.19.0",
+		"esm": "^3.2.25",
+		"jsdom": "^16.2.2",
+		"rollup": "^2.26.10",
+		"sinon": "^9.0.2",
+		"svg-tag-names": "^2.0.1",
+		"typescript": "^3.8.3",
+		"xo": "^0.30.0"
+	}
 }

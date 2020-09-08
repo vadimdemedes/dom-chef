@@ -36,13 +36,13 @@ to `DocumentFragment` [if you need fragment support](https://reactjs.org/blog/20
 // babel.config.js
 
 const plugins = [
-  [
-    '@babel/plugin-transform-react-jsx',
-    {
-      pragma: 'h',
-      pragmaFrag: 'DocumentFragment',
-    }
-  ]
+	[
+		'@babel/plugin-transform-react-jsx',
+		{
+			pragma: 'h',
+			pragmaFrag: 'DocumentFragment',
+		},
+	],
 ];
 
 // ...
@@ -57,7 +57,9 @@ const handleClick = e => {
 
 const el = (
 	<div class="header">
-		<a href="#" class="link" onClick={handleClick}>Download</a>
+		<a href="#" class="link" onClick={handleClick}>
+			Download
+		</a>
 	</div>
 );
 
@@ -92,7 +94,7 @@ const el = <span className="a b c">Text</span>;
 ### Inline styles
 
 ```jsx
-const el = <div style={{padding: 10, background: '#000'}}/>;
+const el = <div style={{padding: 10, background: '#000'}} />;
 ```
 
 ### Inline event listeners
@@ -126,7 +128,7 @@ const post = (
 ```jsx
 const dangerousHTML = '<script>alert();</script>';
 
-const wannaCry = <div dangerouslySetInnerHTML={{__html: dangerousHTML}}/>;
+const wannaCry = <div dangerouslySetInnerHTML={{__html: dangerousHTML}} />;
 ```
 
 ### Render SVG
@@ -183,7 +185,6 @@ AlertIcon.defaultProps = {
 const el = <AlertIcon className="margin-0" size={32} />;
 // <svg width="16" class="icon icon-alert margin-0" size="32" />
 ```
-
 
 ## License
 
