@@ -1,4 +1,4 @@
-# Copied from https://github.com/sindresorhus/module-requests/issues/116
+# Copied, adapted and updated from https://github.com/sindresorhus/module-requests/issues/116
 
 name: ESM
 
@@ -12,24 +12,21 @@ jobs:
   Pack:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - run: npm install
       - run: npm run build --if-present
       - run: npm pack --dry-run
       - run: npm pack --silent 2>/dev/null | xargs cat | tar -xz
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v2
         with:
-          name: package
           path: package
 
   Webpack:
     runs-on: ubuntu-latest
     needs: Pack
     steps:
-      - uses: actions/download-artifact@v1
-        with:
-          name: package
-      - run: npm install ./package
+      - uses: actions/download-artifact@v2
+      - run: npm install ./artifact
       - run: echo $importer > index.js
       - run: webpack index.js
       - run: cat dist/main.js
@@ -38,10 +35,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: Pack
     steps:
-      - uses: actions/download-artifact@v1
-        with:
-          name: package
-      - run: npm install ./package
+      - uses: actions/download-artifact@v2
+      - run: npm install ./artifact
       - run: echo $importer > index.js
       - run: npx parcel@1 build index.js
       - run: cat dist/index.js
@@ -50,10 +45,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: Pack
     steps:
-      - uses: actions/download-artifact@v1
-        with:
-          name: package
-      - run: npm install ./package rollup@2 @rollup/plugin-node-resolve
+      - uses: actions/download-artifact@v2
+      - run: npm install ./artifact rollup@2 @rollup/plugin-node-resolve
       - run: echo $importer > index.js
       - run: npx rollup -p node-resolve index.js
 
@@ -61,12 +54,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: Pack
     steps:
-      - uses: actions/download-artifact@v1
-        with:
-          name: package
+      - uses: actions/download-artifact@v2
       - run: echo '{}' > package.json
       - run: echo $importer > index.js
-      - run: npm install ./package
+      - run: npm install ./artifact
       - run: npx snowpack@2 build
       - run: cat web_modules/dom-chef.js
 
@@ -74,13 +65,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: Pack
     steps:
-      - uses: actions/download-artifact@v1
-        with:
-          name: package
+      - uses: actions/download-artifact@v2
       - uses: actions/setup-node@v1
         with:
           node-version: '13.x'
       - run: 'echo ''{"type": "module"}'' > package.json'
       - run: echo $importer > index.js
-      - run: npm install ./package
+      - run: npm install ./artifact
       - run: node index.js
