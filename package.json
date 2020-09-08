@@ -17,10 +17,12 @@
     }
   ],
   "scripts": {
-    "build": "tsc",
-    "prepublishOnly": "tsc",
-    "test": "tsc && xo && ava",
-    "watch": "tsc --watch"
+    "ava": "ava",
+    "build": "rollup -p json -p 'typescript={outDir: \".\"}' --format esm --dir . index.ts",
+    "prepack": "npm run build",
+    "test": "run-p build ava xo",
+    "watch": "npm run build -- --watch",
+    "xo": "xo"
   },
   "main": "index.js",
   "module": "index.js",
@@ -41,19 +43,21 @@
     "documentFragment",
     "typescript"
   ],
-  "dependencies": {
-    "svg-tag-names": "^2.0.1"
-  },
   "devDependencies": {
     "@ava/babel": "^1.0.1",
     "@babel/plugin-transform-react-jsx": "^7.9.4",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-typescript": "^5.0.2",
     "@sindresorhus/tsconfig": "^0.7.0",
     "@types/react": "^16.9.34",
     "ava": "^2.4.0",
     "eslint-plugin-react": "^7.19.0",
     "esm": "^3.2.25",
     "jsdom": "^16.2.2",
+    "npm-run-all": "^4.1.5",
+    "rollup": "^2.26.10",
     "sinon": "^9.0.2",
+    "svg-tag-names": "^2.0.1",
     "typescript": "^3.8.3",
     "xo": "^0.30.0"
   },
