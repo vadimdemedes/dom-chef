@@ -6,7 +6,12 @@ env:
   importer: "import React from 'dom-chef'"
 
 on:
-  - pull_request
+  pull_request:
+    branches:
+      - '*'
+  push:
+    branches:
+      - master
 
 jobs:
   Pack:
