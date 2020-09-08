@@ -1,17 +1,11 @@
-const {JSDOM} = require('jsdom');
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
+import test from 'ava';
 const {spy} = require('sinon');
-const test = require('ava');
 
-// This order and `require` are necessary because the
-// `DocumentFragment` global is used/exported right away
-const {window} = new JSDOM('…');
-global.document = window.document;
-global.Node = window.Node;
-global.Element = window.Element;
-global.DocumentFragment = window.DocumentFragment;
-global.EventTarget = window.EventTarget;
-
-const React = require('.').default;
+import './_fixtures';
+import React from '.';
 
 test('render childless element', t => {
 	const element = <br/>;
