@@ -1,104 +1,104 @@
 {
-  "name": "dom-chef",
-  "version": "4.2.0",
-  "description": "Build regular DOM elements using JSX",
-  "license": "MIT",
-  "repository": "vadimdemedes/dom-chef",
-  "author": {
-    "name": "Vadim Demedes",
-    "email": "vdemedes@gmail.com",
-    "url": "https://github.com/vadimdemedes"
-  },
-  "maintainers": [
-    {
-      "name": "Federico Brigante",
-      "email": "opensource@bfred.it",
-      "url": "https://bfred.it"
-    }
-  ],
-  "scripts": {
-    "build": "rollup -c",
-    "prepack": "rollup -c",
-    "test": "run-p build ava xo",
-    "watch": "rollup -c --watch",
-    "ava": "ava",
-    "xo": "xo"
-  },
-  "main": "index.js",
-  "module": "index.js",
-  "type": "module",
-  "files": [
-    "index.js",
-    "index.d.ts"
-  ],
-  "keywords": [
-    "jsx",
-    "dom",
-    "native",
-    "innerHTML",
-    "document",
-    "createElement",
-    "create",
-    "element",
-    "documentFragment",
-    "typescript"
-  ],
-  "dependencies": {
-    "@rollup/plugin-json": "^4.1.0",
-    "svg-tag-names": "^2.0.1"
-  },
-  "devDependencies": {
-    "@ava/babel": "^1.0.1",
-    "@babel/plugin-syntax-jsx": "^7.10.4",
-    "@babel/plugin-transform-react-jsx": "^7.10.4",
-    "@babel/preset-react": "^7.10.4",
-    "@babel/preset-stage-3": "^7.8.3",
-    "@rollup/plugin-commonjs": "^15.0.0",
-    "@rollup/plugin-node-resolve": "^9.0.0",
-    "@rollup/plugin-typescript": "^5.0.2",
-    "@sindresorhus/tsconfig": "^0.7.0",
-    "@types/react": "^16.9.49",
-    "ava": "^3.12.1",
-    "eslint-plugin-react": "^7.20.6",
-    "esm": "^3.2.25",
-    "jsdom": "^16.4.0",
-    "npm-run-all": "^4.1.5",
-    "rollup": "^2.26.10",
-    "sinon": "^9.0.3",
-    "typescript": "^4.0.2",
-    "xo": "^0.33.1"
-  },
-  "ava": {
-    "babel": {
-      "extensions": [
-        "js",
-        "jsx"
-      ],
-      "testOptions": {
-        "plugins": [
-          "@babel/plugin-syntax-jsx"
-        ],
-        "presets": [
-          [
-            "module:@ava/babel/stage-4",
-            false
-          ]
-        ]
-      }
-    }
-  },
-  "xo": {
-    "env": "browser",
-    "plugins": [
-      "react"
-    ],
-    "rules": {
-      "unicorn/prefer-node-append": "off",
-      "@typescript-eslint/prefer-readonly-parameter-types": "off",
-      "@typescript-eslint/no-empty-function": "off",
-      "@typescript-eslint/no-unsafe-member-access": "off",
-      "react/jsx-uses-vars": "error",
-      "react/jsx-uses-react": "error"
-    }
-  }
+	"name": "dom-chef",
+	"version": "4.2.0",
+	"description": "Build regular DOM elements using JSX",
+	"keywords": [
+		"jsx",
+		"dom",
+		"native",
+		"innerHTML",
+		"document",
+		"createElement",
+		"create",
+		"element",
+		"documentFragment",
+		"typescript"
+	],
+	"repository": "vadimdemedes/dom-chef",
+	"license": "MIT",
+	"author": {
+		"name": "Vadim Demedes",
+		"email": "vdemedes@gmail.com",
+		"url": "https://github.com/vadimdemedes"
+	},
+	"maintainers": [
+		{
+			"name": "Federico Brigante",
+			"email": "opensource@bfred.it",
+			"url": "https://bfred.it"
+		}
+	],
+	"type": "module",
+	"main": "index.js",
+	"module": "index.js",
+	"files": [
+		"index.js",
+		"index.d.ts"
+	],
+	"scripts": {
+		"ava": "ava",
+		"build": "rollup -c",
+		"prepack": "rollup -c",
+		"test": "run-p build ava xo",
+		"watch": "rollup -c --watch",
+		"xo": "xo"
+	},
+	"xo": {
+		"env": "browser",
+		"plugins": [
+			"react"
+		],
+		"rules": {
+			"unicorn/prefer-node-append": "off",
+			"@typescript-eslint/prefer-readonly-parameter-types": "off",
+			"@typescript-eslint/no-empty-function": "off",
+			"@typescript-eslint/no-unsafe-member-access": "off",
+			"react/jsx-uses-vars": "error",
+			"react/jsx-uses-react": "error"
+		}
+	},
+	"ava": {
+		"babel": {
+			"extensions": [
+				"js",
+				"jsx"
+			],
+			"testOptions": {
+				"plugins": [
+					"@babel/plugin-syntax-jsx"
+				],
+				"presets": [
+					[
+						"module:@ava/babel/stage-4",
+						false
+					]
+				]
+			}
+		}
+	},
+	"dependencies": {
+		"@rollup/plugin-json": "^4.1.0",
+		"svg-tag-names": "^2.0.1"
+	},
+	"devDependencies": {
+		"@ava/babel": "^1.0.1",
+		"@babel/plugin-syntax-jsx": "^7.10.4",
+		"@babel/plugin-transform-react-jsx": "^7.10.4",
+		"@babel/preset-react": "^7.10.4",
+		"@babel/preset-stage-3": "^7.8.3",
+		"@rollup/plugin-commonjs": "^15.0.0",
+		"@rollup/plugin-node-resolve": "^9.0.0",
+		"@rollup/plugin-typescript": "^5.0.2",
+		"@sindresorhus/tsconfig": "^0.7.0",
+		"@types/react": "^16.9.49",
+		"ava": "^3.12.1",
+		"eslint-plugin-react": "^7.20.6",
+		"esm": "^3.2.25",
+		"jsdom": "^16.4.0",
+		"npm-run-all": "^4.1.5",
+		"rollup": "^2.26.10",
+		"sinon": "^9.0.3",
+		"typescript": "^4.0.2",
+		"xo": "^0.33.1"
+	}
 }
