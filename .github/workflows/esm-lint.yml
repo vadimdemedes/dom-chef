@@ -67,7 +67,7 @@ jobs:
       - run: echo '{}' > package.json
       - run: echo $importer > index.js
       - run: npm install ./package
-      - run: npx snowpack@2 build index.js
+      - run: npx snowpack@2 build
       - run: cat web_modules/webext-options-sync.js
 
   Node:
