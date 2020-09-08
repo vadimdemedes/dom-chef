@@ -34,7 +34,7 @@ jobs:
           name: package
       - run: npm install ./package
       - run: echo $importer > index.js
-      - run: webpack index.js
+      - run: webpack@4 index.js
       - run: cat dist/main.js
 
   Parcel:
@@ -46,7 +46,7 @@ jobs:
           name: package
       - run: npm install ./package
       - run: echo $importer > index.js
-      - run: npx parcel build index.js
+      - run: npx parcel@1 build index.js
       - run: cat dist/index.js
 
   Rollup:
@@ -57,10 +57,8 @@ jobs:
         with:
           name: package
       - run: npm install ./package rollup @rollup/plugin-node-resolve
-      - run: |
-          echo "export default {plugins: [require('@rollup/plugin-node-resolve')()]}" > rollup.config.js
       - run: echo $importer > index.js
-      - run: npx rollup index.js --config
+      - run: npx rollup@2 -p node-resolve index.js
 
   Snowpack:
     runs-on: ubuntu-latest
@@ -72,7 +70,7 @@ jobs:
       - run: echo '{}' > package.json
       - run: echo $importer > index.js
       - run: npm install ./package
-      - run: npx snowpack index.js
+      - run: npx snowpack@2 build index.js
       - run: cat web_modules/webext-options-sync.js
 
   TypeScript:
@@ -82,7 +80,7 @@ jobs:
       - uses: actions/download-artifact@v1
         with:
           name: package
-      - run: npm install ./package
+      - run: npm install ./package @types/react
       - run: echo $importer > index.ts
       - run: tsc index.ts
       - run: cat index.js
