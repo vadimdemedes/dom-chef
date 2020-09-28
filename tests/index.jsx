@@ -1,11 +1,8 @@
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-
-import test from 'ava';
+const test = require('ava');
 const {spy} = require('sinon');
 
-import './_fixtures';
-import React from '.';
+require('./_fixtures');
+const React = require('./.module').default;
 
 test('render childless element', t => {
 	const element = <br />;
