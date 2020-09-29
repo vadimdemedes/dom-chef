@@ -6,10 +6,8 @@
 		"module": "es2015",
 		"resolveJsonModule": true
 	},
-	"include": [
-		"test.js"
-	],
 	"files": [
+		"tests/_source/index.tsx",
 		"index.ts",
 		"global.d.ts"
 	]
