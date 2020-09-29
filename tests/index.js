@@ -2,7 +2,7 @@ const test = require('ava');
 const {spy} = require('sinon');
 
 require('./_fixtures');
-const React = require('./.module').default;
+const React = require('./.built').default;
 
 test('render childless element', t => {
 	const element = <br />;

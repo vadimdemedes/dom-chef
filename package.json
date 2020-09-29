@@ -38,7 +38,7 @@
 	"scripts": {
 		"build": "rollup -p json -p 'typescript={outDir: \".\"}' --format esm --dir . index.ts",
 		"prepack": "npm run build",
-		"pretest": "rollup -p json -p 'typescript={outDir: \"./tests/_module\"}' --format cjs --dir tests/_module index.ts",
+		"pretest": "rollup -p json -p 'typescript={outDir: \"./tests/.built\"}' --format cjs --dir tests/.built index.ts",
 		"test": "ava && xo",
 		"watch": "npm run build -- --watch"
 	},
@@ -48,7 +48,9 @@
 			"react"
 		],
 		"rules": {
+			"ava/no-ignored-test-files": "off",
 			"unicorn/prefer-node-append": "off",
+			"import/no-unassigned-import": "off",
 			"@typescript-eslint/prefer-readonly-parameter-types": "off",
 			"@typescript-eslint/no-empty-function": "off",
 			"@typescript-eslint/no-unsafe-member-access": "off",
