@@ -4,8 +4,5 @@ declare module 'svg-tag-names' {
 }
 
 declare namespace JSX {
-	interface Element extends SVGElement, HTMLElement, DocumentFragment {}
-	interface IntrinsicAttributes extends IntrinsicElements.span {
-		class?: string;
-	}
+	interface Element extends HTMLElement, DocumentFragment {}
 }
