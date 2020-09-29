@@ -38,7 +38,8 @@
 	"scripts": {
 		"build": "rollup -p json -p 'typescript={outDir: \".\"}' --format esm --dir . index.ts",
 		"prepack": "npm run build",
-		"test": "npm run build && ava && xo",
+		"pretest": "rollup -p json -p 'typescript={outDir: \"./tests/.built\"}' --format cjs --dir tests/.built index.ts",
+		"test": "ava && xo",
 		"watch": "npm run build -- --watch"
 	},
 	"xo": {
@@ -47,7 +48,9 @@
 			"react"
 		],
 		"rules": {
+			"ava/no-ignored-test-files": "off",
 			"unicorn/prefer-node-append": "off",
+			"import/no-unassigned-import": "off",
 			"@typescript-eslint/prefer-readonly-parameter-types": "off",
 			"@typescript-eslint/no-empty-function": "off",
 			"@typescript-eslint/no-unsafe-member-access": "off",
@@ -62,11 +65,9 @@
 					"@babel/plugin-transform-react-jsx"
 				]
 			}
-		},
-		"require": [
-			"esm"
-		]
+		}
 	},
+	"dependencies": {},
 	"devDependencies": {
 		"@ava/babel": "^1.0.1",
 		"@babel/plugin-transform-react-jsx": "^7.9.4",
@@ -76,7 +77,6 @@
 		"@types/react": "^16.9.34",
 		"ava": "^2.4.0",
 		"eslint-plugin-react": "^7.19.0",
-		"esm": "^3.2.25",
 		"jsdom": "^16.2.2",
 		"rollup": "^2.26.10",
 		"sinon": "^9.0.2",
