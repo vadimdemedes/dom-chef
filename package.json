@@ -38,7 +38,7 @@
 	"scripts": {
 		"build": "rollup -p json -p 'typescript={outDir: \".\"}' --format esm --dir . index.ts",
 		"prepack": "npm run build",
-		"pretest": "rollup -p json -p 'typescript={outDir: \"./tests\"}' --format cjs --dir tests tests/_source/*",
+		"pretest": "rollup -p json -p 'typescript={declaration: false, outDir: \"./tests\"}' --format cjs --dir tests tests/index.tsx",
 		"test": "ava && xo",
 		"watch": "npm run build -- --watch"
 	},

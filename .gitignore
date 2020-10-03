@@ -1,4 +1,4 @@
 node_modules
 index.js
 index.d.ts
-.built
+dist

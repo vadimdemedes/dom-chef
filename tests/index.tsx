@@ -2,7 +2,7 @@ import test from 'ava';
 import {spy} from 'sinon';
 
 import './_fixtures';
-import React from '../..';
+import React from '..';
 
 test('render childless element', t => {
 	const element = <br />;

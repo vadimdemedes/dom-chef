@@ -7,7 +7,7 @@
 		"resolveJsonModule": true
 	},
 	"files": [
-		"tests/_source/index.tsx",
+		"tests/index.tsx",
 		"index.ts",
 		"global.d.ts"
 	]
