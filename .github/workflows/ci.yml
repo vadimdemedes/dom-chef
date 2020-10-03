@@ -14,3 +14,4 @@ jobs:
           node-version: '12.15'
       - run: npm install
       - run: npm test
+      - run: npm build
