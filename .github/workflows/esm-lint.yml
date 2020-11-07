@@ -1,0 +1,80 @@
+# Copied, adapted and updated from https://github.com/sindresorhus/module-requests/issues/116
+
+name: ESM
+
+env:
+  importer: "import React from 'dom-chef'"
+
+on:
+  pull_request:
+    branches:
+      - '*'
+  push:
+    branches:
+      - master
+
+jobs:
+  Pack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm install
+      - run: npm run build --if-present
+      - run: npm pack --dry-run
+      - run: npm pack --silent 2>/dev/null | xargs cat | tar -xz
+      - uses: actions/upload-artifact@v2
+        with:
+          path: package
+
+  Webpack:
+    runs-on: ubuntu-latest
+    needs: Pack
+    steps:
+      - uses: actions/download-artifact@v2
+      - run: npm install ./artifact
+      - run: echo $importer > index.js
+      - run: webpack index.js
+      - run: cat dist/main.js
+
+  Parcel:
+    runs-on: ubuntu-latest
+    needs: Pack
+    steps:
+      - uses: actions/download-artifact@v2
+      - run: npm install ./artifact
+      - run: echo $importer > index.js
+      - run: npx parcel@1 build index.js
+      - run: cat dist/index.js
+
+  Rollup:
+    runs-on: ubuntu-latest
+    needs: Pack
+    steps:
+      - uses: actions/download-artifact@v2
+      - run: npm install ./artifact rollup@2 @rollup/plugin-node-resolve
+      - run: echo $importer > index.js
+      - run: npx rollup -p node-resolve index.js
+
+  Snowpack:
+    runs-on: ubuntu-latest
+    needs: Pack
+    steps:
+      - uses: actions/download-artifact@v2
+      - run: echo '{}' > package.json
+      - run: echo $importer > index.js
+      - run: npm install ./artifact
+      - run: npx snowpack@2 build
+      - run: cat build/web_modules/dom-chef.js
+
+  Node:
+    runs-on: ubuntu-latest
+    needs: Pack
+    steps:
+      - uses: actions/download-artifact@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '13.x'
+      - run: 'echo ''{"type": "module"}'' > package.json'
+      - run: echo $importer > index.js
+      - run: npm install ./artifact
+      - run: node index.js
