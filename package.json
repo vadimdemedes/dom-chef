@@ -36,9 +36,9 @@
 		"index.d.ts"
 	],
 	"scripts": {
-		"build": "rollup -p json -p 'typescript={outDir: \".\"}' --format esm --dir . index.ts",
+		"build": "rollup -p json -p typescript --format esm --dir . index.ts",
 		"prepack": "npm run build",
-		"pretest": "rollup -p json -p 'typescript={outDir: \"./tests/.built\"}' --format cjs --dir tests/.built index.ts",
+		"pretest": "rollup -p json -p 'typescript={declaration: false, outDir: \"./tests\"}' --format cjs --dir tests tests/index.tsx",
 		"test": "ava && xo",
 		"watch": "npm run build -- --watch"
 	},
@@ -50,6 +50,7 @@
 		"rules": {
 			"ava/no-ignored-test-files": "off",
 			"unicorn/prefer-node-append": "off",
+			"import/no-extraneous-dependencies": "off",
 			"import/no-unassigned-import": "off",
 			"@typescript-eslint/prefer-readonly-parameter-types": "off",
 			"@typescript-eslint/no-empty-function": "off",
@@ -58,23 +59,13 @@
 			"react/jsx-uses-react": "error"
 		}
 	},
-	"ava": {
-		"babel": {
-			"testOptions": {
-				"plugins": [
-					"@babel/plugin-transform-react-jsx"
-				]
-			}
-		}
-	},
 	"dependencies": {},
 	"devDependencies": {
-		"@ava/babel": "^1.0.1",
-		"@babel/plugin-transform-react-jsx": "^7.9.4",
 		"@rollup/plugin-json": "^4.1.0",
 		"@rollup/plugin-typescript": "^5.0.2",
 		"@sindresorhus/tsconfig": "^0.7.0",
 		"@types/react": "^16.9.34",
+		"@types/sinon": "^9.0.6",
 		"ava": "^2.4.0",
 		"eslint-plugin-react": "^7.19.0",
 		"jsdom": "^16.2.2",

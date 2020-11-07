@@ -1,8 +1,8 @@
-const test = require('ava');
-const {spy} = require('sinon');
+import test from 'ava';
+import {spy} from 'sinon';
 
-require('./_fixtures');
-const React = require('./.built').default;
+import './_fixtures';
+import React from '..';
 
 test('render childless element', t => {
 	const element = <br />;
@@ -148,7 +148,7 @@ test('render document fragments inside', t => {
 });
 
 test.serial('render svg', t => {
-	spy(document, 'createElementNS');
+	const createElementNSSpy = spy(document, 'createElementNS');
 
 	const element = (
 		<svg>
@@ -159,16 +159,17 @@ test.serial('render svg', t => {
 	);
 
 	t.truthy(element);
-	t.true(document.createElementNS.calledTwice);
+	t.true(createElementNSSpy.calledTwice);
 
 	const xmlns = 'http://www.w3.org/2000/svg';
-	t.deepEqual(document.createElementNS.firstCall.args, [xmlns, 'text']);
-	t.deepEqual(document.createElementNS.secondCall.args, [xmlns, 'svg']);
+	t.deepEqual(createElementNSSpy.firstCall.args, [xmlns, 'text']);
+	t.deepEqual(createElementNSSpy.secondCall.args, [xmlns, 'svg']);
+	createElementNSSpy.restore();
 });
 
 test.serial('render mixed html and svg', t => {
-	spy(document, 'createElement');
-	document.createElementNS.resetHistory();
+	const createElementSpy = spy(document, 'createElement');
+	const createElementNSSpy = spy(document, 'createElementNS');
 
 	const element = (
 		<div>
@@ -181,19 +182,21 @@ test.serial('render mixed html and svg', t => {
 	);
 
 	t.truthy(element);
-	t.true(document.createElement.calledTwice);
-	t.true(document.createElementNS.calledTwice);
+	t.true(createElementSpy.calledTwice);
+	t.true(createElementNSSpy.calledTwice);
 
-	t.deepEqual(document.createElement.firstCall.args, ['h1']);
-	t.deepEqual(document.createElement.secondCall.args, ['div']);
+	t.deepEqual(createElementSpy.firstCall.args, ['h1']);
+	t.deepEqual(createElementSpy.secondCall.args, ['div']);
 
 	const xmlns = 'http://www.w3.org/2000/svg';
-	t.deepEqual(document.createElementNS.firstCall.args, [xmlns, 'text']);
-	t.deepEqual(document.createElementNS.secondCall.args, [xmlns, 'svg']);
+	t.deepEqual(createElementNSSpy.firstCall.args, [xmlns, 'text']);
+	t.deepEqual(createElementNSSpy.secondCall.args, [xmlns, 'svg']);
+	createElementSpy.restore();
+	createElementNSSpy.restore();
 });
 
 test.serial('create svg links with xlink namespace', t => {
-	spy(Element.prototype, 'setAttributeNS');
+	const setAttributeNS = spy(Element.prototype, 'setAttributeNS');
 
 	const element = (
 		<svg>
@@ -204,14 +207,15 @@ test.serial('create svg links with xlink namespace', t => {
 	);
 
 	t.truthy(element);
-	t.true(Element.prototype.setAttributeNS.calledOnce);
+	t.true(setAttributeNS.calledOnce);
 
 	const xmlns = 'http://www.w3.org/1999/xlink';
-	t.deepEqual(Element.prototype.setAttributeNS.firstCall.args, [
+	t.deepEqual(setAttributeNS.firstCall.args, [
 		xmlns,
 		'xlink:href',
 		'#text'
 	]);
+	setAttributeNS.restore();
 });
 
 test('assign className', t => {
@@ -221,6 +225,7 @@ test('assign className', t => {
 });
 
 test('assign className via class alias', t => {
+	// @ts-expect-error
 	const element = <span class="a b c" />;
 
 	t.is(element.outerHTML, '<span class="a b c"></span>');
@@ -248,6 +253,7 @@ test('assign styles with dashed property names', t => {
 		'font-size': 12
 	};
 
+	// @ts-expect-error
 	const element = <span style={style} />;
 
 	t.is(
@@ -262,6 +268,7 @@ test('assign styles with css variables', t => {
 		'--myCamelCaseVar': 'red'
 	};
 
+	// @ts-expect-error
 	const element = <span style={style} />;
 
 	t.is(
@@ -272,7 +279,7 @@ test('assign styles with css variables', t => {
 
 test('assign other props', t => {
 	const element = (
-		<a href="video.mp4" id="a" referrerpolicy="no-referrer">
+		<a href="video.mp4" id="a" referrerPolicy="no-referrer">
 			Download
 		</a>
 	);
@@ -290,13 +297,19 @@ test('assign htmlFor prop', t => {
 });
 
 test('assign or skip boolean props', t => {
-	const element = (
-		<a download disabled={false} contenteditable={true}>
+	const input = (
+		<input disabled={false} />
+	);
+
+	t.is(input.outerHTML, '<input>');
+
+	const link = (
+		<a download contentEditable={true}>
 			Download
 		</a>
 	);
 
-	t.is(element.outerHTML, '<a download="" contenteditable="">Download</a>');
+	t.is(link.outerHTML, '<a download="" contenteditable="">Download</a>');
 });
 
 test.failing('assign booleanish false props', t => {
@@ -316,6 +329,7 @@ test.failing('assign booleanish false props', t => {
 
 test('skip undefined and null props', t => {
 	const element = (
+		// @ts-expect-error
 		<a href={undefined} title={null}>
 			Download
 		</a>
@@ -345,7 +359,7 @@ test('set html', t => {
 });
 
 test('attach event listeners', t => {
-	spy(EventTarget.prototype, 'addEventListener');
+	const addEventListener = spy(EventTarget.prototype, 'addEventListener');
 
 	const handleClick = function () {};
 	const element = (
@@ -356,17 +370,17 @@ test('attach event listeners', t => {
 
 	t.is(element.outerHTML, '<a href="#">Download</a>');
 
-	t.true(EventTarget.prototype.addEventListener.calledOnce);
-	t.deepEqual(EventTarget.prototype.addEventListener.firstCall.args, [
+	t.true(addEventListener.calledOnce);
+	t.deepEqual(addEventListener.firstCall.args, [
 		'click',
 		handleClick
 	]);
 
-	EventTarget.prototype.addEventListener.restore();
+	addEventListener.restore();
 });
 
 test('attach event listeners but drop the dash after on', t => {
-	spy(EventTarget.prototype, 'addEventListener');
+	const addEventListener = spy(EventTarget.prototype, 'addEventListener');
 
 	const handler = function () {};
 	const element = (
@@ -377,29 +391,29 @@ test('attach event listeners but drop the dash after on', t => {
 
 	t.is(element.outerHTML, '<a href="#">Download</a>');
 
-	t.true(EventTarget.prototype.addEventListener.calledTwice);
-	t.deepEqual(EventTarget.prototype.addEventListener.firstCall.args, [
+	t.true(addEventListener.calledTwice);
+	t.deepEqual(addEventListener.firstCall.args, [
 		'remote-input',
 		handler
 	]);
-	t.deepEqual(EventTarget.prototype.addEventListener.secondCall.args, [
+	t.deepEqual(addEventListener.secondCall.args, [
 		'remote-input',
 		handler
 	]);
 
-	EventTarget.prototype.addEventListener.restore();
+	addEventListener.restore();
 });
 
 test('fragment', t => {
-	spy(document, 'createDocumentFragment');
+	const createDocumentFragment = spy(document, 'createDocumentFragment');
 
 	const fragment = <>test</>;
 
 	const fragmentHTML = getFragmentHTML(fragment);
 
 	t.is(fragmentHTML, 'test');
-	t.true(document.createDocumentFragment.calledOnce);
-	t.deepEqual(document.createDocumentFragment.firstCall.args, []);
+	t.true(createDocumentFragment.calledOnce);
+	t.deepEqual(createDocumentFragment.firstCall.args, []);
 });
 
 test('fragment 2', t => {
@@ -443,7 +457,7 @@ test('div with inner fragment', t => {
 });
 
 test('element created by function', t => {
-	const Icon = () => document.createElement('i');
+	const Icon = () => <i/>;
 
 	const element = <Icon />;
 
@@ -451,12 +465,7 @@ test('element created by function', t => {
 });
 
 test('element created by function with existing children and attributes', t => {
-	const Icon = () => {
-		const icon = document.createElement('i');
-		icon.innerHTML = 'Gummy <span>bears</span>';
-		icon.classList.add('sweet');
-		return icon;
-	};
+	const Icon = () => <i className="sweet">Gummy <span>bears</span></i>;
 
 	const element = <Icon />;
 
@@ -464,13 +473,9 @@ test('element created by function with existing children and attributes', t => {
 });
 
 test('element created by function with combined children and attributes', t => {
-	const Icon = () => {
-		const icon = document.createElement('i');
-		icon.innerHTML = 'Gummy <span>bears</span>';
-		icon.classList.add('sweet');
-		return icon;
-	};
+	const Icon = () => <i className="sweet">Gummy <span>bears</span></i>;
 
+	// @ts-expect-error
 	const element = <Icon className="yellow"> and <b>lollipops</b></Icon>;
 
 	t.is(
@@ -479,8 +484,9 @@ test('element created by function with combined children and attributes', t => {
 	);
 });
 
-function getFragmentHTML(fragment /* : DocumentFragment */) /* : string */ {
+function getFragmentHTML(fragment: DocumentFragment): string {
 	return [...fragment.childNodes]
+		// @ts-expect-error
 		.map(n => n.outerHTML || n.textContent)
 		.join('');
 }
