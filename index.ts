@@ -39,7 +39,8 @@ const setCSSProps = (
 };
 
 const create = (
-	type: DocumentFragmentConstructor | ElementFunction | string
+	type: DocumentFragmentConstructor | ElementFunction | string,
+	props: any
 ): HTMLElement | SVGElement | DocumentFragment => {
 	if (typeof type === 'string') {
 		if (svgTags.has(type)) {
@@ -53,7 +54,7 @@ const create = (
 		return document.createDocumentFragment();
 	}
 
-	return type(type.defaultProps);
+	return type({...type.defaultProps, ...props});
 };
 
 const setAttribute = (
@@ -102,11 +103,11 @@ export const h = (
 	attributes?: Attributes,
 	...children: Node[]
 ): Element | DocumentFragment => {
-	const element = create(type);
+	const element = create(type, attributes);
 
 	addChildren(element, children);
 
-	if (element instanceof DocumentFragment || !attributes) {
+	if (typeof type === 'function' || !attributes || element instanceof DocumentFragment) {
 		return element;
 	}
 
