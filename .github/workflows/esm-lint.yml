@@ -31,7 +31,7 @@ jobs:
       - uses: actions/download-artifact@v2
       - run: npm install ./artifact
       - run: 'echo "${{ env.IMPORT_TEXT }} ''${{ env.NPM_MODULE_NAME }}''" > index.js'
-      - run: webpack --entry index.js
+      - run: webpack --entry ./index.js
       - run: cat dist/main.js
   Parcel:
     runs-on: ubuntu-latest
