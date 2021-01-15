@@ -38,23 +38,35 @@ const setCSSProps = (
 	}
 };
 
-const create = (
-	type: DocumentFragmentConstructor | ElementFunction | string,
-	props: any
-): HTMLElement | SVGElement | DocumentFragment => {
-	if (typeof type === 'string') {
-		if (svgTags.has(type)) {
-			return document.createElementNS('http://www.w3.org/2000/svg', type);
-		}
+const createElementFromString = (
+	tagName: string,
+	attributes: Attributes | undefined,
+	children: Node[]
+): HTMLElement | SVGElement => {
+	const element = svgTags.has(tagName) ?
+		document.createElementNS('http://www.w3.org/2000/svg', tagName) :
+		document.createElement(tagName);
 
-		return document.createElement(type);
-	}
+	addChildren(element, children);
+	setAttributes(element, attributes);
 
-	if (isFragment(type)) {
-		return document.createDocumentFragment();
-	}
+	return element;
+};
 
-	return type({...type.defaultProps, ...props});
+const createDocumentFragment = (
+	children: Node[]
+): DocumentFragment => {
+	const fragment = document.createDocumentFragment();
+	addChildren(fragment, children);
+	return fragment;
+};
+
+const createElementFromFunction = (
+	constructor: ElementFunction,
+	props: any,
+	children: Node[]
+): HTMLElement | SVGElement => {
+	return constructor({...constructor.defaultProps, ...props, children});
 };
 
 const setAttribute = (
@@ -76,6 +88,39 @@ const setAttribute = (
 		);
 	} else {
 		element.setAttribute(name, value);
+	}
+};
+
+const setAttributes = (
+	element: HTMLElement | SVGElement,
+	attributes?: Attributes
+) => {
+	if (!attributes) {
+		return;
+	}
+
+	for (let [name, value] of Object.entries(attributes)) {
+		if (name === 'htmlFor') {
+			name = 'for';
+		}
+
+		if (name === 'class' || name === 'className') {
+			const existingClassname = element.getAttribute('class') ?? '';
+			setAttribute(
+				element,
+				'class',
+				(existingClassname + ' ' + String(value)).trim()
+			);
+		} else if (name === 'style') {
+			setCSSProps(element, value);
+		} else if (name.startsWith('on')) {
+			const eventName = name.slice(2).toLowerCase().replace(/^-/, '');
+			element.addEventListener(eventName, value);
+		} else if (name === 'dangerouslySetInnerHTML' && '__html' in value) {
+			element.innerHTML = value.__html;
+		} else if (name !== 'key' && value !== false) {
+			setAttribute(element, name, value === true ? '' : value);
+		}
 	}
 };
 
@@ -103,40 +148,15 @@ export const h = (
 	attributes?: Attributes,
 	...children: Node[]
 ): Element | DocumentFragment => {
-	const element = create(type, attributes);
-
-	addChildren(element, children);
-
-	if (typeof type === 'function' || !attributes || element instanceof DocumentFragment) {
-		return element;
+	if (typeof type === 'string') {
+		return createElementFromString(type, attributes, children);
 	}
 
-	// Set attributes
-	for (let [name, value] of Object.entries(attributes)) {
-		if (name === 'htmlFor') {
-			name = 'for';
-		}
-
-		if (name === 'class' || name === 'className') {
-			const existingClassname = element.getAttribute('class') ?? '';
-			setAttribute(
-				element,
-				'class',
-				(existingClassname + ' ' + String(value)).trim()
-			);
-		} else if (name === 'style') {
-			setCSSProps(element, value);
-		} else if (name.startsWith('on')) {
-			const eventName = name.slice(2).toLowerCase().replace(/^-/, '');
-			element.addEventListener(eventName, value);
-		} else if (name === 'dangerouslySetInnerHTML' && '__html' in value) {
-			element.innerHTML = value.__html;
-		} else if (name !== 'key' && value !== false) {
-			setAttribute(element, name, value === true ? '' : value);
-		}
+	if (isFragment(type)) {
+		return createDocumentFragment(children);
 	}
 
-	return element;
+	return createElementFromFunction(type, attributes, children);
 };
 
 // Improve TypeScript support for DocumentFragment
