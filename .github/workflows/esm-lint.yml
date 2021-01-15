@@ -2,7 +2,7 @@ env:
   IMPORT_TEXT: import React from
   NPM_MODULE_NAME: dom-chef
 
-# DO NOT EDIT BELOW - use `npx ghat fregante/ghatemplates/esm-lint --exclude jobs.TypeScript`
+# DO NOT EDIT BELOW, USE: npx ghat fregante/ghatemplates/esm-lint --exclude 'jobs.TypeScript'
 
 name: ESM
 on:
@@ -31,7 +31,7 @@ jobs:
       - uses: actions/download-artifact@v2
       - run: npm install ./artifact
       - run: 'echo "${{ env.IMPORT_TEXT }} ''${{ env.NPM_MODULE_NAME }}''" > index.js'
-      - run: webpack ./index.js
+      - run: webpack --entry ./index.js
       - run: cat dist/main.js
   Parcel:
     runs-on: ubuntu-latest
