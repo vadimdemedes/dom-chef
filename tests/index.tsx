@@ -493,7 +493,7 @@ test('element created by function with existing children and attributes', t => {
 });
 
 test('element created by function with combined children and attributes', t => {
-	const Icon = () => <i className="sweet">Gummy <span>bears</span></i>;
+	const Icon = ({children}: {children: Node[]}) => <i className="sweet">Gummy <span>bears</span>{children}</i>;
 
 	// @ts-expect-error
 	const element = <Icon className="yellow"> and <b>lollipops</b></Icon>;
