@@ -322,7 +322,7 @@ test.failing('assign booleanish false props', t => {
 
 	t.is(
 		element.outerHTML,
-		'<span contenteditable="">a contenteditable="false">Download</a></span>'
+		'<span contenteditable=""><a contenteditable="false">Download</a></span>'
 	);
 	t.is(input.outerHTML, '<textarea spellcheck="false"></textarea>');
 });
@@ -464,6 +464,26 @@ test('element created by function', t => {
 	t.is(element.outerHTML, '<i></i>');
 });
 
+test('element created by function has props', t => {
+	const Container = ({value}: {value: string}) => <div>{value}</div>;
+
+	const element = <Container value="Hello world"/>;
+
+	t.is(element.outerHTML, '<div>Hello world</div>');
+});
+
+test('element created by function has props combined with default props', t => {
+	const Container = ({value, className = ''}: {value: string; className?: string}) => <div className={className}>{value}</div>;
+	Container.defaultProps = {
+		value: 'Goodbye world',
+		className: 'class'
+	};
+
+	const element = <Container value="Hello world"/>;
+
+	t.is(element.outerHTML, '<div class="class">Hello world</div>');
+});
+
 test('element created by function with existing children and attributes', t => {
 	const Icon = () => <i className="sweet">Gummy <span>bears</span></i>;
 
@@ -480,7 +500,7 @@ test('element created by function with combined children and attributes', t => {
 
 	t.is(
 		element.outerHTML,
-		'<i class="sweet yellow">Gummy <span>bears</span> and <b>lollipops</b></i>'
+		'<i class="sweet">Gummy <span>bears</span> and <b>lollipops</b></i>'
 	);
 });
 
