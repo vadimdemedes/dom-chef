@@ -506,7 +506,7 @@ test('element created by function with combined children and attributes', t => {
 
 test('handle children prop as children instead of attributes', t => {
 	const Icon = (props: Record<string, any>) => <i title="icon" {...props}/>;
-	
+
 	const element = <Icon className="yellow">Submarine</Icon>;
 
 	t.is(
