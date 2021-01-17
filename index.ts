@@ -148,6 +148,15 @@ export const h = (
 	attributes?: Attributes,
 	...children: Node[]
 ): Element | DocumentFragment => {
+	if (attributes?.children) {
+		if (Array.isArray(attributes.children) && children.length === 0) {
+			children = attributes.children as Node[];
+		}
+
+		attributes = {...attributes};
+		delete attributes.children;
+	}
+
 	if (typeof type === 'string') {
 		return createElementFromString(type, attributes, children);
 	}

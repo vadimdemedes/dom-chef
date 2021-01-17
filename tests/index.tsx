@@ -515,6 +515,17 @@ test('handle children prop as children instead of attributes', t => {
 	);
 });
 
+test('preset children take precedence over children prop', t => {
+	const Open = (props: Record<string, any>) => <h1 {...props}></h1>;
+	const Preset = (props: Record<string, any>) => <h1 {...props}>Preset</h1>;
+
+	const openElement = <Open>Door</Open>;
+	const presetElement = <Preset>Door</Preset>;
+
+	t.is(openElement.outerHTML, '<h1>Door</h1>');
+	t.is(presetElement.outerHTML, '<h1>Preset</h1>');
+});
+
 function getFragmentHTML(fragment: DocumentFragment): string {
 	return [...fragment.childNodes]
 		// @ts-expect-error
