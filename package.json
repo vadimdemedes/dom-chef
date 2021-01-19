@@ -38,8 +38,10 @@
 	"scripts": {
 		"build": "rollup -p json -p typescript --format esm --dir . index.ts",
 		"prepack": "npm run build",
-		"pretest": "rollup -p json -p 'typescript={declaration: false, outDir: \"./tests\"}' --format cjs --dir tests tests/index.tsx",
-		"test": "ava && xo",
+		"test": "run-p test:* build",
+		"pretest:ava": "rollup -p json -p 'typescript={declaration: false, outDir: \"./tests\"}' --format cjs --dir tests tests/index.tsx",
+		"test:ava": "ava",
+		"test:xo": "xo",
 		"watch": "npm run build -- --watch"
 	},
 	"xo": {
@@ -70,6 +72,7 @@
 		"ava": "^2.4.0",
 		"eslint-plugin-react": "^7.22.0",
 		"jsdom": "^16.4.0",
+		"npm-run-all": "^4.1.5",
 		"rollup": "^2.37.0",
 		"sinon": "^9.2.3",
 		"svg-tag-names": "^2.0.1",
