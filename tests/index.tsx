@@ -1,8 +1,8 @@
 import test from 'ava';
 import {spy} from 'sinon';
 
-import './_fixtures';
-import React from '..';
+import './_fixtures.js';
+import React from '../index.js';
 
 test('render childless element', t => {
 	const element = <br />;
