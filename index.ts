@@ -51,37 +51,6 @@ const setCSSProps = (
 	}
 };
 
-const createElementFromString = (
-	tagName: string,
-	attributes: Attributes | undefined,
-	children: Node[]
-): HTMLElement | SVGElement => {
-	const element = svgTags.has(tagName) ?
-		document.createElementNS('http://www.w3.org/2000/svg', tagName) :
-		document.createElement(tagName);
-
-	addChildren(element, children);
-	setAttributes(element, attributes);
-
-	return element;
-};
-
-const createDocumentFragment = (
-	children: Node[]
-): DocumentFragment => {
-	const fragment = document.createDocumentFragment();
-	addChildren(fragment, children);
-	return fragment;
-};
-
-const createElementFromFunction = (
-	constructor: FunctionComponent,
-	props: any,
-	children: Node[]
-): HTMLElement | SVGElement => {
-	return constructor({...constructor.defaultProps, ...props, children});
-};
-
 const setAttribute = (
 	element: HTMLElement | SVGElement,
 	name: string,
@@ -164,7 +133,7 @@ export const h = (
 	...children: Node[]
 ): Element | DocumentFragment => {
 	if (isFunctionComponent(type)) {
-		return createElementFromFunction(type, attributes, children);
+		return type({...type.defaultProps, ...attributes, children});
 	}
 
 	if (children.length === 0 && attributes?.children) {
@@ -172,10 +141,19 @@ export const h = (
 	}
 
 	if (typeof type === 'string') {
-		return createElementFromString(type, attributes, children);
+		const element = svgTags.has(type) ?
+			document.createElementNS('http://www.w3.org/2000/svg', type) :
+			document.createElement(type);
+
+		addChildren(element, children);
+		setAttributes(element, attributes);
+
+		return element;
 	}
 
-	return createDocumentFragment(children);
+	const fragment = document.createDocumentFragment();
+	addChildren(fragment, children);
+	return fragment;
 };
 
 export const Fragment = (typeof DocumentFragment === 'function' ? DocumentFragment : () => {}) as Fragment;
