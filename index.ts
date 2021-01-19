@@ -202,7 +202,7 @@ export const h = (
 };
 
 export const Fragment = (typeof DocumentFragment === 'function' ? DocumentFragment : () => {}) as Fragment;
-      
+
 export abstract class Component<P = Record<string, any>> {
 	props: P;
 	refs: any;
