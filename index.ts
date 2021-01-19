@@ -39,6 +39,12 @@ const isFunctionComponent = (type: any): type is FunctionComponent => {
 	return typeof type === 'function' && type !== DocumentFragment;
 };
 
+const createElement = (type: string): HTMLElement | SVGElement => {
+	return svgTags.has(type) ?
+		document.createElementNS('http://www.w3.org/2000/svg', type) :
+		document.createElement(type);
+};
+
 const setCSSProps = (
 	element: HTMLElement | SVGElement,
 	style: CSSStyleDeclaration
@@ -77,10 +83,10 @@ const setAttribute = (
 };
 
 const setAttributes = (
-	element: Element,
+	element: Element | DocumentFragment,
 	attributes?: Attributes
 ) => {
-	if (!attributes) {
+	if (!attributes || element instanceof DocumentFragment) {
 		return;
 	}
 
@@ -144,20 +150,14 @@ export const h = (
 		return type({...type.defaultProps, ...attributes, children});
 	}
 
-	if (typeof type === 'string') {
-		const element = svgTags.has(type) ?
-			document.createElementNS('http://www.w3.org/2000/svg', type) :
-			document.createElement(type);
+	const node = typeof type === 'string' ?
+		createElement(type) :
+		document.createDocumentFragment();
 
-		addChildren(element, children);
-		setAttributes(element, attributes);
+	addChildren(node, children);
+	setAttributes(node, attributes);
 
-		return element;
-	}
-
-	const fragment = document.createDocumentFragment();
-	addChildren(fragment, children);
-	return fragment;
+	return node;
 };
 
 export const Fragment = (typeof DocumentFragment === 'function' ? DocumentFragment : () => {}) as Fragment;
