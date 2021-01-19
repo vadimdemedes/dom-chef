@@ -198,6 +198,28 @@ const el = (
 // </svg>
 ```
 
+If you want to use inheritance, you can use the familiar React component syntax. Note that `render` function is called once, since `dom-chef` only cooks raw DOM elements, so `dom-chef` components are stateless by definition:
+
+```jsx
+import React from 'dom-chef';
+
+class Button extends React.Component {
+	onClick() {
+		console.log('Button was clicked');
+	}
+
+	render() {
+		return <button {...this.props} onClick={this.onClick}></button>;
+	}
+}
+
+class CoolerButton extends Button {
+	onClick() {
+		console.log('CoolerButton was clicked');
+	}
+}
+```
+
 ## License
 
 MIT © [Vadim Demedes](https://github.com/vadimdemedes)
