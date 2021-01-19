@@ -152,38 +152,50 @@ If element names start with an uppercase letter, `dom-chef` will consider them a
 ```jsx
 function Title() {
 	const title = document.createElement('h1');
-	title.classList.add('Heading');
+	title.classList.add('Heading', 'red');
+	title.append('La Divina Commedia');
 	return title;
 }
 
-const el = <Title className="red">La Divina Commedia</Title>;
+const el = <Title/>;
 // <h1 class="Heading red">La Divina Commedia</h1>
 ```
 
-This makes JSX also a great way to apply multiple attributes and content at once:
-
 ```jsx
-const BaseIcon = () => document.querySelector('svg.icon').cloneNode(true);
+function Title(props) {
+	const title = <h1 {...props}></h1>;
+	title.classList.add('red');
+	return title;
+}
 
-document.body.append(
-	<BaseIcon width="16" title="Starry Day" className="margin-0" />
-);
+const el = <Title className="Heading">La Divina Commedia</Title>;
+// <h1 class="Heading red">La Divina Commedia</h1>
 ```
 
-To improve compatibility with React components, `dom-chef` will pass the function's `defaultProps` property to itself (if present). Note that specifying attributes won't override those defaults, but instead set them on the resulting element:
+To improve compatibility with React components, `dom-chef` will pass the function's `defaultProps` property to itself (if present). Note that specifying attributes will override those defaults:
 
 ```jsx
 function AlertIcon(props) {
-	return <svg width={props.size} className={props.className} />
+	return (
+		<svg width={props.size} height={props.size} className={props.className}>
+			{props.children}
+		</svg>
+	);
 }
 
 AlertIcon.defaultProps = {
-	className: 'icon icon-alert'
-	size: 16,
+	className: 'icon icon-alert',
+	size: 16
 }
 
-const el = <AlertIcon className="margin-0" size={32} />;
-// <svg width="16" class="icon icon-alert margin-0" size="32" />
+const el = (
+	<AlertIcon size={32}>
+		<circle cx="16" cy="16" r="16" fill="#000"></circle>
+	</AlertIcon>
+);
+// <svg width="32" height="32" class="icon icon-alert">
+//     <circle cx="16" cy="16" r="16" fill="#000"></circle>
+// </svg>
 ```
 
 ## License
