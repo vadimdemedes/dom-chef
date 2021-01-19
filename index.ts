@@ -9,7 +9,6 @@ svgTags.delete('script');
 svgTags.delete('video');
 
 type Attributes = JSX.IntrinsicElements['div'];
-type DocumentFragmentConstructor = typeof DocumentFragment;
 type FunctionComponent = ((props?: any) => HTMLElement | SVGElement) & {
 	defaultProps?: any;
 };
@@ -33,11 +32,7 @@ interface Fragment {
 // Copied from Preact
 const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|ows|mnc|ntw|ine[ch]|zoo|^ord/i;
 
-const isFragment = (
-	type: DocumentFragmentConstructor | FunctionComponent
-): type is DocumentFragmentConstructor => {
-	return type === DocumentFragment;
-};
+const isFunctionComponent = (type: any): type is FunctionComponent => typeof type === 'function' && type !== DocumentFragment;
 
 const setCSSProps = (
 	element: HTMLElement | SVGElement,
@@ -160,10 +155,14 @@ const addChildren = (
 };
 
 export const h = (
-	type: DocumentFragmentConstructor | FunctionComponent | string,
+	type: typeof DocumentFragment | FunctionComponent | string,
 	attributes?: Attributes,
 	...children: Node[]
 ): Element | DocumentFragment => {
+	if (isFunctionComponent(type)) {
+		return createElementFromFunction(type, attributes, children);
+	}
+
 	if (attributes?.children) {
 		if (Array.isArray(attributes.children) && children.length === 0) {
 			children = attributes.children as Node[];
@@ -177,11 +176,7 @@ export const h = (
 		return createElementFromString(type, attributes, children);
 	}
 
-	if (isFragment(type)) {
-		return createDocumentFragment(children);
-	}
-
-	return createElementFromFunction(type, attributes, children);
+	return createDocumentFragment(children);
 };
 
 export const Fragment = (typeof DocumentFragment === 'function' ? DocumentFragment : () => {}) as Fragment;
