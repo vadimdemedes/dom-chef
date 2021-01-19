@@ -135,12 +135,13 @@ export const h = (
 	attributes?: Attributes,
 	...children: Node[]
 ): Element | DocumentFragment => {
-	if (isFunctionComponent(type)) {
-		return type({...type.defaultProps, ...attributes, children});
+	// The `children` parameter takes precedence over `attributes.children`
+	if (children.length === 0) {
+		children = attributes?.children ?? [];
 	}
 
-	if (children.length === 0 && attributes?.children) {
-		children = attributes.children;
+	if (isFunctionComponent(type)) {
+		return type({...type.defaultProps, ...attributes, children});
 	}
 
 	if (typeof type === 'string') {
