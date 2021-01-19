@@ -8,7 +8,9 @@ svgTags.delete('iframe');
 svgTags.delete('script');
 svgTags.delete('video');
 
-type Attributes = JSX.IntrinsicElements['div'];
+type Attributes = JSX.IntrinsicElements['div'] & {
+	children?: Node[];
+};
 type FunctionComponent = ((props?: any) => HTMLElement | SVGElement) & {
 	defaultProps?: any;
 };
@@ -113,6 +115,8 @@ const setAttributes = (
 	for (let [name, value] of Object.entries(attributes)) {
 		if (name === 'htmlFor') {
 			name = 'for';
+		} else if (name === 'children') {
+			continue;
 		}
 
 		if (name === 'class' || name === 'className') {
@@ -163,13 +167,8 @@ export const h = (
 		return createElementFromFunction(type, attributes, children);
 	}
 
-	if (attributes?.children) {
-		if (Array.isArray(attributes.children) && children.length === 0) {
-			children = attributes.children as Node[];
-		}
-
-		attributes = {...attributes};
-		delete attributes.children;
+	if (children.length === 0 && attributes?.children) {
+		children = attributes.children;
 	}
 
 	if (typeof type === 'string') {
