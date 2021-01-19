@@ -2,7 +2,7 @@ import test from 'ava';
 import {spy} from 'sinon';
 
 import './_fixtures';
-import React from '..';
+import React, {Component} from '..';
 
 test('render childless element', t => {
 	const element = <br />;
@@ -524,6 +524,21 @@ test('preset children take precedence over children prop', t => {
 
 	t.is(openElement.outerHTML, '<h1>Door</h1>');
 	t.is(presetElement.outerHTML, '<h1>Preset</h1>');
+});
+
+test('render function will be used if possible', t => {
+	class Icon extends Component {
+		render() {
+			return <i {...this.props}></i>;
+		}
+	}
+
+	const element = <Icon className="Never gonna give you up">Never gonna let you down</Icon>;
+
+	t.is(
+		element.outerHTML,
+		'<i class="Never gonna give you up">Never gonna let you down</i>'
+	);
 });
 
 function getFragmentHTML(fragment: DocumentFragment): string {

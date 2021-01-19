@@ -13,14 +13,24 @@ type DocumentFragmentConstructor = typeof DocumentFragment;
 type ElementFunction = ((props?: any) => HTMLElement | SVGElement) & {
 	defaultProps?: any;
 };
+type ElementConstructor = {
+	defaultProps?: any;
+	new (props: any): Component;
+};
 
 // Copied from Preact
 const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|ows|mnc|ntw|ine[ch]|zoo|^ord/i;
 
 const isFragment = (
-	type: DocumentFragmentConstructor | ElementFunction
+	type: DocumentFragmentConstructor | ElementFunction | ElementConstructor
 ): type is DocumentFragmentConstructor => {
 	return type === DocumentFragment;
+};
+
+const isElementConstructor = (
+	constructor: ElementConstructor | ElementFunction
+): constructor is ElementConstructor => {
+	return typeof constructor.prototype?.render === 'function';
 };
 
 const setCSSProps = (
@@ -62,11 +72,18 @@ const createDocumentFragment = (
 };
 
 const createElementFromFunction = (
-	constructor: ElementFunction,
+	constructor: ElementFunction | ElementConstructor,
 	props: any,
 	children: Node[]
 ): HTMLElement | SVGElement => {
-	return constructor({...constructor.defaultProps, ...props, children});
+	const constructedProps = {...constructor.defaultProps, ...props, children};
+
+	if (isElementConstructor(constructor)) {
+		const component = new constructor(constructedProps);
+		return component.render();
+	}
+
+	return constructor(constructedProps);
 };
 
 const setAttribute = (
@@ -144,7 +161,7 @@ const addChildren = (
 };
 
 export const h = (
-	type: DocumentFragmentConstructor | ElementFunction | string,
+	type: DocumentFragmentConstructor | ElementFunction | ElementConstructor | string,
 	attributes?: Attributes,
 	...children: Node[]
 ): Element | DocumentFragment => {
@@ -168,11 +185,29 @@ export const h = (
 	return createElementFromFunction(type, attributes, children);
 };
 
+export abstract class Component<P = Record<string, any>> {
+	props: P;
+	refs: any;
+	state: any;
+	context: any;
+
+	constructor(props: P) {
+		this.props = props;
+	}
+
+	setState() {}
+
+	forceUpdate() {}
+
+	abstract render(): HTMLElement | SVGElement;
+}
+
 // Improve TypeScript support for DocumentFragment
 // https://github.com/Microsoft/TypeScript/issues/20469
 const React = {
 	createElement: h,
-	Fragment: typeof DocumentFragment === 'function' ? DocumentFragment : () => {}
+	Fragment: typeof DocumentFragment === 'function' ? DocumentFragment : () => {},
+	Component
 };
 
 export default React;
