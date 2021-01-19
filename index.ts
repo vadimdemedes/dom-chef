@@ -10,7 +10,7 @@ svgTags.delete('video');
 
 type Attributes = JSX.IntrinsicElements['div'];
 type DocumentFragmentConstructor = typeof DocumentFragment;
-type ElementFunction = ((props?: any) => HTMLElement | SVGElement) & {
+type FunctionComponent = ((props?: any) => HTMLElement | SVGElement) & {
 	defaultProps?: any;
 };
 
@@ -34,7 +34,7 @@ interface Fragment {
 const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|ows|mnc|ntw|ine[ch]|zoo|^ord/i;
 
 const isFragment = (
-	type: DocumentFragmentConstructor | ElementFunction
+	type: DocumentFragmentConstructor | FunctionComponent
 ): type is DocumentFragmentConstructor => {
 	return type === DocumentFragment;
 };
@@ -78,7 +78,7 @@ const createDocumentFragment = (
 };
 
 const createElementFromFunction = (
-	constructor: ElementFunction,
+	constructor: FunctionComponent,
 	props: any,
 	children: Node[]
 ): HTMLElement | SVGElement => {
@@ -160,7 +160,7 @@ const addChildren = (
 };
 
 export const h = (
-	type: DocumentFragmentConstructor | ElementFunction | string,
+	type: DocumentFragmentConstructor | FunctionComponent | string,
 	attributes?: Attributes,
 	...children: Node[]
 ): Element | DocumentFragment => {
