@@ -59,12 +59,13 @@
 			"react/jsx-uses-react": "error"
 		}
 	},
-	"dependencies": {},
+	"dependencies": {
+		"@types/react": "^16.9.34"
+	},
 	"devDependencies": {
 		"@rollup/plugin-json": "^4.1.0",
 		"@rollup/plugin-typescript": "^5.0.2",
 		"@sindresorhus/tsconfig": "^0.7.0",
-		"@types/react": "^16.9.34",
 		"@types/sinon": "^9.0.6",
 		"ava": "^2.4.0",
 		"eslint-plugin-react": "^7.19.0",
