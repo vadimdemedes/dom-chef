@@ -11,7 +11,8 @@ svgTags.delete('video');
 type Attributes = JSX.IntrinsicElements['div'] & {
 	children?: Node[];
 };
-type FunctionComponent = ((props?: any) => HTMLElement | SVGElement) & {
+
+type FunctionComponent = ((props?: any) => Element | DocumentFragment) & {
 	defaultProps?: any;
 };
 
@@ -34,7 +35,9 @@ interface Fragment {
 // Copied from Preact
 const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|ows|mnc|ntw|ine[ch]|zoo|^ord/i;
 
-const isFunctionComponent = (type: any): type is FunctionComponent => typeof type === 'function' && type !== DocumentFragment;
+const isFunctionComponent = (type: any): type is FunctionComponent => {
+	return typeof type === 'function' && type !== DocumentFragment;
+};
 
 const setCSSProps = (
 	element: HTMLElement | SVGElement,
@@ -52,7 +55,7 @@ const setCSSProps = (
 };
 
 const setAttribute = (
-	element: HTMLElement | SVGElement,
+	element: Element,
 	name: string,
 	value: string
 ): void => {
@@ -74,7 +77,7 @@ const setAttribute = (
 };
 
 const setAttributes = (
-	element: HTMLElement | SVGElement,
+	element: Element,
 	attributes?: Attributes
 ) => {
 	if (!attributes) {
@@ -95,7 +98,7 @@ const setAttributes = (
 				'class',
 				(existingClassname + ' ' + String(value)).trim()
 			);
-		} else if (name === 'style') {
+		} else if (name === 'style' && (element instanceof HTMLElement || element instanceof SVGElement)) {
 			setCSSProps(element, value);
 		} else if (name.startsWith('on')) {
 			const eventName = name.slice(2).toLowerCase().replace(/^-/, '');
@@ -109,7 +112,7 @@ const setAttributes = (
 };
 
 const addChildren = (
-	parent: Element | DocumentFragment,
+	parent: Node,
 	children: Node[]
 ): void => {
 	for (const child of children) {
