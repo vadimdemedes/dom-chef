@@ -18,6 +18,22 @@ type ElementConstructor = {
 	new (props: any): Component;
 };
 
+declare global {
+	namespace JSX {
+		interface Element extends HTMLElement, SVGElement, DocumentFragment {
+			addEventListener: HTMLElement['addEventListener'];
+			removeEventListener: HTMLElement['removeEventListener'];
+			className: HTMLElement['className'];
+		}
+	}
+}
+
+interface JSXElementClassDocumentFragment extends DocumentFragment, JSX.ElementClass {}
+interface Fragment {
+	prototype: JSXElementClassDocumentFragment;
+	new (): JSXElementClassDocumentFragment;
+}
+
 // Copied from Preact
 const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|ows|mnc|ntw|ine[ch]|zoo|^ord/i;
 
@@ -185,6 +201,8 @@ export const h = (
 	return createElementFromFunction(type, attributes, children);
 };
 
+export const Fragment = (typeof DocumentFragment === 'function' ? DocumentFragment : () => {}) as Fragment;
+      
 export abstract class Component<P = Record<string, any>> {
 	props: P;
 	refs: any;
@@ -206,7 +224,7 @@ export abstract class Component<P = Record<string, any>> {
 // https://github.com/Microsoft/TypeScript/issues/20469
 const React = {
 	createElement: h,
-	Fragment: typeof DocumentFragment === 'function' ? DocumentFragment : () => {},
+	Fragment,
 	Component
 };
 
