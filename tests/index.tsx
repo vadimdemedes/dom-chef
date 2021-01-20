@@ -526,6 +526,18 @@ test('preset children take precedence over children prop', t => {
 	t.is(presetElement.outerHTML, '<h1>Preset</h1>');
 });
 
+test('children prop takes precedence over empty children list', t => {
+	const Inner = (props: Record<string, any>) => <div {...props}/>;
+	const Outer = (props: Record<string, any>) => <Inner {...props}/>;
+
+	const element = <Outer>Hello, <em>World</em></Outer>;
+
+	t.is(
+		element.outerHTML,
+		'<div>Hello, <em>World</em></div>'
+	);
+});
+
 function getFragmentHTML(fragment: DocumentFragment): string {
 	return [...fragment.childNodes]
 		// @ts-expect-error
