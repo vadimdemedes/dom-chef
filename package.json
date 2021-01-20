@@ -40,7 +40,7 @@
 		"build": "rollup -p json -p typescript --format esm --dir . index.ts",
 		"prepack": "npm run build",
 		"test": "run-p test:* build --continue-on-error",
-		"pretest:ava": "rollup -p json -p 'typescript={declaration: false, outDir: \"./tests\"}' --format cjs --dir tests tests/index.tsx",
+		"pretest:ava": "rollup -p json -p \"typescript={declaration: false, outDir: './tests'}\" --format cjs --dir tests tests/index.tsx",
 		"test:ava": "ava",
 		"test:xo": "xo",
 		"watch": "npm run build -- --watch"
