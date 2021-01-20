@@ -172,7 +172,7 @@ const el = <Title className="Heading">La Divina Commedia</Title>;
 // <h1 class="Heading red">La Divina Commedia</h1>
 ```
 
-To improve compatibility with React components, `dom-chef` will pass the function's `defaultProps` property to itself (if present). Note that specifying attributes will override those defaults:
+[`defaultProps`](https://medium.com/@pojotorshemi/react-basis-default-props-and-typechecking-with-proptypes-4ddf02d15992) is also supported and will be included as props to the function as you'd expect:
 
 ```jsx
 function AlertIcon(props) {
