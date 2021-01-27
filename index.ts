@@ -8,17 +8,23 @@ svgTags.delete('iframe');
 svgTags.delete('script');
 svgTags.delete('video');
 
-type Attributes = JSX.IntrinsicElements['div'] & {
-	children?: Node[];
-};
-
-type FunctionComponent = ((props?: any) => Element | DocumentFragment) & {
-	defaultProps?: any;
-};
+type Attributes<P = JSX.IntrinsicElements['div']> = React.PropsWithChildren<P>;
 
 declare global {
 	namespace JSX {
 		interface Element extends HTMLElement, SVGElement, DocumentFragment {
+			addEventListener: HTMLElement['addEventListener'];
+			removeEventListener: HTMLElement['removeEventListener'];
+			className: HTMLElement['className'];
+		}
+	}
+
+	namespace React {
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-qualifier
+		interface ReactElement<P = any, T extends string | React.JSXElementConstructor<any> = string | React.JSXElementConstructor<any>> extends HTMLElement, SVGElement, DocumentFragment {
+			type: T;
+			props: P;
+			key: Key | null;
 			addEventListener: HTMLElement['addEventListener'];
 			removeEventListener: HTMLElement['removeEventListener'];
 			className: HTMLElement['className'];
@@ -35,7 +41,7 @@ interface Fragment {
 // Copied from Preact
 const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|ows|mnc|ntw|ine[ch]|zoo|^ord/i;
 
-const isFunctionComponent = (type: any): type is FunctionComponent => {
+const isFunctionComponent = (type: any): type is React.FC => {
 	return typeof type === 'function' && type !== DocumentFragment;
 };
 
@@ -119,7 +125,7 @@ const setAttributes = (
 
 const addChildren = (
 	parent: Node,
-	children: Node[]
+	children: React.ReactNodeArray
 ): void => {
 	for (const child of children) {
 		if (child instanceof Node) {
@@ -131,19 +137,19 @@ const addChildren = (
 			typeof child !== 'undefined' &&
 			child !== null
 		) {
-			parent.appendChild(document.createTextNode(child));
+			parent.appendChild(document.createTextNode(child as string));
 		}
 	}
 };
 
-export const h = (
-	type: typeof DocumentFragment | FunctionComponent | string,
-	attributes?: Attributes,
-	...children: Node[]
-): Element | DocumentFragment => {
+export const h = <P>(
+	type: typeof DocumentFragment | React.FC<P> | string,
+	attributes?: Attributes<P>,
+	...children: React.ReactNodeArray
+): Element | DocumentFragment | null => {
 	// The `children` parameter takes precedence over `attributes.children`
 	if (children.length === 0) {
-		children = attributes?.children ?? [];
+		children = attributes?.children as React.ReactNodeArray ?? [];
 	}
 
 	if (isFunctionComponent(type)) {

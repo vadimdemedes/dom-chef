@@ -465,7 +465,7 @@ test('element created by function', t => {
 });
 
 test('element created by function has props', t => {
-	const Container = ({value}: {value: string}) => <div>{value}</div>;
+	const Container: React.FC<{value: string}> = ({value}) => <div>{value}</div>;
 
 	const element = <Container value="Hello world"/>;
 
@@ -473,7 +473,7 @@ test('element created by function has props', t => {
 });
 
 test('element created by function has props combined with default props', t => {
-	const Container = ({value, className = ''}: {value: string; className?: string}) => <div className={className}>{value}</div>;
+	const Container: React.FC<{value: string; className?: string}> = ({value, className}) => <div className={className}>{value}</div>;
 	Container.defaultProps = {
 		value: 'Goodbye world',
 		className: 'class'
@@ -493,7 +493,7 @@ test('element created by function with existing children and attributes', t => {
 });
 
 test('element created by function with combined children and attributes', t => {
-	const Icon = ({children}: {children: Node[]}) => <i className="sweet">Gummy <span>bears</span>{children}</i>;
+	const Icon: React.FC = ({children}) => <i className="sweet">Gummy <span>bears</span>{children}</i>;
 
 	// @ts-expect-error
 	const element = <Icon className="yellow"> and <b>lollipops</b></Icon>;
@@ -505,7 +505,7 @@ test('element created by function with combined children and attributes', t => {
 });
 
 test('handle children prop as children instead of attributes', t => {
-	const Icon = (props: Record<string, any>) => <i title="icon" {...props}/>;
+	const Icon: React.FC<{className: string}> = props => <i title="icon" {...props}/>;
 
 	const element = <Icon className="yellow">Submarine</Icon>;
 
@@ -516,8 +516,8 @@ test('handle children prop as children instead of attributes', t => {
 });
 
 test('preset children take precedence over children prop', t => {
-	const Open = (props: Record<string, any>) => <h1 {...props}></h1>;
-	const Preset = (props: Record<string, any>) => <h1 {...props}>Preset</h1>;
+	const Open: React.FC = props => <h1 {...props}></h1>;
+	const Preset: React.FC = props => <h1 {...props}>Preset</h1>;
 
 	const openElement = <Open>Door</Open>;
 	const presetElement = <Preset>Door</Preset>;
@@ -527,8 +527,8 @@ test('preset children take precedence over children prop', t => {
 });
 
 test('children prop takes precedence over empty children list', t => {
-	const Inner = (props: Record<string, any>) => <div {...props}/>;
-	const Outer = (props: Record<string, any>) => <Inner {...props}/>;
+	const Inner: React.FC = props => <div {...props}/>;
+	const Outer: React.FC = props => <Inner {...props}/>;
 
 	const element = <Outer>Hello, <em>World</em></Outer>;
 
