@@ -8,31 +8,50 @@ svgTags.delete('iframe');
 svgTags.delete('script');
 svgTags.delete('video');
 
-type Attributes<P = JSX.IntrinsicElements['div']> = React.PropsWithChildren<P>;
+type Attributes<T, P> = T extends keyof JSX.IntrinsicElements ?
+	JSX.IntrinsicElements[T] :
+	React.PropsWithChildren<P>;
 
 declare global {
+	interface Element {
+		type: any;
+		props: any;
+		key: React.Key | null;
+	}
+
+	interface HTMLElement extends Element {
+		ownerSVGElement: SVGElement['ownerSVGElement'];
+		viewportElement: SVGElement['viewportElement'];
+		correspondingElement: SVGElement['correspondingElement'];
+		correspondingUseElement: SVGElement['correspondingUseElement'];
+		getElementById: DocumentFragment['getElementById'];
+	}
+
+	interface SVGElement extends Element {
+		getElementById: DocumentFragment['getElementById'];
+	}
+
+	interface DocumentFragment extends Element {
+		ownerSVGElement: SVGElement['ownerSVGElement'];
+		viewportElement: SVGElement['viewportElement'];
+		correspondingElement: SVGElement['correspondingElement'];
+		correspondingUseElement: SVGElement['correspondingUseElement'];
+		addEventListener: HTMLElement['addEventListener'];
+		removeEventListener: HTMLElement['removeEventListener'];
+		className: HTMLElement['className'];
+	}
+
 	namespace JSX {
-		interface Element extends HTMLElement, SVGElement, DocumentFragment {
-			addEventListener: HTMLElement['addEventListener'];
-			removeEventListener: HTMLElement['removeEventListener'];
-			className: HTMLElement['className'];
-		}
+		interface Element extends HTMLElement, SVGElement, DocumentFragment {}
 	}
 
 	namespace React {
 		// eslint-disable-next-line @typescript-eslint/no-unnecessary-qualifier
-		interface ReactElement<P = any, T extends string | React.JSXElementConstructor<any> = string | React.JSXElementConstructor<any>> extends HTMLElement, SVGElement, DocumentFragment {
-			type: T;
-			props: P;
-			key: Key | null;
-			addEventListener: HTMLElement['addEventListener'];
-			removeEventListener: HTMLElement['removeEventListener'];
-			className: HTMLElement['className'];
-		}
+		interface ReactElement<P = any, T extends string | React.JSXElementConstructor<any> = string | React.JSXElementConstructor<any>> extends HTMLElement, SVGElement, DocumentFragment {}
 	}
 }
 
-interface JSXElementClassDocumentFragment extends DocumentFragment, JSX.ElementClass {}
+interface JSXElementClassDocumentFragment extends DocumentFragment, JSX.Element {}
 interface Fragment {
 	prototype: JSXElementClassDocumentFragment;
 	new (): JSXElementClassDocumentFragment;
@@ -88,9 +107,9 @@ const setAttribute = (
 	}
 };
 
-const setAttributes = (
+const setAttributes = <T, P>(
 	element: Element | DocumentFragment,
-	attributes?: Attributes
+	attributes?: Attributes<T, P>
 ) => {
 	if (!attributes || element instanceof DocumentFragment) {
 		return;
@@ -142,9 +161,9 @@ const addChildren = (
 	}
 };
 
-export const h = <P>(
-	type: typeof DocumentFragment | React.FC<P> | string,
-	attributes?: Attributes<P>,
+export const h = <T extends (string | React.FC<P> | typeof DocumentFragment), P>(
+	type: T,
+	attributes?: Attributes<T, P>,
 	...children: React.ReactNodeArray
 ): Element | DocumentFragment | null => {
 	// The `children` parameter takes precedence over `attributes.children`
