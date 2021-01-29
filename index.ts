@@ -41,10 +41,6 @@ declare global {
 		className: HTMLElement['className'];
 	}
 
-	namespace JSX {
-		interface Element extends HTMLElement, SVGElement, DocumentFragment {}
-	}
-
 	namespace React {
 		// eslint-disable-next-line @typescript-eslint/no-unnecessary-qualifier
 		interface ReactElement<P = any, T extends string | React.JSXElementConstructor<any> = string | React.JSXElementConstructor<any>> extends HTMLElement, SVGElement, DocumentFragment {}
