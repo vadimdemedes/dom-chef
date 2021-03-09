@@ -1,6 +1,6 @@
 {
 	"name": "dom-chef",
-	"version": "4.2.2",
+	"version": "5.0.0",
 	"description": "Build regular DOM elements using JSX",
 	"keywords": [
 		"jsx",
