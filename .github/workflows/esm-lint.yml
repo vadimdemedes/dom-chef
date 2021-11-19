@@ -13,8 +13,7 @@ on:
       - '*'
   push:
     branches:
-      - master
-      - main
+      - '*'
 jobs:
   Pack:
     runs-on: ubuntu-latest
