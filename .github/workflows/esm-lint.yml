@@ -43,7 +43,7 @@ jobs:
       - uses: actions/download-artifact@v2
       - run: npm install ./artifact
       - run: echo "${{ env.IMPORT_TEXT }} '${{ env.NPM_MODULE_NAME }}'" > index.js
-      - run: npx parcel@1 build index.js
+      - run: npx parcel@2 build index.js
       - run: cat dist/index.js
   Rollup:
     runs-on: ubuntu-latest
