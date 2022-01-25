@@ -312,7 +312,7 @@ test('assign or skip boolean props', t => {
 	t.is(link.outerHTML, '<a download="" contenteditable="">Download</a>');
 });
 
-test.failing('assign booleanish false props', t => {
+test('assign booleanish false props', t => {
 	const element = (
 		<span contentEditable>
 			<a contentEditable={false}>Download</a>
@@ -322,7 +322,7 @@ test.failing('assign booleanish false props', t => {
 
 	t.is(
 		element.outerHTML,
-		'<span contenteditable="">a contenteditable="false">Download</a></span>'
+		'<span contenteditable=""><a contenteditable="false">Download</a></span>'
 	);
 	t.is(input.outerHTML, '<textarea spellcheck="false"></textarea>');
 });

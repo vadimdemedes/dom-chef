@@ -24,10 +24,10 @@ declare global {
 	}
 }
 
-interface JSXElementClassDocumentFragment extends DocumentFragment, JSX.ElementClass {}
+interface JSXElementClassDocumentFragment extends DocumentFragment, JSX.ElementClass { }
 interface Fragment {
 	prototype: JSXElementClassDocumentFragment;
-	new (): JSXElementClassDocumentFragment;
+	new(): JSXElementClassDocumentFragment;
 }
 
 // Copied from Preact
@@ -113,6 +113,19 @@ const addChildren = (
 	}
 };
 
+const reservedAttrs = new Set([
+	// These attributes allow "false" as a valid value
+	'contentEditable',
+	'draggable',
+	'spellCheck',
+	'value',
+	// SVG specific
+	'autoReverse',
+	'externalResourcesRequired',
+	'focusable',
+	'preserveAlpha'
+]);
+
 export const h = (
 	type: DocumentFragmentConstructor | ElementFunction | string,
 	attributes?: Attributes,
@@ -146,7 +159,7 @@ export const h = (
 			element.addEventListener(eventName, value);
 		} else if (name === 'dangerouslySetInnerHTML' && '__html' in value) {
 			element.innerHTML = value.__html;
-		} else if (name !== 'key' && value !== false) {
+		} else if (name !== 'key' && (reservedAttrs.has(name) || value !== false)) {
 			setAttribute(element, name, value === true ? '' : value);
 		}
 	}
