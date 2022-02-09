@@ -28,43 +28,7 @@ $ npm install dom-chef
 
 ## Usage
 
-Make sure to use a JSX transpiler:
-
-- Babel: set JSX [`pragma`](https://babeljs.io/docs/en/babel-plugin-transform-react-jsx.html#pragma)
-  to `h` and optionally the [`pragmaFrag`](https://babeljs.io/docs/en/babel-plugin-transform-react-jsx.html#pragmafrag)
-  to `DocumentFragment` [if you need fragment support](https://reactjs.org/docs/fragments.html).
-  
-  ```js
-  // babel.config.js
-  
-  const plugins = [
-  	[
-  		'@babel/plugin-transform-react-jsx',
-  		{
-  			pragma: 'h',
-  			pragmaFrag: 'DocumentFragment',
-  		},
-  	],
-  ];
-  
-  // ...
-  ```
-
-- TypeScript compiler: set [`jsxFactory`](https://www.typescriptlang.org/tsconfig#jsxFactory)
-  to `h` and optionally [`jsxFragmentFactory`](https://www.typescriptlang.org/tsconfig#jsxFragmentFactory)
-  to `DocumentFragment` [if you need fragment support](https://reactjs.org/docs/fragments.html).
-
-  ```jsonc
-  // tsconfig.json
-
-  {
-    "compilerOptions": {
-      "jsxFactory": "h",
-      "jsxFragmentFactory": "DocumentFragment"
-      // ...
-    }
-  }
-  ```
+Make sure to use a JSX transpiler (e.g. [Babel](#babel), [TypeScript compiler](#typescript-compiler), [esbuild](https://esbuild.github.io/content-types/#using-jsx-without-react), you only need one of them):
 
 ```jsx
 import {h} from 'dom-chef';
@@ -82,6 +46,46 @@ const el = (
 );
 
 document.body.appendChild(el);
+```
+
+### Babel
+
+Set JSX [`pragma`](https://babeljs.io/docs/en/babel-plugin-transform-react-jsx.html#pragma)
+to `h` and optionally the [`pragmaFrag`](https://babeljs.io/docs/en/babel-plugin-transform-react-jsx.html#pragmafrag)
+to `DocumentFragment` [if you need fragment support](https://reactjs.org/docs/fragments.html).
+  
+```js
+// babel.config.js
+  
+const plugins = [
+	[
+		'@babel/plugin-transform-react-jsx',
+		{
+			pragma: 'h',
+			pragmaFrag: 'DocumentFragment',
+		},
+	],
+];
+
+// ...
+```
+
+### TypeScript compiler
+
+Set [`jsxFactory`](https://www.typescriptlang.org/tsconfig#jsxFactory)
+to `h` and optionally [`jsxFragmentFactory`](https://www.typescriptlang.org/tsconfig#jsxFragmentFactory)
+to `DocumentFragment` [if you need fragment support](https://reactjs.org/docs/fragments.html).
+
+```jsonc
+// tsconfig.json
+
+{
+	"compilerOptions": {
+		"jsxFactory": "h",
+		"jsxFragmentFactory": "DocumentFragment"
+		// ...
+	}
+}
 ```
 
 ### Alternative usage
