@@ -29,6 +29,7 @@ $ npm install dom-chef
 ## Usage
 
 Make sure to use a JSX transpiler:
+
 - Babel: set JSX [`pragma`](https://babeljs.io/docs/en/next/babel-plugin-transform-react-jsx.html#pragma)
   to `h` and optionally the [`pragmaFrag`](https://babeljs.io/docs/en/next/babel-plugin-transform-react-jsx.html#pragmafrag)
   to `DocumentFragment` [if you need fragment support](https://reactjs.org/blog/2017/11/28/react-v16.2.0-fragment-support.html).
