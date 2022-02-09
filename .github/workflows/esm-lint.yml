@@ -23,7 +23,7 @@ jobs:
       - run: npm install
       - run: npm run build --if-present
       - run: npm pack --dry-run
-      - run: npm pack --silent 2>/dev/null | xargs -n1 tar -xzf
+      - run: npm pack --silent 2>/dev/null | tail -1 | xargs -n1 tar -xzf
       - uses: actions/upload-artifact@v2
         with:
           path: package
