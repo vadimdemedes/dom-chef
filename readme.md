@@ -30,9 +30,9 @@ $ npm install dom-chef
 
 Make sure to use a JSX transpiler:
 
-- Babel: set JSX [`pragma`](https://babeljs.io/docs/en/next/babel-plugin-transform-react-jsx.html#pragma)
-  to `h` and optionally the [`pragmaFrag`](https://babeljs.io/docs/en/next/babel-plugin-transform-react-jsx.html#pragmafrag)
-  to `DocumentFragment` [if you need fragment support](https://reactjs.org/blog/2017/11/28/react-v16.2.0-fragment-support.html).
+- Babel: set JSX [`pragma`](https://babeljs.io/docs/en/babel-plugin-transform-react-jsx.html#pragma)
+  to `h` and optionally the [`pragmaFrag`](https://babeljs.io/docs/en/babel-plugin-transform-react-jsx.html#pragmafrag)
+  to `DocumentFragment` [if you need fragment support](https://reactjs.org/docs/fragments.html).
   
   ```js
   // babel.config.js
@@ -52,7 +52,7 @@ Make sure to use a JSX transpiler:
 
 - TypeScript compiler: set [`jsxFactory`](https://www.typescriptlang.org/tsconfig#jsxFactory)
   to `h` and optionally [`jsxFragmentFactory`](https://www.typescriptlang.org/tsconfig#jsxFragmentFactory)
-  to `DocumentFragment` [if you need fragment support](https://devblogs.microsoft.com/typescript/announcing-typescript-4-0/#custom-jsx-factories).
+  to `DocumentFragment` [if you need fragment support](https://reactjs.org/docs/fragments.html).
 
   ```jsonc
   // tsconfig.json
