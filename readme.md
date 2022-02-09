@@ -34,14 +34,14 @@ Make sure to use a JSX transpiler (e.g. [Babel](#babel), [TypeScript compiler](#
 import {h} from 'dom-chef';
 
 const handleClick = e => {
-	// <a> was clicked
+	// <button> was clicked
 };
 
 const el = (
-	<div class="header">
-		<a href="#" class="link" onClick={handleClick}>
+	<div className="header">
+		<button className="btn-link" onClick={handleClick}>
 			Download
-		</a>
+		</button>
 	</div>
 );
 
