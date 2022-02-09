@@ -28,7 +28,7 @@ $ npm install dom-chef
 
 ## Usage
 
-Make sure to use a JSX transpiler (e.g. [Babel](#babel), [TypeScript compiler](#typescript-compiler), [esbuild](https://esbuild.github.io/content-types/#using-jsx-without-react), you only need one of them):
+Make sure to use a JSX transpiler (e.g. [Babel](#babel), [TypeScript compiler](#typescript-compiler), [esbuild](https://esbuild.github.io/content-types/#using-jsx-without-react), you only need one of them).
 
 ```jsx
 import {h} from 'dom-chef';
