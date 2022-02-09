@@ -28,25 +28,42 @@ $ npm install dom-chef
 
 ## Usage
 
-Make sure to use a JSX transpiler, set JSX [`pragma`](https://babeljs.io/docs/en/next/babel-plugin-transform-react-jsx.html#pragma)
-to `h` and optionally the [`pragmaFrag`](https://babeljs.io/docs/en/next/babel-plugin-transform-react-jsx.html#pragmafrag)
-to `DocumentFragment` [if you need fragment support](https://reactjs.org/blog/2017/11/28/react-v16.2.0-fragment-support.html).
+Make sure to use a JSX transpiler:
+- Babel: set JSX [`pragma`](https://babeljs.io/docs/en/next/babel-plugin-transform-react-jsx.html#pragma)
+  to `h` and optionally the [`pragmaFrag`](https://babeljs.io/docs/en/next/babel-plugin-transform-react-jsx.html#pragmafrag)
+  to `DocumentFragment` [if you need fragment support](https://reactjs.org/blog/2017/11/28/react-v16.2.0-fragment-support.html).
+  
+  ```js
+  // babel.config.js
+  
+  const plugins = [
+  	[
+  		'@babel/plugin-transform-react-jsx',
+  		{
+  			pragma: 'h',
+  			pragmaFrag: 'DocumentFragment',
+  		},
+  	],
+  ];
+  
+  // ...
+  ```
 
-```js
-// babel.config.js
+- TypeScript compiler: set [`jsxFactory`](https://www.typescriptlang.org/tsconfig#jsxFactory)
+  to `h` and optionally [`jsxFragmentFactory`](https://www.typescriptlang.org/tsconfig#jsxFragmentFactory)
+  to `DocumentFragment` [if you need fragment support](https://devblogs.microsoft.com/typescript/announcing-typescript-4-0/#custom-jsx-factories).
 
-const plugins = [
-	[
-		'@babel/plugin-transform-react-jsx',
-		{
-			pragma: 'h',
-			pragmaFrag: 'DocumentFragment',
-		},
-	],
-];
+  ```jsonc
+  // tsconfig.json
 
-// ...
-```
+  {
+    "compilerOptions": {
+      "jsxFactory": "h",
+      "jsxFragmentFactory": "DocumentFragment"
+      // ...
+    }
+  }
+  ```
 
 ```jsx
 import {h} from 'dom-chef';
@@ -72,12 +89,6 @@ You can avoid configuring your JSX compiler by just letting it default to `React
 
 ```js
 import React from 'dom-chef';
-```
-
-This has the advantage of enabling `Fragment` support with the TypeScript compiler, if you're using it compile JSX without Babel. Related issue: https://github.com/Microsoft/TypeScript/issues/20469
-
-```
-TS17016: JSX fragment is not supported when using --jsxFactory
 ```
 
 ## Recipes
