@@ -50,9 +50,7 @@ document.body.appendChild(el);
 
 ### Babel
 
-Set JSX [`pragma`](https://babeljs.io/docs/en/babel-plugin-transform-react-jsx.html#pragma)
-to `h` and optionally the [`pragmaFrag`](https://babeljs.io/docs/en/babel-plugin-transform-react-jsx.html#pragmafrag)
-to `DocumentFragment` [if you need fragment support](https://reactjs.org/docs/fragments.html).
+`pragma` and `pragmaFrag` must be configured this way. More information on [Babel’s documentation](https://babeljs.io/docs/en/babel-plugin-transform-react-jsx.html#pragma).
   
 ```js
 // babel.config.js
@@ -72,9 +70,8 @@ const plugins = [
 
 ### TypeScript compiler
 
-Set [`jsxFactory`](https://www.typescriptlang.org/tsconfig#jsxFactory)
-to `h` and optionally [`jsxFragmentFactory`](https://www.typescriptlang.org/tsconfig#jsxFragmentFactory)
-to `DocumentFragment` [if you need fragment support](https://reactjs.org/docs/fragments.html).
+`jsxFactory` and `jsxFragmentFactory` must be configured this way. More information on [TypeScripts’s documentation](https://www.typescriptlang.org/tsconfig#jsxFactory).
+
 
 ```jsonc
 // tsconfig.json
@@ -83,7 +80,6 @@ to `DocumentFragment` [if you need fragment support](https://reactjs.org/docs/fr
 	"compilerOptions": {
 		"jsxFactory": "h",
 		"jsxFragmentFactory": "DocumentFragment"
-		// ...
 	}
 }
 ```
