@@ -1,4 +1,5 @@
 import {svgTagNames} from 'svg-tag-names';
+import {IS_NON_DIMENSIONAL} from 'preact/src/constants';
 
 const svgTags = new Set(svgTagNames);
 svgTags.delete('a');
@@ -29,10 +30,6 @@ interface Fragment {
 	prototype: JSXElementClassDocumentFragment;
 	new(): JSXElementClassDocumentFragment;
 }
-
-// Copied from Preact
-// https://github.com/preactjs/preact/blob/1bbd687c13c1fd16f0d6393e79ea6232f55fbec4/src/constants.js#L3
-const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i;
 
 const isFragment = (
 	type: DocumentFragmentConstructor | ElementFunction
