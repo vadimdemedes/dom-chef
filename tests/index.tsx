@@ -148,7 +148,7 @@ test('render document fragments inside', t => {
 });
 
 test.serial('render svg', t => {
-	const createElementNsSpy = spy(document, 'createElementNS');
+	const createElementNSSpy = spy(document, 'createElementNS');
 
 	const element = (
 		<svg>
@@ -159,17 +159,17 @@ test.serial('render svg', t => {
 	);
 
 	t.truthy(element);
-	t.true(createElementNsSpy.calledTwice);
+	t.true(createElementNSSpy.calledTwice);
 
 	const xmlns = 'http://www.w3.org/2000/svg';
-	t.deepEqual(createElementNsSpy.firstCall.args, [xmlns, 'text']);
-	t.deepEqual(createElementNsSpy.secondCall.args, [xmlns, 'svg']);
-	createElementNsSpy.restore();
+	t.deepEqual(createElementNSSpy.firstCall.args, [xmlns, 'text']);
+	t.deepEqual(createElementNSSpy.secondCall.args, [xmlns, 'svg']);
+	createElementNSSpy.restore();
 });
 
 test.serial('render mixed html and svg', t => {
 	const createElementSpy = spy(document, 'createElement');
-	const createElementNsSpy = spy(document, 'createElementNS');
+	const createElementNSSpy = spy(document, 'createElementNS');
 
 	const element = (
 		<div>
@@ -183,16 +183,16 @@ test.serial('render mixed html and svg', t => {
 
 	t.truthy(element);
 	t.true(createElementSpy.calledTwice);
-	t.true(createElementNsSpy.calledTwice);
+	t.true(createElementNSSpy.calledTwice);
 
 	t.deepEqual(createElementSpy.firstCall.args, ['h1']);
 	t.deepEqual(createElementSpy.secondCall.args, ['div']);
 
 	const xmlns = 'http://www.w3.org/2000/svg';
-	t.deepEqual(createElementNsSpy.firstCall.args, [xmlns, 'text']);
-	t.deepEqual(createElementNsSpy.secondCall.args, [xmlns, 'svg']);
+	t.deepEqual(createElementNSSpy.firstCall.args, [xmlns, 'text']);
+	t.deepEqual(createElementNSSpy.secondCall.args, [xmlns, 'svg']);
 	createElementSpy.restore();
-	createElementNsSpy.restore();
+	createElementNSSpy.restore();
 });
 
 test.serial('create svg links with xlink namespace', t => {
