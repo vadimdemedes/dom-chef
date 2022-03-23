@@ -4,7 +4,6 @@
 		"outDir": ".",
 		"target": "es2015",
 		"module": "es2015",
-		"resolveJsonModule": true
 	},
 	"files": [
 		"tests/index.tsx",
