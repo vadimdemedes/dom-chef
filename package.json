@@ -15,6 +15,7 @@
 		"typescript"
 	],
 	"repository": "vadimdemedes/dom-chef",
+	"funding": "https://github.com/sponsors/fregante",
 	"license": "MIT",
 	"author": {
 		"name": "Vadim Demedes",
@@ -39,8 +40,8 @@
 	"scripts": {
 		"build": "tsc",
 		"prepack": "tsc --sourceMap false",
-		"test": "xo && ava",
 		"pretest": "npm run build",
+		"test": "xo && ava",
 		"watch": "npm run build -- --watch"
 	},
 	"xo": {
@@ -74,7 +75,6 @@
 		"ava": "^4.1.0",
 		"eslint-plugin-react": "^7.29.4",
 		"jsdom": "^19.0.0",
-		"rollup": "^2.70.1",
 		"sinon": "^13.0.1",
 		"typescript": "^4.6.2",
 		"xo": "^0.48.0"
