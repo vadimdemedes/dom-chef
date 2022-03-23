@@ -157,6 +157,8 @@ const el = (
 );
 ```
 
+If you do not need SVG support, you can import from `dom-chef/min` for a smaller build.
+
 ### Use functions
 
 If element names start with an uppercase letter, `dom-chef` will consider them as element-returning functions:

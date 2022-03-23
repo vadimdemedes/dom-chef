@@ -1,12 +1,16 @@
 import svgTagNames from 'svg-tag-names';
 
-const svgTags = new Set(svgTagNames);
-svgTags.delete('a');
-svgTags.delete('audio');
-svgTags.delete('canvas');
-svgTags.delete('iframe');
-svgTags.delete('script');
-svgTags.delete('video');
+declare const __FULL_BUILD__: boolean;
+
+const svgTags = new Set(__FULL_BUILD__ ? svgTagNames : null);
+if (__FULL_BUILD__) {
+	svgTags.delete('a');
+	svgTags.delete('audio');
+	svgTags.delete('canvas');
+	svgTags.delete('iframe');
+	svgTags.delete('script');
+	svgTags.delete('video');
+}
 
 type Attributes = JSX.IntrinsicElements['div'];
 type DocumentFragmentConstructor = typeof DocumentFragment;
@@ -58,7 +62,7 @@ const create = (
 	type: DocumentFragmentConstructor | ElementFunction | string
 ): HTMLElement | SVGElement | DocumentFragment => {
 	if (typeof type === 'string') {
-		if (svgTags.has(type)) {
+		if (__FULL_BUILD__ && svgTags.has(type)) {
 			return document.createElementNS('http://www.w3.org/2000/svg', type);
 		}
 

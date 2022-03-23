@@ -34,13 +34,15 @@
 	"types": "index.js",
 	"files": [
 		"index.js",
-		"index.d.ts"
+		"index.d.ts",
+    "min"
 	],
 	"scripts": {
-		"build": "rollup -p json -p typescript --format esm --dir . index.ts",
-		"prepack": "npm run build",
+		"build": "rollup -p replace='{__FULL_BUILD__: true}' -p json -p typescript --format esm --dir . index.ts",
+		"build:min": "rollup -p replace='{__FULL_BUILD__: false}' -p json -p typescript --format esm --file min/index.js index.ts",
+		"prepack": "npm run build && npm run build:min",
 		"test": "run-p test:* build",
-		"pretest:ava": "rollup -p json -p 'typescript={declaration: false, outDir: \"./tests\"}' --format cjs --dir tests tests/index.tsx",
+		"pretest:ava": "rollup -p replace='{__FULL_BUILD__: true}' -p json -p 'typescript={declaration: false, outDir: \"./tests\"}' --format cjs --dir tests tests/index.tsx",
 		"test:ava": "ava",
 		"test:xo": "xo",
 		"watch": "npm run build -- --watch"
@@ -67,6 +69,7 @@
 	},
 	"devDependencies": {
 		"@rollup/plugin-json": "^4.1.0",
+		"@rollup/plugin-replace": "^4.0.0",
 		"@rollup/plugin-typescript": "^8.2.0",
 		"@sindresorhus/tsconfig": "^0.9.0",
 		"@types/sinon": "^9.0.11",
