@@ -72,5 +72,5 @@ jobs:
         with:
           node-version: 13.x
       - run: echo "${{ env.IMPORT_TEXT }} '${{ env.NPM_MODULE_NAME }}'" > index.mjs
-      - run: npm install ./artifact
+      - run: npm install ./artifact svg-tag-names
       - run: node index.mjs
