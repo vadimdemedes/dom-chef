@@ -15,6 +15,7 @@
 		"typescript"
 	],
 	"repository": "vadimdemedes/dom-chef",
+	"funding": "https://github.com/sponsors/fregante",
 	"license": "MIT",
 	"author": {
 		"name": "Vadim Demedes",
