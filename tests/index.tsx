@@ -196,7 +196,7 @@ test.serial('render mixed html and svg', t => {
 });
 
 test.serial('create svg links with xlink namespace', t => {
-	const setAttributeNs = spy(Element.prototype, 'setAttributeNS');
+	const setAttributeNS = spy(Element.prototype, 'setAttributeNS');
 
 	const element = (
 		<svg>
@@ -207,15 +207,15 @@ test.serial('create svg links with xlink namespace', t => {
 	);
 
 	t.truthy(element);
-	t.true(setAttributeNs.calledOnce);
+	t.true(setAttributeNS.calledOnce);
 
 	const xmlns = 'http://www.w3.org/1999/xlink';
-	t.deepEqual(setAttributeNs.firstCall.args, [
+	t.deepEqual(setAttributeNS.firstCall.args, [
 		xmlns,
 		'xlink:href',
 		'#text',
 	]);
-	setAttributeNs.restore();
+	setAttributeNS.restore();
 });
 
 test('assign className', t => {
