@@ -112,7 +112,9 @@ const addChildren = (
 	}
 };
 
-const reservedAttrs = new Set([
+// These attributes allow "false" as a valid value
+// https://github.com/facebook/react/blob/a7d07ff24d8d3d925ab45f5eb9be42a62a345dad/packages/react-dom/src/shared/DOMProperty.js#L257-L289
+const booleanishAttributes = new Set([
 	// These attributes allow "false" as a valid value
 	'contentEditable',
 	'draggable',
@@ -158,7 +160,7 @@ export const h = (
 			element.addEventListener(eventName, value);
 		} else if (name === 'dangerouslySetInnerHTML' && '__html' in value) {
 			element.innerHTML = value.__html;
-		} else if (name !== 'key' && (reservedAttrs.has(name) || value !== false)) {
+		} else if (name !== 'key' && (booleanishAttributes.has(name) || value !== false)) {
 			setAttribute(element, name, value === true ? '' : value);
 		}
 	}
