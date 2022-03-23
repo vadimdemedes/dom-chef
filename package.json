@@ -35,7 +35,7 @@
 	"files": [
 		"index.js",
 		"index.d.ts",
-    "min"
+		"min"
 	],
 	"scripts": {
 		"build": "rollup -p replace='{__FULL_BUILD__: true}' -p json -p typescript --format esm --dir . index.ts",
