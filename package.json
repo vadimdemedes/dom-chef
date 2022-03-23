@@ -40,14 +40,9 @@
 		"build": "tsc",
 		"prepack": "tsc --sourceMap false",
 		"test": "xo && npm run test:ava",
-		"test:ava": "ava tests/index.js",
 		"pretest:ava": "npm run build",
+		"test:ava": "ava tests/index.js",
 		"watch": "npm run build -- --watch"
-	},
-	"ava": {
-		"files": [
-			"tests/index.js"
-		]
 	},
 	"xo": {
 		"env": "browser",
@@ -69,6 +64,11 @@
 			"react/jsx-uses-vars": "error",
 			"react/jsx-uses-react": "error"
 		}
+	},
+	"ava": {
+		"files": [
+			"tests/index.js"
+		]
 	},
 	"dependencies": {
 		"@types/react": "^17.0.42",
