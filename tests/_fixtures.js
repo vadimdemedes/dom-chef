@@ -1,8 +1,4 @@
-import {createRequire} from 'module';
-
-const require = createRequire(import.meta.url);
-
-const {JSDOM} = require('jsdom');
+import {JSDOM} from 'jsdom';
 
 const {window} = new JSDOM('…');
 global.document = window.document;
