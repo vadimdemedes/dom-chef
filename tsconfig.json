@@ -1,7 +1,6 @@
 {
-	"extends": "@sindresorhus/tsconfig",
+	"extends": "@sindresorhus/tsconfig/tsconfig.json",
 	"compilerOptions": {
-		"outDir": ".",
 		"target": "es2015",
 		"module": "es2015",
 	},

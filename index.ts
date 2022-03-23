@@ -35,14 +35,12 @@ interface Fragment {
 const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i;
 
 const isFragment = (
-	type: DocumentFragmentConstructor | ElementFunction
-): type is DocumentFragmentConstructor => {
-	return type === DocumentFragment;
-};
+	type: DocumentFragmentConstructor | ElementFunction,
+): type is DocumentFragmentConstructor => type === DocumentFragment;
 
 const setCSSProps = (
 	element: HTMLElement | SVGElement,
-	style: CSSStyleDeclaration
+	style: CSSStyleDeclaration,
 ): void => {
 	for (const [name, value] of Object.entries(style)) {
 		if (name.startsWith('-')) {
@@ -56,7 +54,7 @@ const setCSSProps = (
 };
 
 const create = (
-	type: DocumentFragmentConstructor | ElementFunction | string
+	type: DocumentFragmentConstructor | ElementFunction | string,
 ): HTMLElement | SVGElement | DocumentFragment => {
 	if (typeof type === 'string') {
 		if (svgTags.has(type)) {
@@ -76,7 +74,7 @@ const create = (
 const setAttribute = (
 	element: HTMLElement | SVGElement,
 	name: string,
-	value: string
+	value: string,
 ): void => {
 	if (value === undefined || value === null) {
 		return;
@@ -88,7 +86,7 @@ const setAttribute = (
 		element.setAttributeNS(
 			'http://www.w3.org/1999/xlink',
 			name.replace('xlink', 'xlink:').toLowerCase(),
-			value
+			value,
 		);
 	} else {
 		element.setAttribute(name, value);
@@ -97,7 +95,7 @@ const setAttribute = (
 
 const addChildren = (
 	parent: Element | DocumentFragment,
-	children: Node[]
+	children: Node[],
 ): void => {
 	for (const child of children) {
 		if (child instanceof Node) {
@@ -105,26 +103,28 @@ const addChildren = (
 		} else if (Array.isArray(child)) {
 			addChildren(parent, child);
 		} else if (
-			typeof child !== 'boolean' &&
-			typeof child !== 'undefined' &&
-			child !== null
+			typeof child !== 'boolean'
+			&& typeof child !== 'undefined'
+			&& child !== null
 		) {
 			parent.appendChild(document.createTextNode(child));
 		}
 	}
 };
 
-const reservedAttrs = new Set([
+// These attributes allow "false" as a valid value
+// https://github.com/facebook/react/blob/3f8990898309c61c817fbf663f5221d9a00d0eaa/packages/react-dom/src/shared/DOMProperty.js#L288-L322
+const booleanishAttributes = new Set([
 	// These attributes allow "false" as a valid value
 	'contentEditable',
 	'draggable',
 	'spellCheck',
 	'value',
-	// SVG specific
+	// SVG-specific
 	'autoReverse',
 	'externalResourcesRequired',
 	'focusable',
-	'preserveAlpha'
+	'preserveAlpha',
 ]);
 
 export const h = (
@@ -151,7 +151,7 @@ export const h = (
 			setAttribute(
 				element,
 				'class',
-				(existingClassname + ' ' + String(value)).trim()
+				(existingClassname + ' ' + String(value)).trim(),
 			);
 		} else if (name === 'style') {
 			setCSSProps(element, value);
@@ -160,7 +160,7 @@ export const h = (
 			element.addEventListener(eventName, value);
 		} else if (name === 'dangerouslySetInnerHTML' && '__html' in value) {
 			element.innerHTML = value.__html;
-		} else if (name !== 'key' && (reservedAttrs.has(name) || value !== false)) {
+		} else if (name !== 'key' && (booleanishAttributes.has(name) || value !== false)) {
 			setAttribute(element, name, value === true ? '' : value);
 		}
 	}
@@ -168,13 +168,14 @@ export const h = (
 	return element;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare -- Ur rong.
 export const Fragment = (typeof DocumentFragment === 'function' ? DocumentFragment : () => {}) as Fragment;
 
 // Improve TypeScript support for DocumentFragment
 // https://github.com/Microsoft/TypeScript/issues/20469
 const React = {
 	createElement: h,
-	Fragment
+	Fragment,
 };
 
 export default React;

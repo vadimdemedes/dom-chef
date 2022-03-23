@@ -36,7 +36,7 @@ test('render array of children', t => {
 		<div>
 			{[
 				<span key={0}>0</span>,
-				<span key={1}>1</span>
+				<span key={1}>1</span>,
 			]}
 
 			<span>2</span>
@@ -45,7 +45,7 @@ test('render array of children', t => {
 
 	t.is(
 		element.outerHTML,
-		'<div><span>0</span><span>1</span><span>2</span></div>'
+		'<div><span>0</span><span>1</span><span>2</span></div>',
 	);
 });
 
@@ -135,7 +135,7 @@ test('render other elements inside', t => {
 
 	t.is(
 		element.outerHTML,
-		'<div><a href="#first">First</a><a href="#second">Second</a></div>'
+		'<div><a href="#first">First</a><a href="#second">Second</a></div>',
 	);
 });
 test('render document fragments inside', t => {
@@ -213,7 +213,7 @@ test.serial('create svg links with xlink namespace', t => {
 	t.deepEqual(setAttributeNS.firstCall.args, [
 		xmlns,
 		'xlink:href',
-		'#text'
+		'#text',
 	]);
 	setAttributeNS.restore();
 });
@@ -225,7 +225,7 @@ test('assign className', t => {
 });
 
 test('assign className via class alias', t => {
-	// @ts-expect-error
+	// @ts-expect-error Types don't allow it, but we need to test it
 	const element = <span class="a b c" />;
 
 	t.is(element.outerHTML, '<span class="a b c"></span>');
@@ -236,44 +236,44 @@ test('assign styles', t => {
 		paddingTop: 10,
 		width: 200,
 		height: '200px',
-		fontSize: 12
+		fontSize: 12,
 	};
 
 	const element = <span {...{style}} />;
 
 	t.is(
 		element.outerHTML,
-		'<span style="padding-top: 10px; width: 200px; height: 200px; font-size: 12px;"></span>'
+		'<span style="padding-top: 10px; width: 200px; height: 200px; font-size: 12px;"></span>',
 	);
 });
 
 test('assign styles with dashed property names', t => {
 	const style = {
 		'padding-top': 10,
-		'font-size': 12
+		'font-size': 12,
 	};
 
-	// @ts-expect-error
+	// @ts-expect-error TODO: update the types
 	const element = <span style={style} />;
 
 	t.is(
 		element.outerHTML,
-		'<span style="padding-top: 10px; font-size: 12px;"></span>'
+		'<span style="padding-top: 10px; font-size: 12px;"></span>',
 	);
 });
 
 test('assign styles with css variables', t => {
 	const style = {
 		'--padding-top': 10,
-		'--myCamelCaseVar': 'red'
+		'--myCamelCaseVar': 'red',
 	};
 
-	// @ts-expect-error
+	// @ts-expect-error TODO: update the types
 	const element = <span style={style} />;
 
 	t.is(
 		element.outerHTML,
-		'<span style="--padding-top: 10; --myCamelCaseVar: red;"></span>'
+		'<span style="--padding-top: 10; --myCamelCaseVar: red;"></span>',
 	);
 });
 
@@ -286,7 +286,7 @@ test('assign other props', t => {
 
 	t.is(
 		element.outerHTML,
-		'<a href="video.mp4" id="a" referrerpolicy="no-referrer">Download</a>'
+		'<a href="video.mp4" id="a" referrerpolicy="no-referrer">Download</a>',
 	);
 });
 
@@ -322,14 +322,14 @@ test('assign booleanish false props', t => {
 
 	t.is(
 		element.outerHTML,
-		'<span contenteditable=""><a contenteditable="false">Download</a></span>'
+		'<span contenteditable=""><a contenteditable="false">Download</a></span>',
 	);
 	t.is(input.outerHTML, '<textarea spellcheck="false"></textarea>');
 });
 
 test('skip undefined and null props', t => {
 	const element = (
-		// @ts-expect-error
+		// @ts-expect-error Types don't allow it, but we need to test it
 		<a href={undefined} title={null}>
 			Download
 		</a>
@@ -373,7 +373,7 @@ test('attach event listeners', t => {
 	t.true(addEventListener.calledOnce);
 	t.deepEqual(addEventListener.firstCall.args, [
 		'click',
-		handleClick
+		handleClick,
 	]);
 
 	addEventListener.restore();
@@ -394,11 +394,11 @@ test('attach event listeners but drop the dash after on', t => {
 	t.true(addEventListener.calledTwice);
 	t.deepEqual(addEventListener.firstCall.args, [
 		'remote-input',
-		handler
+		handler,
 	]);
 	t.deepEqual(addEventListener.secondCall.args, [
 		'remote-input',
-		handler
+		handler,
 	]);
 
 	addEventListener.restore();
@@ -409,9 +409,9 @@ test('fragment', t => {
 
 	const fragment = <>test</>;
 
-	const fragmentHTML = getFragmentHTML(fragment);
+	const fragmentHtml = getfragmentHtml(fragment);
 
-	t.is(fragmentHTML, 'test');
+	t.is(fragmentHtml, 'test');
 	t.true(createDocumentFragment.calledOnce);
 	t.deepEqual(createDocumentFragment.firstCall.args, []);
 });
@@ -423,9 +423,9 @@ test('fragment 2', t => {
 		</>
 	);
 
-	const fragmentHTML = getFragmentHTML(fragment);
+	const fragmentHtml = getfragmentHtml(fragment);
 
-	t.is(fragmentHTML, '<h1>test</h1>');
+	t.is(fragmentHtml, '<h1>test</h1>');
 });
 
 test('fragment 3', t => {
@@ -435,9 +435,9 @@ test('fragment 3', t => {
 		</>
 	);
 
-	const fragmentHTML = getFragmentHTML(fragment);
+	const fragmentHtml = getfragmentHtml(fragment);
 
-	t.is(fragmentHTML, '<h1>heading</h1> text');
+	t.is(fragmentHtml, '<h1>heading</h1> text');
 });
 
 test('div with inner fragment', t => {
@@ -452,7 +452,7 @@ test('div with inner fragment', t => {
 
 	t.is(
 		element.outerHTML,
-		'<div><h1>heading</h1> text<span>outside fragment</span></div>'
+		'<div><h1>heading</h1> text<span>outside fragment</span></div>',
 	);
 });
 
@@ -475,18 +475,17 @@ test('element created by function with existing children and attributes', t => {
 test('element created by function with combined children and attributes', t => {
 	const Icon = () => <i className="sweet">Gummy <span>bears</span></i>;
 
-	// @ts-expect-error
+	// @ts-expect-error TODO
 	const element = <Icon className="yellow"> and <b>lollipops</b></Icon>;
 
 	t.is(
 		element.outerHTML,
-		'<i class="sweet yellow">Gummy <span>bears</span> and <b>lollipops</b></i>'
+		'<i class="sweet yellow">Gummy <span>bears</span> and <b>lollipops</b></i>',
 	);
 });
 
-function getFragmentHTML(fragment: DocumentFragment): string {
+function getfragmentHtml(fragment: DocumentFragment): string {
 	return [...fragment.childNodes]
-		// @ts-expect-error
-		.map(n => n.outerHTML || n.textContent)
+		.map(n => (n as HTMLElement).outerHTML || n.textContent)
 		.join('');
 }
