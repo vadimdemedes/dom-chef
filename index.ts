@@ -72,7 +72,7 @@ const create = (
 	}
 
 	// make shallow copy of provided attributes
-	const filteredProps = Object.assign({}, attributes);
+	const filteredProps : {[key: string]: any} = Object.assign({}, attributes);
 
 	// filter out processed attributes
 	Object.keys(filteredProps)
@@ -80,7 +80,7 @@ const create = (
 		.forEach(key => delete filteredProps[key]);
 
 	// join the default props and provided attributes
-	const props = Object.assign(type.defaultProps || {}, filteredProps);
+	const props : {[key: string]: any} = Object.assign(type.defaultProps || {}, filteredProps);
 
 	return type(props);
 };
