@@ -8,6 +8,8 @@ svgTags.delete('iframe');
 svgTags.delete('script');
 svgTags.delete('video');
 
+const processedAttributes = ['htmlFor', 'for', 'class', 'className', 'style', 'dangerouslySetInnerHTML'];
+
 type Attributes = JSX.IntrinsicElements['div'];
 type DocumentFragmentConstructor = typeof DocumentFragment;
 type ElementFunction = ((props?: any) => HTMLElement | SVGElement) & {
@@ -55,6 +57,7 @@ const setCSSProps = (
 
 const create = (
 	type: DocumentFragmentConstructor | ElementFunction | string,
+	attributes : Attributes = {}
 ): HTMLElement | SVGElement | DocumentFragment => {
 	if (typeof type === 'string') {
 		if (svgTags.has(type)) {
@@ -68,7 +71,18 @@ const create = (
 		return document.createDocumentFragment();
 	}
 
-	return type(type.defaultProps);
+	// make shallow copy of provided attributes
+	const filteredProps = Object.assign({}, attributes);
+
+	// filter out processed attributes
+	Object.keys(filteredProps)
+		.filter(key => key.startsWith("on") || processedAttributes.includes(key))
+		.forEach(key => delete filteredProps[key]);
+
+	// join the default props and provided attributes
+	const props = Object.assign(type.defaultProps || {}, filteredProps);
+
+	return type(props);
 };
 
 const setAttribute = (
@@ -132,7 +146,7 @@ export const h = (
 	attributes?: Attributes,
 	...children: Node[]
 ): Element | DocumentFragment => {
-	const element = create(type);
+	const element = create(type, attributes);
 
 	addChildren(element, children);
 
