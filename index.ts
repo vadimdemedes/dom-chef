@@ -178,4 +178,7 @@ const React = {
 	Fragment,
 };
 
+// Improve CJS support
+export const createElement = h;
+
 export default React;
