@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: Pack
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4.1.7
       - run: npm install ./artifact
       - run: echo "${{ env.IMPORT_TEXT }} '${{ env.NPM_MODULE_NAME }}'" > index.js
       - run: webpack --entry ./index.js
@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: Pack
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4.1.7
       - run: npm install ./artifact
       - run: echo "${{ env.IMPORT_TEXT }} '${{ env.NPM_MODULE_NAME }}'" > index.js
       - run: npx parcel@2 build index.js
@@ -48,7 +48,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: Pack
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4.1.7
       - run: npm install ./artifact rollup@2 @rollup/plugin-node-resolve
       - run: echo "${{ env.IMPORT_TEXT }} '${{ env.NPM_MODULE_NAME }}'" > index.js
       - run: npx rollup -p node-resolve index.js
@@ -56,7 +56,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: Pack
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4.1.7
       - run: echo '{}' > package.json
       - run: echo "${{ env.IMPORT_TEXT }} '${{ env.NPM_MODULE_NAME }}'" > index.js
       - run: npm install ./artifact
@@ -66,7 +66,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: Pack
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4.1.7
       - run: npm install ./artifact
       - run: echo "${{ env.IMPORT_TEXT }} '${{ env.NPM_MODULE_NAME }}'" > index.ts
       - run: tsc index.ts
@@ -75,7 +75,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: Pack
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4.1.7
       - uses: actions/setup-node@v1
         with:
           node-version: 14.x
