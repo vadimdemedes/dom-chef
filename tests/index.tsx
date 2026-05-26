@@ -480,7 +480,6 @@ test('element created by function with combined children and attributes', t => {
 		</i>
 	);
 
-	// @ts-expect-error TODO
 	const element = <Icon className="yellow"> and <b>lollipops</b></Icon>;
 
 	t.is(
@@ -495,7 +494,6 @@ test('function component receives props instead of auto-applying attributes', t 
 		return <i />;
 	};
 
-	// @ts-expect-error TODO
 	const element = <Icon className="yellow" />;
 
 	t.is(element.outerHTML, '<i></i>');
