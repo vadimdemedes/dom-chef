@@ -38,6 +38,24 @@ const isFragment = (
 	type: DocumentFragmentConstructor | ElementFunction,
 ): type is DocumentFragmentConstructor => type === DocumentFragment;
 
+const createFunctionProps = (
+	type: ElementFunction,
+	attributes?: Attributes,
+	children?: Node[],
+): any => {
+	if (!type.defaultProps && !attributes && (!children || children.length === 0)) {
+		return undefined;
+	}
+
+	const props = Object.assign({}, type.defaultProps, attributes);
+
+	if (children && children.length > 0) {
+		props.children = children.length === 1 ? children[0] : children;
+	}
+
+	return props;
+};
+
 const setCSSProps = (
 	element: HTMLElement | SVGElement,
 	style: CSSStyleDeclaration,
@@ -132,6 +150,10 @@ export const h = (
 	attributes?: Attributes,
 	...children: Node[]
 ): Element | DocumentFragment => {
+	if (typeof type === 'function' && !isFragment(type)) {
+		return type(createFunctionProps(type, attributes, children));
+	}
+
 	const element = create(type);
 
 	addChildren(element, children);

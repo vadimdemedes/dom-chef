@@ -182,7 +182,7 @@ document.body.append(
 );
 ```
 
-To improve compatibility with React components, `dom-chef` will pass the function's `defaultProps` property to itself (if present). Note that specifying attributes won't override those defaults, but instead set them on the resulting element:
+To improve compatibility with React components, `dom-chef` passes the JSX props to function elements, including `defaultProps` and `children`:
 
 ```jsx
 function AlertIcon(props) {
@@ -190,12 +190,12 @@ function AlertIcon(props) {
 }
 
 AlertIcon.defaultProps = {
-	className: 'icon icon-alert'
+	className: 'icon icon-alert',
 	size: 16,
-}
+};
 
 const el = <AlertIcon className="margin-0" size={32} />;
-// <svg width="16" class="icon icon-alert margin-0" size="32" />
+// <svg width="32" class="margin-0" />
 ```
 
 ## License

@@ -473,7 +473,12 @@ test('element created by function with existing children and attributes', t => {
 });
 
 test('element created by function with combined children and attributes', t => {
-	const Icon = () => <i className="sweet">Gummy <span>bears</span></i>;
+	const Icon = (props: any) => (
+		<i className={`sweet ${props.className}`}>
+			Gummy <span>bears</span>
+			{props.children}
+		</i>
+	);
 
 	// @ts-expect-error TODO
 	const element = <Icon className="yellow"> and <b>lollipops</b></Icon>;
@@ -482,6 +487,18 @@ test('element created by function with combined children and attributes', t => {
 		element.outerHTML,
 		'<i class="sweet yellow">Gummy <span>bears</span> and <b>lollipops</b></i>',
 	);
+});
+
+test('function component receives props instead of auto-applying attributes', t => {
+	const Icon = (props: any) => {
+		t.is(props.className, 'yellow');
+		return <i />;
+	};
+
+	// @ts-expect-error TODO
+	const element = <Icon className="yellow" />;
+
+	t.is(element.outerHTML, '<i></i>');
 });
 
 function getfragmentHtml(fragment: DocumentFragment): string {
