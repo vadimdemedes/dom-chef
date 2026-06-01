@@ -160,6 +160,10 @@ export const h = (
 			element.addEventListener(eventName, value);
 		} else if (name === 'dangerouslySetInnerHTML' && '__html' in value) {
 			element.innerHTML = value.__html;
+		} else if (name === 'ref') {
+			if (typeof value === 'function') {
+				value(element);
+			}
 		} else if (name !== 'key' && (booleanishAttributes.has(name) || value !== false)) {
 			setAttribute(element, name, value === true ? '' : value);
 		}

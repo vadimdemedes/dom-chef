@@ -358,6 +358,17 @@ test('set html', t => {
 	t.is(element.outerHTML, '<div><script>alert();</script></div>');
 });
 
+test('call ref callback with element', t => {
+	let refElement: HTMLAnchorElement | null = null;
+	const element = (
+		<a href="#" ref={(el: HTMLAnchorElement) => { refElement = el; }}>
+			Download
+		</a>
+	);
+
+	t.is(element, refElement as unknown as JSX.Element);
+});
+
 test('attach event listeners', t => {
 	const addEventListener = spy(EventTarget.prototype, 'addEventListener');
 
