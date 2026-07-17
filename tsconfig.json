@@ -3,6 +3,7 @@
 	"compilerOptions": {
 		"target": "es2015",
 		"module": "es2015",
+		"types": ["react"]
 	},
 	"files": [
 		"tests/index.tsx",
