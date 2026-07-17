@@ -358,9 +358,11 @@ test('set html', t => {
 });
 
 test('call ref callback with element', t => {
-	let refElement: HTMLAnchorElement | null = null;
+	let refElement: HTMLAnchorElement | undefined;
 	const element = (
-		<a href="#" ref={(el: HTMLAnchorElement) => { refElement = el; }}>
+		<a href='#' ref={(element: HTMLAnchorElement) => {
+			refElement = element;
+		}}>
 			Download
 		</a>
 	);
