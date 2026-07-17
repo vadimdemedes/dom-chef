@@ -104,7 +104,7 @@ const addChildren = (
 			addChildren(parent, child);
 		} else if (
 			typeof child !== 'boolean'
-			&& typeof child !== 'undefined'
+			&& child !== undefined
 			&& child !== null
 		) {
 			parent.appendChild(document.createTextNode(child));
