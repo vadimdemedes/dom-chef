@@ -1,6 +1,6 @@
 {
 	"name": "dom-chef",
-	"version": "5.1.1",
+	"version": "5.2.0",
 	"description": "Build regular DOM elements using JSX",
 	"keywords": [
 		"jsx",
@@ -61,8 +61,8 @@
 			"@typescript-eslint/no-unsafe-member-access": "off",
 			"@typescript-eslint/no-unsafe-return": "off",
 			"@typescript-eslint/prefer-readonly-parameter-types": "off",
-      "@typescript-eslint/consistent-type-definitions": "off",
-      "@typescript-eslint/no-unsafe-argument": "off",
+			"@typescript-eslint/consistent-type-definitions": "off",
+			"@typescript-eslint/no-unsafe-argument": "off",
 			"react/jsx-uses-vars": "error",
 			"react/jsx-uses-react": "error"
 		}
