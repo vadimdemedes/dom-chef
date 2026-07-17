@@ -1,7 +1,7 @@
 import test from 'ava';
 import {spy} from 'sinon';
 import './_fixtures.js';
-import React from '../index.js';
+import React from '../index.js'; // eslint-disable-line import/order
 
 test('render childless element', t => {
 	const element = <br />;
