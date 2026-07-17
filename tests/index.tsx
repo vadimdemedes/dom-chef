@@ -1,8 +1,7 @@
 import test from 'ava';
 import {spy} from 'sinon';
-
 import './_fixtures.js';
-import React from '../index.js';
+import React from '../index.js'; // eslint-disable-line import/order
 
 test('render childless element', t => {
 	const element = <br />;
@@ -124,8 +123,8 @@ test('render falsey children', t => {
 });
 
 test('render other elements inside', t => {
-	const firstElement = <a href="#first">First</a>;
-	const secondElement = <a href="#second">Second</a>;
+	const firstElement = <a href='#first'>First</a>;
+	const secondElement = <a href='#second'>Second</a>;
 	const element = (
 		<div>
 			{firstElement}
@@ -152,7 +151,7 @@ test.serial('render svg', t => {
 
 	const element = (
 		<svg>
-			<text x="20" y="20">
+			<text x='20' y='20'>
 				Test
 			</text>
 		</svg>
@@ -200,9 +199,9 @@ test.serial('create svg links with xlink namespace', t => {
 
 	const element = (
 		<svg>
-			<text id="text">Test</text>
-			<use xlinkHref="#text" />
-			<use xlink-invalid-attribute="#text" />
+			<text id='text'>Test</text>
+			<use xlinkHref='#text' />
+			<use xlink-invalid-attribute='#text' />
 		</svg>
 	);
 
@@ -219,14 +218,14 @@ test.serial('create svg links with xlink namespace', t => {
 });
 
 test('assign className', t => {
-	const element = <span className="a b c" />;
+	const element = <span className='a b c' />;
 
 	t.is(element.outerHTML, '<span class="a b c"></span>');
 });
 
 test('assign className via class alias', t => {
 	// @ts-expect-error Types don't allow it, but we need to test it
-	const element = <span class="a b c" />;
+	const element = <span class='a b c' />;
 
 	t.is(element.outerHTML, '<span class="a b c"></span>');
 });
@@ -279,7 +278,7 @@ test('assign styles with css variables', t => {
 
 test('assign other props', t => {
 	const element = (
-		<a href="video.mp4" id="a" referrerPolicy="no-referrer">
+		<a href='video.mp4' id='a' referrerPolicy='no-referrer'>
 			Download
 		</a>
 	);
@@ -291,7 +290,7 @@ test('assign other props', t => {
 });
 
 test('assign htmlFor prop', t => {
-	const element = <label htmlFor="name-input">Full name</label>;
+	const element = <label htmlFor='name-input'>Full name</label>;
 
 	t.is(element.outerHTML, '<label for="name-input">Full name</label>');
 });
@@ -374,7 +373,7 @@ test('attach event listeners', t => {
 
 	const handleClick = function () {};
 	const element = (
-		<a href="#" onClick={handleClick}>
+		<a href='#' onClick={handleClick}>
 			Download
 		</a>
 	);
@@ -395,7 +394,7 @@ test('attach event listeners but drop the dash after on', t => {
 
 	const handler = function () {};
 	const element = (
-		<a href="#" onremote-input={handler} on-remote-input={handler}>
+		<a href='#' onremote-input={handler} on-remote-input={handler}>
 			Download
 		</a>
 	);
@@ -476,7 +475,7 @@ test('element created by function', t => {
 });
 
 test('element created by function with existing children and attributes', t => {
-	const Icon = () => <i className="sweet">Gummy <span>bears</span></i>;
+	const Icon = () => <i className='sweet'>Gummy <span>bears</span></i>;
 
 	const element = <Icon />;
 
@@ -484,10 +483,10 @@ test('element created by function with existing children and attributes', t => {
 });
 
 test('element created by function with combined children and attributes', t => {
-	const Icon = () => <i className="sweet">Gummy <span>bears</span></i>;
+	const Icon = () => <i className='sweet'>Gummy <span>bears</span></i>;
 
 	// @ts-expect-error TODO
-	const element = <Icon className="yellow"> and <b>lollipops</b></Icon>;
+	const element = <Icon className='yellow'> and <b>lollipops</b></Icon>;
 
 	t.is(
 		element.outerHTML,
