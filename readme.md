@@ -51,10 +51,10 @@ document.body.appendChild(el);
 ### Babel
 
 `pragma` and `pragmaFrag` must be configured this way. More information on [Babel’s documentation](https://babeljs.io/docs/en/babel-plugin-transform-react-jsx.html#pragma).
-  
+
 ```js
 // babel.config.js
-  
+
 const plugins = [
 	[
 		'@babel/plugin-transform-react-jsx',
@@ -155,6 +155,17 @@ const el = (
 		</text>
 	</svg>
 );
+```
+
+### `ref` attribute
+
+In React, the `ref` prop can receive a callback function that will be executed when the element is mounted.
+
+`dom-chef` has no concept of mounting, so the callback will be executed immediately after the element is created:
+
+```jsx
+const el = <div ref={el => console.log(el)} />;
+// Immediately logs <div></div>
 ```
 
 ### Use functions
