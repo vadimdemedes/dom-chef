@@ -68,10 +68,10 @@
 		}
 	},
 	"dependencies": {
-		"@types/react": "^17.0.42",
 		"svg-tag-names": "^3.0.1"
 	},
 	"devDependencies": {
+		"@types/react": "^17.0.42",
 		"@sindresorhus/tsconfig": "^2.0.0",
 		"@types/sinon": "^10.0.11",
 		"ava": "^4.1.0",
